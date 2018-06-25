@@ -21,16 +21,11 @@
 #
 
 
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import unicode_literals
-from builtins import str
-from builtins import object
 import math
 import random
 from .Racine import simplifie_racine
 
-class Vecteur(object):
+class Vecteur:
 
     def __init__(self, x=0, y=0):
         self.x = x

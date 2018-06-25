@@ -20,11 +20,6 @@
 # Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
 #
 
-from __future__ import division
-from __future__ import unicode_literals
-from builtins import str
-from builtins import range
-from builtins import object
 from decimal import Decimal
 import functools
 import random
@@ -77,7 +72,7 @@ def signe(nombre):
         return -1
     raise ValueError
 
-class Fraction(object):
+class Fraction:
     def __init__(self, numerateur, denominateur, signe=1):
         self.signe = signe
         self.numerateur = numerateur
@@ -113,7 +108,7 @@ class Fraction(object):
 
 
 @functools.total_ordering
-class Entier(object):
+class Entier:
     def __init__(self, valeur):
         self.valeur = valeur
 
@@ -174,7 +169,7 @@ FRACTIONS = [
         Fraction(4, 5),
         ]
 
-class Fonction(object):
+class Fonction:
 
     def calcul(self, argument):
         raise NotImplementedError()
@@ -538,7 +533,7 @@ class FrancaisInverse(Fonction):
         raise TypeError("Argument must be an instance of `Entier` or `Fraction`.")
 
 
-class Question(object):
+class Question:
 
     def __init__(self, indice0):
         self.indice0 = indice0

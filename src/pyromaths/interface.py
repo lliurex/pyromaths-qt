@@ -19,13 +19,6 @@
 # along with this program; if notPopen, write to the Free Software
 # Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
 
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import unicode_literals
-from __future__ import print_function
-from builtins import str
-from builtins import range
-from builtins import object
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QFileDialog, QMessageBox
 import os, lxml, codecs, sys
@@ -40,7 +33,7 @@ except NameError:
     # Python 3
     QString = str
 
-class Ui_MainWindow(object):
+class Ui_MainWindow:
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.exercices = ExerciseBag().sorted_levels()

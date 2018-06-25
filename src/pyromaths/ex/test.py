@@ -24,10 +24,6 @@ This module gather tests from all exercises. Running:
 
 does just as expected.
 """
-from __future__ import print_function
-from __future__ import unicode_literals
-
-from builtins import object
 import codecs
 import difflib
 import gettext
@@ -116,7 +112,7 @@ def generate(exercise_list, openpdf=False, destname=None, pipe=None):
 
     return destname
 
-class TestExercise(object):
+class TestExercise:
     """Test of an exercise"""
 
     def __init__(self, exercise, seed):
@@ -222,7 +218,7 @@ class UnittestExercise(unittest.TestCase):
             self.exercise.read('answer'),
             )
 
-class TestPerformer(object):
+class TestPerformer:
     """Perform tests over every exercises"""
 
     def __init__(self):

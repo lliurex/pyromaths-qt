@@ -22,9 +22,6 @@
 #----------------------------------------------------------------------
 # Pyromaths : Initiation au calcul littéral
 #----------------------------------------------------------------------
-from __future__ import unicode_literals
-from builtins import chr
-from builtins import range
 from pyromaths.outils.Priorites3 import texify, priorites, splitting
 from random import randrange, shuffle
 from pyromaths.ex import LegacyExercise

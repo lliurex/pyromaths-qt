@@ -23,9 +23,6 @@
 # Pyromaths : Poser des opérations
 #----------------------------------------------------------------------
 
-from __future__ import division
-from __future__ import unicode_literals
-from builtins import range
 from pyromaths.outils import Arithmetique
 from pyromaths.outils.Affichage import TeX, tex_coef
 import random

@@ -22,9 +22,6 @@ To display help:
 
 > python3 -m pyromaths.cli.test --help
 """
-from __future__ import unicode_literals
-
-from builtins import input
 import argparse
 import gettext
 import logging

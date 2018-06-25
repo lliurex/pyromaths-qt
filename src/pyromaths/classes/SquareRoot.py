@@ -25,18 +25,13 @@ Created on 19 déc. 2014
 
 @author: jerome
 '''
-from __future__ import division
-from __future__ import unicode_literals
-from builtins import str
-from builtins import range
-from builtins import object
 from pyromaths.outils.Arithmetique import carrerise
 from pyromaths.outils.decimaux import decimaux
 from pyromaths.outils import Priorites3
 from pyromaths import classes
 
 from math import sqrt
-class SquareRoot(object):
+class SquareRoot:
     '''
     Définit la classe SquareRoot permettant de manipuler des racines carrées.
     

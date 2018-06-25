@@ -1,8 +1,5 @@
 #! /usr/bin/env python3
 
-from __future__ import absolute_import
-from __future__ import unicode_literals
-from builtins import str
 from time import strftime
 import operator
 from os.path import normpath, dirname, exists, abspath, join

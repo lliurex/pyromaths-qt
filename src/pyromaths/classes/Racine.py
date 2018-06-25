@@ -1,10 +1,3 @@
-from __future__ import print_function
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import unicode_literals
-from builtins import str
-from builtins import range
-from builtins import object
 from pyromaths.outils.decimaux import decimaux
 from pyromaths.outils.Arithmetique import carrerise, pgcd, ppcm, factor
 from math import sqrt
@@ -17,7 +10,7 @@ def produitfacteurs(facteurs):
         prodfacteurs += str(element) + ' \\times '
     return prodfacteurs[:-7]
 
-class Racine(object):
+class Racine:
     def __init__(self, radicande, coeff=1, indice=2):
         if (radicande < 0) or not (isinstance(indice, int)):
             print("Erreur de définition ! Le radicande doit être positif et l'indice un nombre entier !")
@@ -146,7 +139,7 @@ def tTeX(n):
 
 
 
-class RacineDegre2(object):
+class RacineDegre2:
     def __init__(self, numerateur=0, denominateur=1, coeff=1, radicande=0):
         """Constructeur de la forme (a+c*racine(d))/b"""
         self.numerateur = numerateur  # a

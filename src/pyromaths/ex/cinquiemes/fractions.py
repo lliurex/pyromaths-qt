@@ -21,9 +21,6 @@
 #
 
 # from pyromaths.classes.Fractions import Fraction  # Fractions de pyromaths
-from __future__ import division
-from __future__ import unicode_literals
-from builtins import range
 import random
 from pyromaths.outils import Arithmetique
 from pyromaths.outils.Priorites3 import texify, priorites

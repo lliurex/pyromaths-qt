@@ -1,7 +1,5 @@
 #!/usr/bin/env python3
 
-from __future__ import unicode_literals
-from builtins import object
 import collections
 import importlib
 import inspect

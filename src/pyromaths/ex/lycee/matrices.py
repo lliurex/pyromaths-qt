@@ -21,9 +21,6 @@
 #
 
 """Exercice de Terminale ES, spécialité : Déterminer un état stable en utilisant un système."""
-from __future__ import division
-from __future__ import unicode_literals
-
 from decimal import Decimal
 import random
 

@@ -20,10 +20,6 @@
 # Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
 #
 
-from __future__ import division
-from __future__ import unicode_literals
-
-from builtins import range
 from random import randint, shuffle
 from pyromaths.ex import LegacyExercise
 

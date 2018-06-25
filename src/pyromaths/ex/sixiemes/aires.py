@@ -21,12 +21,7 @@
 # import sys, os
 # sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
 
-from __future__ import division
-from __future__ import unicode_literals
-
 import random
-from builtins import range
-from builtins import str
 
 from pyromaths.outils import Affichage
 from pyromaths.ex import LegacyExercise

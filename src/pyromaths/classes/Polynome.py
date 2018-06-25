@@ -20,13 +20,6 @@
 # Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
 #
 
-from __future__ import division
-from __future__ import unicode_literals
-
-from builtins import object
-from builtins import range
-from builtins import str
-
 if __name__ == "__main__":
     import sys, os
 
@@ -41,7 +34,7 @@ import re
 from pyromaths.outils.Affichage import TeX, tTeX
 
 
-class Polynome(object):
+class Polynome:
     '''Classe de polynôme pour le lycee'''
 
     def __init__(self, liste_coeff, var="x"):

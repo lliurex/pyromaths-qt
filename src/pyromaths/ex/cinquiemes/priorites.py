@@ -21,10 +21,6 @@
 #
 # from pyromaths.outils import ecrit_tex, valeur_alea, signe, pgcd, ppcm
 
-from __future__ import division
-from __future__ import unicode_literals
-from builtins import str
-from builtins import range
 import random
 from pyromaths.ex import LegacyExercise
 

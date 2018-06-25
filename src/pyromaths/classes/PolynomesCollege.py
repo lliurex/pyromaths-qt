@@ -19,11 +19,6 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
 #
-from __future__ import division
-from __future__ import unicode_literals
-from builtins import str
-from builtins import range
-from builtins import object
 from pyromaths.outils.decimaux import decimaux
 from pyromaths.outils import Priorites3
 from pyromaths.classes.SquareRoot import SquareRoot
@@ -32,7 +27,7 @@ from pyromaths.classes.Fractions import Fraction
 from random import *
 from functools import reduce
 
-class Polynome(object):
+class Polynome:
     """ Cette classe crée la notion de polynômes.
     
         Si ``var == None`` alors la variable est ``x``.

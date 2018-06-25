@@ -29,9 +29,6 @@
 # #- simplifier des sommes
 # #- problèmes de colinéarité
 
-from __future__ import division
-from __future__ import unicode_literals
-from builtins import str
 from pyromaths.classes.Vecteurs import randvect, Vecteur
 from pyromaths.classes.Racine import simplifie_racine
 import math

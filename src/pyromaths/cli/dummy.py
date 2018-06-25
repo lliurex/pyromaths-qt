@@ -17,7 +17,6 @@
 # Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
 
 """Création d'un modèle d'exercice."""
-from __future__ import unicode_literals
 
 import logging
 import os

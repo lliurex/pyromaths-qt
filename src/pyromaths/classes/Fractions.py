@@ -20,21 +20,13 @@
 # Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
 #
 
-from __future__ import division
-from __future__ import unicode_literals
-from future import standard_library
-standard_library.install_aliases()
-from builtins import str
-from builtins import range
-from builtins import object
 from pyromaths.outils.Arithmetique import pgcd, ppcm
 from collections import Counter
 from pyromaths.classes.SquareRoot import SquareRoot
 from pyromaths.outils.Priorites3 import EstNombre, texify
-from builtins import str
 from functools import reduce
 
-class Fraction(object):
+class Fraction:
     """Cette classe crée la notion de fractions.
     code permet de préciser si une décomposition a pour objectif une mise au
     même dénominateur 'r' ou une simplification 's'

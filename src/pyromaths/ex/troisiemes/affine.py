@@ -22,11 +22,7 @@
 
 # fonction affine 3e
 # from math import *
-from __future__ import division
-from __future__ import unicode_literals
-
 import random
-from builtins import str
 from math import sqrt
 
 from pyromaths.classes.Fractions import Fraction  # fractions pyromaths
