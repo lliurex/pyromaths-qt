@@ -272,11 +272,11 @@ class Polynome(object):
 
     def factorise(self, TeX=False, racines=[0, -1, 1, 2, -2]):
         facteurs = [Polynome({0: self.dictio[self.deg]}, var=self.var)]
-        developpe, reste = self // facteurs[0]
+        developpe, reste = self / facteurs[0]
         for r in racines:
             while developpe(r) == 0:
                 rac = -r
-                developpe, reste = developpe // Polynome({1: 1, 0: rac}, var=self.var)
+                developpe, reste = developpe / Polynome({1: 1, 0: rac}, var=self.var)
                 facteurs = facteurs + [Polynome({1: 1, 0: rac})]
         if TeX:
             stringTeX = ""

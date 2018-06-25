@@ -131,7 +131,7 @@ class Polynome(object):
             >>> str(Polynome("y^2-Fraction(3,2)y-1"))
             y^{2}-\dfrac{3}{2}\,y-1
             >>> from pyromaths.classes.Fractions import Fraction
-            >>> print(Polynome([[1, 1], [Fraction(-5, 1), 0]]))
+            >>> Polynome([[1, 1], [Fraction(-5, 1), 0]])
             x-5
 
         :rtype: string
