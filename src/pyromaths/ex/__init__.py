@@ -3,13 +3,15 @@
 from __future__ import unicode_literals
 from builtins import object
 import collections
+import importlib
 import inspect
+import jinja2
+import logging
+import operator
 import os
 import pkgutil
-import types
 import sys
-import importlib
-import jinja2
+import types
 
 class TexExercise:
     """Exercise with TeX support."""
@@ -80,7 +82,7 @@ def __import(name=__name__, parent=None):
     return importlib.import_module(name)
     # return __import__(name, fromlist=parent)
 
-def iter_exercises(pkg):
+def _iter_pkg_exercises(pkg):
     ''' List exercises in 'pkg' modules. '''
     # level defaults to description, then unknown
     if 'level' not in dir(pkg): pkg.level = "Inconnu"
@@ -109,27 +111,80 @@ def _subpackages(pkg):
         if not ispkg: continue;
         yield __import(name, pkg)
 
-def load_levels(pkg=None, recursive=True):
-    ''' Discover exercises. '''
-    levels = collections.defaultdict(list)
-    # target package defaults to this package (pyromaths.ex)
-    if pkg is None: pkg = __import()
-    # load package exercises
-    for ex in iter_exercises(pkg):
-        for lvl in ex.tags:
-            levels[lvl].append(ex)
+def _iter_exercises(pkg=None):
+    """Iterator over existing exercises"""
+    if pkg is None:
+        pkg = __import()
+    yield from _iter_pkg_exercises(pkg)
 
-    if recursive:
-        # load sub-packages
-        for pk in _subpackages(pkg):
-            sublevels = load_levels(pk)
-            for lvl in sublevels:
-                if lvl in levels:
-                    levels[lvl].extend(sublevels[lvl])
-                else:
-                    levels[lvl] = sublevels[lvl]
+    # load sub-packages
+    for sub in _subpackages(pkg):
+        yield from _iter_exercises(sub)
 
-    return levels
+NIVEAUX = [
+    "Sixième",
+    "Cinquième",
+    "Quatrième",
+    "Troisième",
+    "Seconde",
+    "1èreS",
+    "Term STMG",
+    "Term S",
+    "Term ES",
+    # "exemple",
+    ]
+
+class ExerciseBag(collections.UserDict):
+    """Classe regroupant tous les exercices.
+
+    Cette classe est la sous-classe d'un dictionnaire :
+    - clef: le nom (:type:`str`) des exercices ;
+    - valeur: l'exercice (:type:`TexExercise`).
+
+    Des méthodes permettent d'accéder à ces exercices avec d'autres présentations.
+    """
+
+    def __init__(self):
+        super().__init__()
+        for exo in _iter_exercises():
+            if exo.name() in self:
+                logging.error(
+                    "Deux exercices portent le même nom '%s': %s et %s.",
+                    exo.name(),
+                    exo,
+                    self[exo.name()],
+                    )
+            self[exo.name()] = exo
+
+    def dict_levels(self):
+        """Renvoit les exercices, comme un dictionnaire classé par niveau.
+
+        - clefs: les niveaux ;
+        - valeurs: l'ensemble des exercices de ce niveau.
+
+        Remarque : Des exercices qui appartiennent à plusieurs niveaux peuvent
+        apparaître plurieurs fois.
+        """
+        levels = collections.defaultdict(set)
+        for exo in self.values():
+            for lvl in exo.tags:
+                levels[lvl].add(exo)
+        return levels
+
+    def sorted_levels(self):
+        """Renvoit les exercices, sous la forme d'une liste triée par niveau.
+
+        Chaque élément de la liste est lui-même une liste ``[niveau, exercices]``, où :
+        - ``niveau`` : est le niveau (chaîne de caractères) ,
+        - ``exercices`` : est la liste triée des exercices de ce niveau.
+
+        Le tri par niveau est un tri logique pour un humain (sixième, puis cinquième, etc.).
+        """
+        levels = self.dict_levels()
+        return [
+            [niveau, sorted(levels[niveau], key=operator.methodcaller("name"))]
+            for niveau in NIVEAUX
+            ]
 
 ################################################################################
 # Exercices créés à partir de templates Jinja2

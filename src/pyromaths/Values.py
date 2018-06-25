@@ -75,40 +75,10 @@ ICONDIR = icon_dir()
 HOME = home()
 CONFIGDIR = configdir()
 
-NIVEAUX = [
-    "Sixième",
-    "Cinquième",
-    "Quatrième",
-    "Troisième",
-    "Seconde",
-    "1èreS",
-    "Term STMG",
-    "Term S",
-    "Term ES",
-    # "exemple",
-    ]
-
-def exercices():
-    fiches = []
-    exercices = ex.load_levels()
-    for niveau in NIVEAUX:
-        fiches.append([niveau, sorted(exercices[niveau], key=operator.methodcaller("name"))])
-
-    inconnu = []
-    for niveau in exercices:
-        if niveau not in NIVEAUX:
-            # TODO Logger un warning
-            sys.stderr.write("Niveau '{}' inconnu.\n".format(niveau))
-            inconnu.extend(exercices[niveau])
-    if inconnu:
-        fiches.append(["???", sorted(inconnu, key=operator.methodcaller("name"))])
-
-    return fiches
-
 def lesfiches():
     """Charge et renvoie les fiches d'exercices"""
-    # TODO Deprecated: Supprimer cette fonction (toujours utilisée par le client Django ?)
+    # TODO Deprecated: Supprimer cette fonction (toujours utilisée par le client Django ?). Utiliser la classe ExerciseBag à la place.
     fiches = []
-    for level, exercices in list(ex.load_levels().items()):
+    for level, exercices in list(ex.ExerciseBag().dict_levels().items()):
         fiches.append([level, '', exercices])
     return fiches

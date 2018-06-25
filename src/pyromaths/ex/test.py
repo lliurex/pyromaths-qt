@@ -226,11 +226,7 @@ class TestPerformer(object):
     """Perform tests over every exercises"""
 
     def __init__(self):
-        self.exercises = {}
-        levels = pyromaths.ex.load_levels()
-        for level in levels:
-            for exercise in levels[level]:
-                self.exercises[exercise.name()] = exercise
+        self.exercises = pyromaths.ex.ExerciseBag()
 
     def iter_names(self):
         """Iterate over exercise names."""

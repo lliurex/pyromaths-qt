@@ -31,8 +31,8 @@ from PyQt5.QtWidgets import QFileDialog, QMessageBox
 import os, lxml, codecs, sys
 from .outils import System
 from .Values import CONFIGDIR, DATADIR, COPYRIGHTS, VERSION, ICONDIR
-from .Values import exercices
 from operator import itemgetter
+from pyromaths.ex import ExerciseBag
 
 try:
     QString = str
@@ -43,7 +43,7 @@ except NameError:
 class Ui_MainWindow(object):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.exercices = exercices()
+        self.exercices = ExerciseBag().sorted_levels()
 
     def setupUi(self, MainWindow):
         #============================================================
