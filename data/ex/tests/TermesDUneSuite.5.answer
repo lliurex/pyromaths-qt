@@ -1,0 +1,43 @@
+\exercice*
+\begin{enumerate}
+  \item Selon l'énoncé, le premier terme de $u$ est $u_2=4$. Puisque chaque terme (sauf le premier) est égal au terme précédent auquel on soustrait 1, on a :
+$u_3=u_2 -1 =4 -1 =3$ ; $u_4=u_3 -1 =3 -1 =2$ ; $u_5=u_4 -1 =2 -1 =1$ ; $u_6=u_5 -1 =1 -1 =0$ ; $u_7=u_6 -1 =0 -1 =-1$.
+\begin{enumerate}
+ \item Calcul du sixième terme :
+le premier terme est $u_2$ ; le deuxième terme est $u_3$ ; le troisième terme est $u_4$ ; le quatrième terme est $u_5$ ; le cinquième terme est $u_6$ ; le sixième terme est $u_7$.
+Le terme demandé est donc : $u_7=-1$.
+\item Le terme de rang 5 est : $u_5=1$.
+\item Nous avons calculé que : $u_6=0$.
+\end{enumerate}
+  \item La suite $\left(u_n\right)$ est définie pour $n\geqslant 0$ par : $u_n=\frac{ 1 }{ 4 }n$.
+Elle est donc définie par son terme général : pour calculer un terme de rang $n$, on peut calculer directement l'image de $n$ par la suite.
+\begin{enumerate}
+ \item Calcul du sixième terme :
+le premier terme est $u_0$ ; le deuxième terme est $u_1$ ; le troisième terme est $u_2$ ; le quatrième terme est $u_3$ ; le cinquième terme est $u_4$ ; le sixième terme est $u_5$.
+Le terme demandé est donc : $u_5=
+\frac{ 1 }{ 4 }\times 5 = \frac{ 5 }{ 4 }$.
+La solution est $u_{ 5 }=\frac{ 5 }{ 4 }$.
+\item Le terme de rang 5 est $u_{ 5 }$.
+Ce terme a déjà été calculé, et $u_{ 5 }=\frac{ 5 }{ 4 }$.
+\item
+On a : $u_{ 6 }=\frac{ 1 }{ 4 }\times 6 = \frac{ 6 }{ 4 } = \frac{ 3 }{ 2 }$.
+La solution est donc  : $u_{ 6 }=\frac{ 3 }{ 2 }$.
+\end{enumerate}
+
+\item La suite $u$ est définie par récurrence, pour $n\geqslant 3$, par :
+    \[\left\{\begin{array}{l}
+      u_3=8\\
+      \text{Pour tout $n\geqslant 3$ : } u_{n+1}=2u_n+4.
+  \end{array}\right.\]
+
+\begin{align*}
+u_4 &= 2u_3+4 =2\times 8+4 =20 \\u_5 &= 2u_4+4 =2\times 20+4 =44 \\u_6 &= 2u_5+4 =2\times 44+4 =92 \\u_7 &= 2u_6+4 =2\times 92+4 =188 \\u_8 &= 2u_7+4 =2\times 188+4 =380
+\end{align*}
+\begin{enumerate}
+ \item Calcul du sixième terme :
+le premier terme est $u_3$ ; le deuxième terme est $u_4$ ; le troisième terme est $u_5$ ; le quatrième terme est $u_6$ ; le cinquième terme est $u_7$ ; le sixième terme est $u_8$.
+Le terme demandé est donc : $u_8=380$.
+\item Le terme de rang 5 est : $u_5=44$.
+\item Nous avons calculé que : $u_6=92$.
+\end{enumerate}
+\end{enumerate}

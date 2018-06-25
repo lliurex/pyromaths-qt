@@ -25,6 +25,7 @@ from __future__ import unicode_literals
 from builtins import str
 from builtins import range
 from builtins import object
+from decimal import Decimal
 import functools
 import random
 import textwrap
@@ -290,8 +291,8 @@ class Affine(Fonction):
         if isinstance(variable, Entier):
             variable = Fraction(variable.valeur, 1)
         return Fraction(
-            self.coeff.numerateur * variable.numerateur + self.ordonnee.valeur * self.coeff.denominateur * variable.denominateur,
-            self.coeff.denominateur * variable.denominateur,
+            Decimal(self.coeff.numerateur * variable.numerateur + self.ordonnee.valeur * self.coeff.denominateur * variable.denominateur),
+            Decimal(self.coeff.denominateur * variable.denominateur),
             ).simplifie()
 
 class FractionProduit(Fonction):
