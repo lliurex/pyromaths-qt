@@ -38,8 +38,8 @@ class DummyExercise(TexExercise):
     tags = []
 
     def tex_statement(self):
-        return textwrap.dedent(ur"""\
-                %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+        return textwrap.dedent(r"""
+            %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
             % DÉBUT DE L'ÉNONCÉ
             \exercice
 
@@ -50,7 +50,7 @@ class DummyExercise(TexExercise):
         """)
 
     def tex_answer(self):
-        return textwrap.dedent(ur"""\
+        return textwrap.dedent(r"""
             %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
             % DÉBUT DU CORRIGÉ
             \exercice*

@@ -42,7 +42,7 @@ import gettext
 locale_dir = join(dirname(__file__), 'locale/')
 locale_dir = realpath(locale_dir)
 
-gettext.install('pyromaths', localedir=locale_dir, unicode=1)
+gettext.install('pyromaths', localedir=locale_dir)
 
 py2exe, innosetup = None, None
 try:
@@ -56,7 +56,7 @@ _path = normpath(join(abspath(dirname(__file__)), "./src"))
 sys.path[0] = realpath(_path)
 #sys.path.append('src')
 from pyromaths.Values import VERSION
-print "Version ", VERSION
+print("Version ", VERSION)
 
 COMMON_INSTALL_REQUIRES = ['jinja2']
 
