@@ -1,6 +1,12 @@
+pyromaths (18.6.3-1) bionic; urgency=medium
+
+  * BugFix: Sd2aRacines (Racines d'un polynôme de degré 2 en 1reS)
+
+ -- Jérôme Ortais <jerome.ortais@pyromaths.org>  Tue, 26 Jun 2018 09:02:55 +0200
+
 pyromaths (18.6.2-1) bionic; urgency=medium
 
-  [ Jérôme Ortais ]
+  [ Louis aka Spalax]
   * Nouvel exercice niveau terminale ES (spécialité) : Déterminer l'état stable d'un graphe probabiliste (en utilisant un système d'équations).
   * Nouvel exercice niveau terminale ES (spécialité) : Résoudre un système d'équations en utilisant les matrices.
   * Nouvel exercice niveau seconde : Bilan sur les trinômes.
