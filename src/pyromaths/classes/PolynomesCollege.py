@@ -226,7 +226,7 @@ class Polynome:
         return retour.lstrip('+').replace('+-', '-')
 
     def derive(self):
-        if self.degre < 1:
+        if Polynome.degre(self) < 1:
             return Polynome([0, 0], self.var, self.details)
         else:
             p = []

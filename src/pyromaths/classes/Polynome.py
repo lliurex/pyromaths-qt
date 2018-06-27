@@ -50,7 +50,7 @@ class Polynome:
             if liste_coeff[i] != 0:
                 if isinstance(liste_coeff[i], (RacineDegre2, Fraction)):
                     # ===========================================================
-                    # print liste_coeff[i]
+                    #print(liste_coeff[i])
                     # ===========================================================
                     liste_reduite[i] = liste_coeff[i].simplifie()
                 else:
@@ -209,6 +209,8 @@ class Polynome:
             while diviseur_degre <= reste.deg:
                 ajout_quotient_deg = reste.deg - diviseur_degre
                 facteur = reste.dictio[reste.deg] / other.dictio[other.deg]
+                if isinstance(facteur, float):
+                    facteur = Fraction(reste.dictio[reste.deg], other.dictio[other.deg])
                 ajout_quotient = Polynome({ajout_quotient_deg: facteur}, var=self.var)
                 quotient = quotient + ajout_quotient
                 soustrait_reste = ajout_quotient * other

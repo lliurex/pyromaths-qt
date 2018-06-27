@@ -47,7 +47,7 @@ class Fraction:
     def __init__(self, n, d=1, code=""):
         from pyromaths.classes.PolynomesCollege import Polynome
         if isinstance(n, float) and abs(n) != float("inf"):
-            e = len(str(n).partition('.')[2].rstrip('0'))
+            e = len(format(float(n), ".15g").partition('.')[2])
             n = int(n * 10 ** e)
             d = d * 10 ** e
         if isinstance(d, float):
@@ -191,13 +191,14 @@ class Fraction:
         from pyromaths.classes.PolynomesCollege import Polynome
         lother, lden, traiter = [], [], False
         if self.code: traiter = True
-        details, var = '', ''
+        details, var = 0, ''
         for other in others:
             if other == 0:
                 pass
             elif isinstance(other, Polynome):
                 var = other.var
-                if details != 0  : details = min(details, other.details)
+                if details != 0  :
+                    details = min(details, other.details)
                 else: details = other.details
                 lother.append(other)
             elif isinstance(other, (int, float)):

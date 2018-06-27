@@ -166,12 +166,12 @@ def cherche_operateur(calcul, index):
         try:
             l.append(calcul[index:].index(op) + index)
         except:
-            l.append(None)
+              l.append(None)
     min_i = 0
     for i in range (1, len(l)):
-        if l[i] is not None and (l[i] < l[min_i] or l[min_i] is None):
+        if l[i] is not None and (l[min_i] is None or l[i] < l[min_i]):
             min_i = i
-    if l[min_i] > None:
+    if l[min_i] != None:
         return operateur[min_i]
     else:
         return None

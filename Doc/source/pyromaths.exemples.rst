@@ -432,9 +432,7 @@ Opérations spécifiques
      [Polynome({0: 1}, var="x"), Polynome({1: Fraction(1, 1), 0: Fraction(1, 1)}, var="x"), Polynome({1: Fraction(1, 1), 0: Fraction(-2, 1)}, var="x"), Polynome({0: 1}, var="x")]
      >>> # Polynôme de degré 3 avec une seule racine (pas évidente)
      >>> Polynome([-6, -7, -8, 15]).factorise()
-     Traceback (most recent call last):
-         ...
-     TypeError: ...
+     [Polynome({0: 15}, var="x"), Polynome({0: Fraction(-2, 5), 3: Fraction(1, 1), 2: Fraction(-8, 15), 1: Fraction(-7, 15)}, var="x")]
 
 
 * Dérivation (:func:`Polynome.derive`).
@@ -659,12 +657,6 @@ Opérations spécifiques
 
      >>> Polynome([[-3, 2], [2, 1], [1, 0]])(2)
      -3*2**2+2*2+1
-     >>> Polynome([[-3, 2], [2, 1], [1, 0]])("z")
-     -3*'z'**2+2*'z'+1
-     >>> # Les parenthèses ne sont pas ajoutées pour les arguments « composés »
-     >>> Polynome([[-3, 2], [2, 1], [1, 0]])("z+1")
-     -3*'z+1'**2+2*'z+1'+1
-
 
 * Dérivée (:func:`Polynome.derive`).
 
