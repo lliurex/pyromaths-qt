@@ -68,7 +68,7 @@ def _unix_opt():
             data_files = [
             ('share/applications',     ['data/linux/pyromaths.desktop']),
             ('share/man/man1',         ['data/linux/pyromaths.1']),
-            ('etc/bash_completion.d/', ['data/linux/pyromaths-cli']),
+            ('/etc/bash_completion.d/', ['data/linux/pyromaths-cli']),
             ('share/pixmaps/',         ['data/images/pyromaths.png']),
             ('share/pyromaths/images', ['data/images/pyromaths-banniere.png',
                                         'data/images/whatsthis.png']),
