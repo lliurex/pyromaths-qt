@@ -37,16 +37,16 @@ def main():
     gettext.install('pyromaths', localedir=locale_dir)
 
 
-    from .outils.System import create_config_file, modify_config_file
-    from .outils.TestEnv import test
-    from .Values import CONFIGDIR
+    from ..outils.System import create_config_file, modify_config_file
+    from ..outils.TestEnv import test
+    from ..Values import CONFIGDIR
 
-    from . import interface
+    from . import Ui_MainWindow
     from PyQt5 import QtGui, QtWidgets
-    class StartQT4(QtWidgets.QMainWindow, interface.Ui_MainWindow):
+    class StartQT4(QtWidgets.QMainWindow, Ui_MainWindow):
         def __init__(self, parent=None):
             QtWidgets.QWidget.__init__(self, parent)
-            self.ui = interface.Ui_MainWindow()
+            self.ui = Ui_MainWindow()
             self.ui.setupUi(self)
 
     #===========================================================================
@@ -78,8 +78,4 @@ def main():
     exit(app.exec_())
 
 if __name__ == "__main__":
-    basedir = dirname(realpath(__file__))
-    _path, _dir = split(basedir)
-    sys.path[0] = realpath(_path)
-    exec("from %s import pyromaths" % _dir)
-    pyromaths.main()
+    main()

@@ -101,11 +101,15 @@ Il sera plus confortable, pour vous comme pour nous, que vous travailliez dans u
 Brouillon
 =========
 
-La première étape est d'écrire un exercice en :math:`LaTeX`, sans passer par Python, sans aléa : juste pour observer le rendu final. Utilisez l'outil :ref:`pyromaths-cli.py <pyromaths-cli>`.
+La première étape est d'écrire un exercice en :math:`LaTeX`, sans passer par Python, sans aléa : juste pour observer le rendu final. Utilisez l'outil en ligne de commandes :ref:`pyromaths <pyromaths-cli>`.
 
 .. code-block:: shell
 
-   $ utils/pyromaths-cli.py dummy
+   $ pyromaths dummy
+
+.. note::
+
+   Si pyromaths n'est pas (encore) installé chez vous, ou une version trop ancienne, vous pouvez télécharger le dépôt et utiliser le binaire ``utils/pyromaths`` à la place de ``pyromaths`` pour utiliser la version de développement.
 
 Cette commande a pour effet de créer un modèle d'exercice, sous la forme d'un PDF qui est affiché à l'écran, et d'un fichier :math:`LaTeX` :file:`exercices.tex`.
 
@@ -167,7 +171,7 @@ Vous pouvez maintenant tester la génération de votre exercice, en exécutant l
 
 .. code-block:: shell
 
-   $ utils/pyromaths-cli.py generate EquationPremierDegre2
+   $ pyromaths generate EquationPremierDegre2
 
 Vous obtenez alors le fichier :download:`exercice.pdf <ecrire/2/exercice.pdf>`.
 
@@ -183,7 +187,7 @@ Dans cette partie, pour générer l'exercice et suivre votre travail, la command
 
 .. code-block:: shell
 
-   $ utils/pyromaths-cli.py generate EquationPremierDegre3:2
+   $ pyromaths generate EquationPremierDegre3:2
 
 Remarquez que par rapport à la commande utilisée dans la partie précédente, un ``:2`` a été ajouté à la fin de la ligne. Il correspond à la graine (`seed`) du générateur pseudo-aléatoire.
 
@@ -249,7 +253,7 @@ La rédaction du corrigé se fait de la même manière, en remarquant que le cod
 Débuggage
 ---------
 
-Durant cette phase, il est probable que le code :math:`LaTeX` produit soit un peu compliqué, et contienne des erreurs. Il serait alors pratique de pouvoir observer (si ce n'est plus) ce code avant compilation. C'est possible avec l'option ``--pipe`` de :ref:`pyromaths-cli.py <pyromaths-cli>`.
+Durant cette phase, il est probable que le code :math:`LaTeX` produit soit un peu compliqué, et contienne des erreurs. Il serait alors pratique de pouvoir observer (si ce n'est plus) ce code avant compilation. C'est possible avec l'option ``--pipe`` de :ref:`cli <pyromaths-cli>`.
 
 Cette option permet de définir des commandes (du shell) qui seront executées sur le fichier :math:`LaTeX`, avant sa compilation. Par exemple :
 
@@ -374,7 +378,7 @@ Gestion des cas particuliers
 
 Deux problèmes subsistent.
 
-- Dans certains cas (par exemple ``utils/pyromaths-cli.py generate EquationPremierDegre4:15``, les deux coefficients :math:`a` et :math:`c` de l'équation :math:`ax+b=cx+d` sont égaux, et notre programme, qui suppose qu'il existe une solution unique, essaye de la calculer, et divise par 0.
+- Dans certains cas (par exemple ``pyromaths generate EquationPremierDegre4:15``, les deux coefficients :math:`a` et :math:`c` de l'équation :math:`ax+b=cx+d` sont égaux, et notre programme, qui suppose qu'il existe une solution unique, essaye de la calculer, et divise par 0.
 - Lorsque nous arrivons (par exemple) à l'équation ``2x=6``, l'étape suivante est de diviser les deux membres par deux. Mais cette étape est inutile lorsque, par hasard, ``x`` est multiplié par 1, comme dans l'exemple suivant.
 
     .. figure:: ecrire/6/1x.png
@@ -459,7 +463,7 @@ Dans quelques mois ou années, quelqu'un (peut-être vous) voudrait modifier que
 
 .. code-block:: shell
 
-   $ utils/pyromaths-cli.py test create EquationPremierDegre
+   $ pyromaths test create EquationPremierDegre
 
 Cette commande va générer un exercice, l'afficher (dans un lecteur de pdf externe), et vous demander confirmation. Si l'exercice est correct, validez, et cet exercice sera ajouté aux tests.
 
@@ -467,13 +471,13 @@ Si vous voulez ajouter un exercice particulier (car vous savez qu'il correspond 
 
 .. code-block:: shell
 
-   $ utils/pyromaths-cli.py test create EquationPremierDegre:1729
+   $ pyromaths test create EquationPremierDegre:1729
 
 Plus tard, pour vérifier que votre exercice n'a pas été modifier, vérifiez les tests en utilisant ce même programme.
 
 .. code-block:: shell
 
-   $ utils/pyromaths-cli.py test check
+   $ pyromaths test check
 
 Publication !
 =============

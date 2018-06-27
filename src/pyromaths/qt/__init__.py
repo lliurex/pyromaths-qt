@@ -22,8 +22,8 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QFileDialog, QMessageBox
 import os, lxml, codecs, sys
-from .outils import System
-from .Values import CONFIGDIR, DATADIR, COPYRIGHTS, VERSION, ICONDIR
+from ..outils import System
+from ..Values import CONFIGDIR, DATADIR, COPYRIGHTS, VERSION, ICONDIR
 from operator import itemgetter
 from pyromaths.ex import ExerciseBag
 

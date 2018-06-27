@@ -855,4 +855,4 @@ def valeurs_trigo():
             v = (v, (trigo, 0, l[0], l[3]))
     return v
 
-# TODO: utils/pyromaths-cli.py generate exo_thales:1 plante sur l'arcos (ligne 605)
+# TODO: utils/pyromaths generate exo_thales:1 plante sur l'arcos (ligne 605)

@@ -64,11 +64,16 @@ def _unix_opt():
     '''UNIX/Linux: generate Python eggs and RPM packages.'''
     return dict(
             platforms  = ['unix'],
-            scripts    = ['pyromaths'],
+            entry_points = {
+                "console_scripts": [
+                    "pyromaths = pyromaths.__main__:main",
+                    "pyromaths-qt = pyromaths.qt.__main__:main",
+                    ],
+                },
             data_files = [
             ('share/applications',     ['data/linux/pyromaths.desktop']),
             ('share/man/man1',         ['data/linux/pyromaths.1']),
-            ('/etc/bash_completion.d/', ['data/linux/pyromaths-cli']),
+            ('/etc/bash_completion.d/', ['data/linux/pyromaths']),
             ('share/pixmaps/',         ['data/images/pyromaths.png']),
             ('share/pyromaths/images', ['data/images/pyromaths-banniere.png',
                                         'data/images/whatsthis.png']),
@@ -122,7 +127,7 @@ def _mac_opt():
                   argv_emulation = True,
                   )
     return dict(
-        app        = ['src/pyromaths.py'],
+        app        = ['utils/pyromaths-qt'],
         data_files = [
             ( 'data', ['data/qtmac_fr.qm']),
             ( 'data/images', ['data/images/pyromaths.png',
@@ -160,7 +165,7 @@ Name: "{commondesktop}\Pyromaths"; Filename: "{app}\pyromaths.exe"
           # (r'data/packages', glob(r'data/packages/*')),
         ] + find_data_files('data/ex','data/ex/',['img/*.png', 'templates/*.tex']),
         zipfile = None,
-        windows = [dict(script="pyromaths",
+        windows = [dict(script="utils/pyromaths-qt",
                         icon_resources=[(1, 'data/images/pyromaths.ico')],
                         )
                    ],

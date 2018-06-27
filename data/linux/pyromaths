@@ -1,6 +1,6 @@
 # bash completion for pyromaths                           -*- shell-script -*-
 
-_pyromaths_cli()
+_pyromaths()
 {
     local cur prev words cword split;
     _init_completion -s || return;
@@ -26,7 +26,7 @@ _pyromaths_cli()
 
     [[ $COMPREPLY == *= ]] && compopt -o nospace;
 } &&
-complete -F _pyromaths_cli pyromaths
+complete -F _pyromaths pyromaths
 
 # ex: filetype=sh```
 

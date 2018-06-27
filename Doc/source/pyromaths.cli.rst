@@ -4,7 +4,7 @@
 Interface en ligne de commande
 ==============================
 
-Pyromaths dispose d'une interface en ligne de commande : `pyromaths-cli`. Elle
+Pyromaths dispose d'une interface en ligne de commande : `pyromaths`. Elle
 peut-être utilisées dans des scripts, ou pour l'écriture de nouveaux exercices,
 pour controler le rendu au fur et à mesure du développement.
 
@@ -21,13 +21,13 @@ Il y a deux manières d'appeler ce programme, qui sont équivalentes.
 
   .. code-block:: sh
 
-    python3 -m pyromaths.cli
+    python3 -m pyromaths
 
 * En exécutant un fichier situé dans le répertoire `utils`. Le `PYTHONPATH` est automatiquement géré ; c'est utile si vous n'arrivez pas à le faire vous-même, ou si vous n'avez pas compris la phrase précédente.
 
   .. code-block:: sh
 
-    python3 utils/pyromaths-cli.py
+    utils/pyromaths
 
 Commandes disponibles
 =====================
@@ -48,7 +48,7 @@ Commandes disponibles
 Description des exercices
 =========================
 
-Les exercices sur lesquels s'appliquent les commandes de ``pyromaths-cli`` sont
+Les exercices sur lesquels s'appliquent les commandes de ``pyromaths`` sont
 décrits comme ``exo_pythagore:4,6``, où :
 
 * ``exo_pythagore`` est l'identifiant de l'exercice (le nom de la fonction ou

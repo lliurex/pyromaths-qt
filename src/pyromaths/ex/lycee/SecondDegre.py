@@ -271,7 +271,7 @@ class Sd1FormeCanonique(ex.TexExercise):
         return "\n".join(exo)
 
 class Sd2aRacines(ex.TexExercise):
-    #TODO: ./utils/pyromaths-cli.py generate Sd2aRacines:1, 2 et 3 ne fonctionnent pas
+    #TODO: ./utils/pyromaths generate Sd2aRacines:1, 2 et 3 ne fonctionnent pas
     """Racines d'un polynôme de degré 2"""
 
     tags = ["1èreS"]

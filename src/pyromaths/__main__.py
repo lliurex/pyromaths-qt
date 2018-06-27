@@ -20,7 +20,7 @@
 
 To display help:
 
-> python3 -m pyromaths.cli --help
+> python3 -m pyromaths --help
 """
 import argparse
 import gettext
@@ -52,7 +52,7 @@ VERSION = "0.1.0"
 def argument_parser():
     """Return an argument parser"""
     parser = argparse.ArgumentParser(
-        prog='pyromaths-cli',
+        prog='pyromaths',
         )
     parser.add_argument(
         '-v', '--version',
@@ -117,13 +117,6 @@ def argument_parser():
         )
     test.add_argument('args', nargs=argparse.REMAINDER)
 
-    # GUI
-    gui = subparsers.add_parser(
-        'gui',
-        help='Launch the pyromaths graphical user interface.',
-        )
-    gui.add_argument('args', nargs=argparse.REMAINDER)
-
     # Dummy
     dummy = subparsers.add_parser(
         'dummy',
@@ -138,15 +131,9 @@ def do_test(options):
     from pyromaths.cli.test import __main__
     sys.exit(__main__.main(options.args))
 
-def do_gui(options):
-    """Action for command line 'gui'."""
-    from pyromaths import pyromaths
-    sys.argv = ["pyromaths"] + sys.argv[2:]
-    pyromaths.main()
-
 def do_dummy(options):
     """Action for command line 'dummy'."""
-    from . import dummy
+    from .cli import dummy
     dummy.main()
 
 def do_generate(options):
@@ -184,7 +171,6 @@ COMMANDS = {
     "generate": do_generate,
     "ls": do_ls,
     "test": do_test,
-    "gui": do_gui,
     "dummy": do_dummy,
     }
 
