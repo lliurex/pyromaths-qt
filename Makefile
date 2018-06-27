@@ -67,10 +67,10 @@ MANIFEST-win := $(MANIFEST-min)                 \
 #
 ifeq ($(OS),Windows_NT)
 	# Windows
-	PYTHON ?= c:/Python27/python.exe
+	PYTHON ?= c:/Python3/python.exe
 else
 	# Unix
-	PYTHON ?= python
+	PYTHON ?= python3
 	ifeq ($(shell uname -s),Darwin)
 		# Mac/BSD
 		sed-i := sed -i ''
@@ -79,6 +79,7 @@ else
 		sed-i := sed -i
 	endif
 endif
+$(info $$PYTHON is [${PYTHON}])
 setup := $(PYTHON) setup.py
 
 ### MACROS

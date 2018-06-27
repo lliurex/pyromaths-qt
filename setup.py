@@ -68,6 +68,7 @@ def _unix_opt():
             data_files = [
             ('share/applications',     ['data/linux/pyromaths.desktop']),
             ('share/man/man1',         ['data/linux/pyromaths.1']),
+            ('etc/bash_completion.d/', ['data/linux/pyromaths-cli']),
             ('share/pixmaps/',         ['data/images/pyromaths.png']),
             ('share/pyromaths/images', ['data/images/pyromaths-banniere.png',
                                         'data/images/whatsthis.png']),
@@ -104,7 +105,7 @@ def _mac_opt():
                           'bz2', 'datetime', 'gestalt', 'MacOS',
                           'pyexpat', 'rurce', 'strop', 'unicodedata']
     site_packages_unused = ['_osx_support', '_builtinSuites', 'Carbon',
-                            'distutils', 'Finder', 'StdSuites','xml','getopt', 
+                            'distutils', 'Finder', 'StdSuites','xml','getopt',
                             'repr', '_strptime', 'sets', '_threading_local',
                             'sre', 'bdb', 'optparse.', 'ssl',
                             'calendar', 'pdb', 'stringprep', 'cmd',
