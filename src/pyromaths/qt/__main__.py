@@ -37,7 +37,7 @@ def main():
     gettext.install('pyromaths', localedir=locale_dir)
 
 
-    from ..outils.System import create_config_file, modify_config_file
+    from .config import create_config_file, modify_config_file
     from ..outils.TestEnv import test
     from ..Values import CONFIGDIR
 
