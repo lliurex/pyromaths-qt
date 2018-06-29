@@ -22,7 +22,7 @@
 
 import sys, os, codecs
 from re import findall
-from .TexFiles import mise_en_forme
+from ..outils import jinja2
 
 #==============================================================
 #        Gestion des extensions de fichiers
@@ -65,6 +65,7 @@ def _preprocess_pipe(filename, pipe):
 
 def creation(parametres):
     """Création et compilation des fiches d'exercices.
+
     parametres = {'fiche_exo': f0,
                   'fiche_cor': f1,
                   'liste_exos': self.lesexos,
@@ -72,56 +73,38 @@ def creation(parametres):
                   'creer_unpdf': self.checkBox_unpdf.isChecked() and self.checkBox_unpdf.isEnabled(),
                   'titre': unicode(self.lineEdit_titre.text()),
                   'niveau': unicode(self.comboBox_niveau.currentText()),
-                }"""
+                }
+    """
+
+    environment = jinja2.LatexEnvironment(
+        loader=jinja2.FileSystemLoader([
+            os.path.join(parametres['datadir'], 'templates'),
+            os.path.join(parametres['configdir'], 'templates'),
+            ])
+    )
+
     exo = str(parametres['fiche_exo'])
     cor = str(parametres['fiche_cor'])
-    f0 = codecs.open(exo, encoding='utf-8', mode='w')
-    f1 = codecs.open(cor, encoding='utf-8', mode='w')
 
-    if parametres['creer_pdf']:
-        copie_tronq_modele(f0, parametres, 'entete')
-        if not parametres['creer_unpdf']:
-            copie_tronq_modele(f1, parametres, 'entete')
-
-    for exercice in parametres['liste_exos']:
-        # write exercise's TeX code (question & answer) to files
-        f0.write("\n")
-        f0.writelines(exercice.tex_statement())
-        f1.write("\n")
-        f1.writelines(exercice.tex_answer())
-
-
-    if parametres['creer_pdf']:
-        if parametres['creer_unpdf']:
-            f0.write("\\label{LastPage}\n")
-            f0.write("\\newpage\n")
-            f0.write(_(u"\\currentpdfbookmark{Le corrigé des exercices}{Corrigé}\n"))
-            f0.write("\\lhead{\\textsl{{\\footnotesize Page \\thepage/ \\pageref{LastCorPage}}}}\n")
-            f0.write("\\setcounter{page}{1} ")
-            f0.write("\\setcounter{exo}{0}\n")
-            f1.write("\\label{LastCorPage}\n")
-            copie_tronq_modele(f1, parametres, 'pied')
-        else:
-            f0.write("\\label{LastPage}\n")
-            f1.write("\\label{LastPage}\n")
-            copie_tronq_modele(f0, parametres, 'pied')
-            copie_tronq_modele(f1, parametres, 'pied')
-
-    f0.close()
-    f1.close()
-
-    if parametres['creer_unpdf']:
-        f0 = codecs.open(exo, encoding='utf-8', mode='a')
-        f1 = codecs.open(cor, encoding='utf-8', mode='r')
-        for line in f1:
-            f0.write(line)
-        f0.close()
-        f1.close()
-
-    # indentation des fichiers teX créés
-    mise_en_forme(exo)
-    if parametres['corrige'] and not parametres['creer_unpdf']:
-        mise_en_forme(cor)
+    with open(exo, mode='w') as exofile:
+        exofile.write(environment.get_template(parametres['modele']).render({
+            "enonce": True,
+            "corrige": parametres['creer_unpdf'],
+            "exercices": parametres['liste_exos'],
+            "titre": parametres['titre'],
+            "niveau": parametres['niveau'],
+            "bookmark": r"\currentpdfbookmark{Les énoncés des exercices}{Énoncés}",
+            }))
+    if parametres['creer_pdf'] and not parametres['creer_unpdf']:
+        with open(cor, mode='w') as exofile:
+            exofile.write(environment.get_template(parametres['modele']).render({
+                "enonce": False,
+                "corrige": True,
+                "exercices": parametres['liste_exos'],
+                "titre": parametres['titre'],
+                "niveau": parametres['niveau'],
+                "bookmark": r"\currentpdfbookmark{Les énoncés des exercices}{Énoncés}",
+                }))
 
     # Dossiers et fichiers d'enregistrement, définitions qui doivent rester avant le if suivant.
     dir0 = os.path.dirname(exo)
@@ -188,7 +171,8 @@ def creation(parametres):
                 else:
                     os.system('xdg-open %s.pdf' % f1noext)
         else:
-            os.remove('%s-corrige.tex' % f0noext)
+            if os.path.exists('%s-corrige.tex' % f0noext):
+                os.remove('%s-corrige.tex' % f0noext)
 
 def latexmkrc(basefilename):
     latexmkrc = open('latexmkrc', 'w')
@@ -217,56 +201,3 @@ def nettoyage(basefilename):
                 os.remove(basefilename + ext)
             except OSError:
                 pass
-
-def copie_tronq_modele(dest, parametres, master):
-    """Copie des morceaux des modèles, suivant le schéma du master."""
-    master_fin = '% fin ' + master
-    master = '% ' + master
-    n = 0
-
-    # # Le fichier source doit être un modèle, donc il se trouve dans le dossier 'modeles' de pyromaths.
-    source = parametres['modele']
-
-    if os.path.isfile(os.path.join(parametres['datadir'], 'templates', source)):
-        source = os.path.join(parametres['datadir'], 'templates', source)
-    elif os.path.isfile(os.path.join(parametres['configdir'], 'templates', source)):
-        source = os.path.join(parametres['configdir'], 'templates', source)
-    else:
-        # TODO: Message d'erreur, le modèle demandé n'existe pas
-        print(u"Template file not found in %s" %
-                os.path.join(parametres['datadir'], 'templates'))
-
-    # # Les variables à remplacer :
-    titre = parametres['titre']
-    niveau = parametres['niveau']
-    if parametres['creer_unpdf']:
-        bookmark = u"\\currentpdfbookmark{Les énoncés des exercices}{Énoncés}"
-    else:
-        bookmark = ""
-    #===========================================================================
-    # if os.name == 'nt':
-    #     os.environ['TEXINPUTS'] = os.path.normpath(os.path.join(parametres['datadir'],
-    #         'packages'))
-    #     tabvar = 'tabvar.tex'
-    # else:
-    #     tabvar = os.path.normpath(os.path.join(parametres['datadir'],
-    #         'packages', 'tabvar.tex'))
-    #===========================================================================
-    # rawstring pour \tabvar -> tab + abvarsous windows
-    modele = codecs.open(source, encoding='utf-8', mode='r')
-    for line in modele:
-        if master_fin in line:
-            break
-        if n > 0:
-            temp = findall('##{{[A-Z]*}}##', line)
-            if temp:
-                occ = temp[0][4:len(temp) - 5].lower()
-                # line = sub('##{{[A-Z]*}}##',eval(occ),line)
-                line = line.replace(temp[0], eval(occ))
-            dest.write(line)
-
-        if master in line:
-            n = 1
-
-    modele.close()
-    return
