@@ -991,13 +991,13 @@ Calculs avec étapes
 Jinja2
 ------
 
-:ref:`Ce module <pyromaths.outils.jinja2>` fournit des outils à utiliser avec les templates `jinja2 <http://jinja2.pocoo.org>`__ (voir le :ref:`tutoriel de création d'exercices <ecrire>` pour plus d'informations).
+:ref:`Ce module <pyromaths.outils.jinja2utils>` fournit des outils à utiliser avec les templates `jinja2 <http://jinja2.pocoo.org>`__ (voir le :ref:`tutoriel de création d'exercices <ecrire>` pour plus d'informations).
 
-.. currentmodule:: pyromaths.outils.jinja2
+.. currentmodule:: pyromaths.outils.jinja2utils
 
 .. testsetup:: jinja2
 
-   from pyromaths.outils.jinja2 import *
+   from pyromaths.outils.jinja2utils import *
 
 * Affichage de facteurs
 

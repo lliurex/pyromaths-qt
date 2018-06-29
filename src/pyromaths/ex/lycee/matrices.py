@@ -25,7 +25,7 @@ from decimal import Decimal
 import random
 
 from pyromaths.ex import Jinja2Exercise
-from pyromaths.outils.jinja2 import facteur, matrice
+from pyromaths.outils.jinja2utils import facteur, matrice
 
 # Liste des coefficients de la diagonale de la matrice de transition qui
 # donnent des états stables dont la valeur exacte a au plus trois décimales.

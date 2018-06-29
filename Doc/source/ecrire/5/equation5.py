@@ -25,7 +25,7 @@
 import random
 
 from pyromaths.ex import Jinja2Exercise
-from pyromaths.outils.jinja2 import facteur
+from pyromaths.outils.jinja2utils import facteur
 
 class EquationPremierDegre5(Jinja2Exercise):
     """Résolution d'équations du premier degré à coefficients entiers."""

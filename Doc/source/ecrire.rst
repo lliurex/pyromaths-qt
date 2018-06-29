@@ -319,16 +319,16 @@ Supposons par exemple que nous voulons afficher l'équation de la droite d'équa
 - Si :math:`a=2` et :math:`b=-2`, nous obtenons ``y=2x+-2`` au lieu de ``y=2x-2``.
 - Si :math:`a=0` et :math:`b=0`, nous obtenons ``y=0x+0`` au lieu de ``y=0``.
 
-Cela fait beaucoup de cas à traiter. Tous (sauf le dernier) peuvent être résolu en utilisant le *filter* :func:`pyromaths.outils.jinja2.facteur`.
+Cela fait beaucoup de cas à traiter. Tous (sauf le dernier) peuvent être résolu en utilisant le *filter* :func:`pyromaths.outils.jinja2utils.facteur`.
 
 `Filters` personnalisés
 -----------------------
 
 Un `filter` est une fonction qui peut être transmise au template afin d'être appelée depuis le template. Ils sont décrits sur `la documentation officielle <http://jinja.pocoo.org/docs/2.10/api/#custom-filters>`__.
 
-.. currentmodule:: pyromaths.outils.jinja2
+.. currentmodule:: pyromaths.outils.jinja2utils
 
-Une fonction du module :mod:`pyromaths.outils.jinja2` existe pour corriger les problèmes cités plus haut : :func:`facteur` permet de formatter correctement les facteurs dans une expression. Encore faut-il que cette fonction soit accessible depuis le `template` :math:`LaTeX`.
+Une fonction du module :mod:`pyromaths.outils.jinja2utils` existe pour corriger les problèmes cités plus haut : :func:`facteur` permet de formatter correctement les facteurs dans une expression. Encore faut-il que cette fonction soit accessible depuis le `template` :math:`LaTeX`.
 
 Ajoutons la méthode suivante à la classe :class:`~pyromaths.ex.troisiemes.equation.EquationPremierDegre4` :
 

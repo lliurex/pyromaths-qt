@@ -36,7 +36,7 @@ from pyromaths.outils.Arithmetique import carrerise, pgcd, valeur_alea
 import random
 
 from pyromaths.ex import Jinja2Exercise
-from pyromaths.outils.jinja2 import facteur
+from pyromaths.outils.jinja2utils import facteur
 
 def signe(nombre):
     """Renvoit une chaîne contenant le signe de l'argument."""

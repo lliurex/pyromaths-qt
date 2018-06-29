@@ -3,13 +3,14 @@
 import collections
 import importlib
 import inspect
-import jinja2
 import logging
 import operator
 import os
 import pkgutil
 import sys
 import types
+
+from ..outils import jinja2
 
 class TexExercise:
     """Exercise with TeX support."""
@@ -205,19 +206,9 @@ class Jinja2Exercise(TexExercise):
     @property
     def environment(self):
         """Création de l'environnement Jinja2, duquel sera chargé le template."""
-        environment = jinja2.Environment(
+        return jinja2.LatexEnvironment(
             loader=jinja2.FileSystemLoader(templatedir())
         )
-        environment.block_start_string = '(*'
-        environment.block_end_string = '*)'
-        environment.variable_start_string = '(('
-        environment.variable_end_string = '))'
-        environment.comment_start_string = '(% '
-        environment.comment_end_string = ' %)'
-        environment.trim_blocks = True
-        environment.lstrip_blocks = True
-
-        return environment
 
     @property
     def statement_name(self):
