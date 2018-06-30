@@ -42,12 +42,11 @@ _ = gettext.gettext
 
 from pyromaths.cli import exercise_argument, PyromathsException
 from pyromaths.ex.test import TestPerformer, generate
+from pyromaths.Values import VERSION
 
 # Logging configuration
 logging.basicConfig(level=logging.INFO)
 LOGGER = logging.getLogger()
-
-VERSION = "0.1.0"
 
 def argument_parser():
     """Return an argument parser"""
