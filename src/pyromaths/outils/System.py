@@ -20,26 +20,34 @@
 # Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
 #
 
-import sys, os, codecs
-from re import findall
-from ..outils import jinja2
+import codecs
+import contextlib
+import functools
+import os
+import subprocess
+import sys
+import tempfile
+import textwrap
+
+from pyromaths.outils import jinja2tex
+from pyromaths.Values import CONFIGDIR, DATADIR
 
 #==============================================================
 #        Gestion des extensions de fichiers
 #==============================================================
 def supprime_extension(filename, ext):
-    """supprime l'éventuelle extension ext du nom de fichier filename.
-    ext est de la forme '.tex'"""
-    if os.path.splitext(filename)[1].lower():
-        return os.path.splitext(filename)[0]
-    return filename
+    """Supprime l'éventuelle extension ext du nom de fichier filename.
 
-def ajoute_extension(filename, ext):
-    """ajoute si nécessaire l'extension ext au nom de fichier filename.
-    ext est de la forme '.tex'"""
-    if os.path.splitext(filename)[1].lower() == ext:
-        return filename
-    return filename + ext
+    - ext est une chaîne de caractères quelconque.
+
+    >>> supprime_extension("plop.tex", ".tex")
+    'plop'
+    >>> supprime_extension("plop.tex", ".pdf")
+    'plop.tex'
+    """
+    if filename.endswith(ext):
+        return filename[:-len(ext)]
+    return filename
 
 #==============================================================
 #        Créer et lance la compilation des fichiers TeX
@@ -53,6 +61,8 @@ def _preprocess_pipe(filename, pipe):
         le nom du fichier ; sinon, il est ajouté à la fin de la commande. Cet
         élément peut aussi être `None`, auquel cas il correspond à une liste
         vide.
+
+    TODO : Supprimer en même temps que `creation()`.
     """
     from subprocess import call
     if pipe is None:
@@ -68,7 +78,7 @@ def creation(parametres):
 
     parametres = {'fiche_exo': f0,
                   'fiche_cor': f1,
-                  'liste_exos': self.lesexos,
+                  'exercices': self.lesexos,
                   'creer_pdf': self.checkBox_create_pdf.checkState(),
                   'creer_unpdf': self.checkBox_unpdf.isChecked() and self.checkBox_unpdf.isEnabled(),
                   'titre': unicode(self.lineEdit_titre.text()),
@@ -76,8 +86,8 @@ def creation(parametres):
                 }
     """
 
-    environment = jinja2.LatexEnvironment(
-        loader=jinja2.FileSystemLoader([
+    environment = jinja2tex.LatexEnvironment(
+        loader=jinja2tex.FileSystemLoader([
             os.path.join(parametres['datadir'], 'templates'),
             os.path.join(parametres['configdir'], 'templates'),
             ])
@@ -90,7 +100,7 @@ def creation(parametres):
         exofile.write(environment.get_template(parametres['modele']).render({
             "enonce": True,
             "corrige": parametres['creer_unpdf'],
-            "exercices": parametres['liste_exos'],
+            "exercices": parametres['exercices'],
             "titre": parametres['titre'],
             "niveau": parametres['niveau'],
             "bookmark": r"\currentpdfbookmark{Les énoncés des exercices}{Énoncés}",
@@ -100,7 +110,7 @@ def creation(parametres):
             exofile.write(environment.get_template(parametres['modele']).render({
                 "enonce": False,
                 "corrige": True,
-                "exercices": parametres['liste_exos'],
+                "exercices": parametres['exercices'],
                 "titre": parametres['titre'],
                 "niveau": parametres['niveau'],
                 "bookmark": r"\currentpdfbookmark{Les énoncés des exercices}{Énoncés}",
@@ -125,7 +135,7 @@ def creation(parametres):
         _preprocess_pipe(os.path.join(dir0, '{}.tex'.format(f0noext)), parametres.get('pipe', None))
         os.chdir(dir0)
         print(dir0)
-        latexmkrc(f0noext)
+        write_latexmkrc()
         log = open('%s-pyromaths.log' % f0noext, 'w')
         if socket.gethostname() == "sd-94439.pyromaths.org":
             os.environ['PATH'] += os.pathsep + "/usr/local/texlive/2016/bin/x86_64-linux"
@@ -149,7 +159,7 @@ def creation(parametres):
 
         if parametres['corrige'] and not parametres['creer_unpdf']:
             os.chdir(dir1)
-            latexmkrc(f1noext)
+            write_latexmkrc()
             log = open('%s-pyromaths.log' % f1noext, 'w')
             if socket.gethostname() == "sd-94439.pyromaths.org":
                 os.environ['PATH'] += os.pathsep + "/usr/local/texlive/2016/bin/x86_64-linux"
@@ -174,20 +184,23 @@ def creation(parametres):
             if os.path.exists('%s-corrige.tex' % f0noext):
                 os.remove('%s-corrige.tex' % f0noext)
 
-def latexmkrc(basefilename):
-    latexmkrc = open('latexmkrc', 'w')
-    latexmkrc.write('$pdf_mode = 2;\n')
-    latexmkrc.write('$ps2pdf = "ps2pdf %O %S %D";\n')
-    latexmkrc.write('$latex = "latex --shell-escape -silent -interaction=nonstopmode  %O %S";\n')
-    latexmkrc.write('sub asy {return system("asy \'$_[0]\'");}\n')
-    latexmkrc.write('add_cus_dep("asy","eps",0,"asy");\n')
-    latexmkrc.write('add_cus_dep("asy","pdf",0,"asy");\n')
-    latexmkrc.write('add_cus_dep("asy","tex",0,"asy");\n')
-    #latexmkrc.write('push @generated_exts, \'pre\', \'dvi\', \'ps\', \'auxlock\', \'fdb_latexmk\', \'fls\', \'out\', \'aux\';\n')
-    latexmkrc.write('$cleanup_mode = 2;\n')
-    #latexmkrc.write('@generated_exts = qw(4ct 4tc acn acr alg aux auxlock bbl dvi eps fls glg glo gls idv idx ind ist lg lof lot nav net out pre ps ptc run.xml snm thm tmp toc vrb xdv xref);')
-    latexmkrc.write('$clean_ext .= " %R-?.tex %R-??.tex %R-figure*.dpth %R-figure*.dvi %R-figure*.eps %R-figure*.log %R-figure*.md5 %R-figure*.pre %R-figure*.ps %R-figure*.asy %R-*.asy %R-*_0.eps %R-*.pre";')
-    latexmkrc.close()
+def write_latexmkrc(filename=None):
+    if filename is None:
+        filename = 'latexmkrc'
+    with open(filename, 'w') as latexmkrc:
+        latexmkrc.write(textwrap.dedent("""\
+        $pdf_mode = 2;
+        $ps2pdf = "ps2pdf %O %S %D";
+        $latex = "latex --shell-escape -silent -interaction=nonstopmode  %O %S";
+        sub asy {return system("asy '$_[0]'");}
+        add_cus_dep("asy","eps",0,"asy");
+        add_cus_dep("asy","pdf",0,"asy");
+        add_cus_dep("asy","tex",0,"asy");
+        $cleanup_mode = 2;
+        $clean_ext .= " %R-?.tex %R-??.tex %R-figure*.dpth %R-figure*.dvi %R-figure*.eps %R-figure*.log %R-figure*.md5 %R-figure*.pre %R-figure*.ps %R-figure*.asy %R-*.asy %R-*_0.eps %R-*.pre";
+        """))
+        #latexmkrc.write('push @generated_exts, \'pre\', \'dvi\', \'ps\', \'auxlock\', \'fdb_latexmk\', \'fls\', \'out\', \'aux\';\n')
+        #latexmkrc.write('@generated_exts = qw(4ct 4tc acn acr alg aux auxlock bbl dvi eps fls glg glo gls idv idx ind ist lg lof lot nav net out pre ps ptc run.xml snm thm tmp toc vrb xdv xref);')
 
 def nettoyage(basefilename):
     """Supprime les fichiers temporaires créés par LaTeX"""
@@ -201,3 +214,89 @@ def nettoyage(basefilename):
                 os.remove(basefilename + ext)
             except OSError:
                 pass
+
+################################################################################
+
+class Fiche(contextlib.AbstractContextManager):
+    basename = "exercise"
+
+    def __init__(self, context, *, template="pyromaths.tex"):
+        self.context = context
+        self.template = template
+
+    def __enter__(self):
+        self.tempdir = tempfile.TemporaryDirectory(prefix="pyromaths-")
+        return self
+
+    @property
+    def workingdir(self):
+        return self.tempdir.name
+
+    def __exit__(self, exc_type, exc_value, traceback):
+        self.tempdir.cleanup()
+
+    def tempfile(self, ext=None):
+        if ext is None:
+            return os.path.join(self.workingdir, self.basename)
+        return os.path.join(self.workingdir, "{}.{}".format(self.basename, ext))
+
+    @property
+    def texname(self):
+        return self.tempfile("tex")
+
+    @property
+    def pdfname(self):
+        return self.tempfile("pdf")
+
+    @property
+    def latexmkrcname(self):
+        return os.path.join(self.workingdir, "latexmkrc")
+
+    @functools.lru_cache(10)
+    def write_tex(self):
+        environment = jinja2tex.LatexEnvironment(
+            loader=jinja2tex.FileSystemLoader([
+                os.path.join(DATADIR, 'templates'),
+                ])
+        )
+        with open(self.texname, 'w') as exofile:
+            exofile.write(environment.get_template(self.template).render(self.context))
+
+    def write_pdf(self):
+        self.write_tex()
+        self.write_latexmkrc()
+        if os.name == 'nt':
+            subprocess.run(
+                ["latexmk", "-silent", self.basename],
+                cwd=self.workingdir,
+                env={"PATH": os.environ['PATH'], "WINDIR": os.environ['WINDIR'], 'USERPROFILE': os.environ['USERPROFILE']},
+                )
+            subprocess.run(
+                ["latexmk", "-silent", "-c"],
+                cwd=self.workingdir,
+                env={"PATH": os.environ['PATH'], "WINDIR": os.environ['WINDIR'], 'USERPROFILE': os.environ['USERPROFILE']},
+                )
+        else:
+            subprocess.run(
+                ["latexmk", "-silent", self.basename],
+                cwd=self.workingdir,
+                )
+            subprocess.run(
+                ["latexmk", "-silent", "-c"],
+                cwd=self.workingdir,
+                )
+
+    @functools.lru_cache(1)
+    def write_latexmkrc(self):
+        # TODO Déplacer le contenu de la fonction write_latexmkrc() ici.
+        write_latexmkrc(self.latexmkrcname)
+
+    def show_pdf(self, filename=None):
+        if filename is None:
+            filename = self.pdfname
+        if os.name == "nt":  # Cas de Windows.
+            os.startfile(filename)
+        elif sys.platform == "darwin":  # Cas de Mac OS X.
+            subprocess.run(['open', filename])
+        else:
+            subprocess.run(['gio', 'open', filename])

@@ -73,7 +73,7 @@ PARAMETRES = {
     'modele': u'pyromaths.tex',
     'titre': u'Modèle',
     'fiche_cor': os.path.join(os.getcwd(), "exercices-corrige.tex"),
-    'liste_exos': [DummyExercise()],
+    'exercices': [DummyExercise()],
     }
 
 def main():

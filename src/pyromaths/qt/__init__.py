@@ -21,7 +21,7 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QFileDialog, QMessageBox
-import os, lxml, codecs, sys
+import os, lxml, codecs, sys, shutil
 from ..outils import System
 from ..Values import CONFIGDIR, DATADIR, COPYRIGHTS, VERSION, ICONDIR
 from operator import itemgetter
@@ -573,7 +573,7 @@ class ChoixOrdreExos(QtWidgets.QDialog):
     Permet de choisir l'ordre dans lequel les exercices vont apparaître
     parametres = {'fiche_exo':
                   'fiche_cor':
-                  'liste_exos':
+                  'exercices':
                   'creer_pdf':
                   'titre':
                   'corrige':
@@ -617,9 +617,9 @@ def valide(liste, exercices, parametres):
     """ Permet de choisir les noms et emplacements des fichiers tex, les écrits
     et lance la compilation LaTex"""
     corrige = parametres['corrige']
-    lesexos = []
+    parametres['exercices'] = []
     for i in range(liste.count()):
-        lesexos.append(liste.item(i).exercice())
+        parametres['exercices'].append(liste.item(i).exercice())
 
     #============================================================
     #        Choix des noms des fichiers exercices et corrigés
@@ -635,23 +635,41 @@ def valide(liste, exercices, parametres):
                 # os.path.join(parametres['chemin_fichier'],
                              # u'%s.tex' % filename), "Documents Tex (*.tex)"))[0]
     if f0:
-        System.ajoute_extension(f0, '.tex')
-        if corrige and not parametres['creer_unpdf']:
-            f1 = QFileDialog.getSaveFileName(None, "Enregistrer sous...",
-                os.path.join(os.path.dirname(f0), _(u"%s-corrige.tex") % os.path.splitext(os.path.basename(f0))[0]),
-                _("Documents Tex (*.tex)"),
-                options=options,
-                )[0]
-        else:
-            f1 = os.path.join(os.path.dirname(f0),
-                    os.path.splitext(os.path.basename(f0))[0] + "-corrige.tex")
+        f0 = System.supprime_extension(f0, '.tex')
+    else:
+        return
+
+    if corrige and not parametres['creer_unpdf']:
+        f1 = QFileDialog.getSaveFileName(None, "Enregistrer sous...",
+            os.path.join(os.path.dirname(f0), _(u"%s-corrige.tex") % os.path.splitext(os.path.basename(f0))[0]),
+            _("Documents Tex (*.tex)"),
+            options=options,
+            )[0]
         if f1:
-            if corrige:
-                System.ajoute_extension(f1, '.tex')
-            parametres ['fiche_exo'] = f0
-            parametres ['fiche_cor'] = f1
-            parametres ['liste_exos'] = lesexos
-            System.creation(parametres)
+            f1 = System.supprime_extension(f1, '.tex')
+        else:
+            return
+
+    parametres['enonce'] = True
+    parametres['corrige'] = (corrige and parametres['creer_unpdf'])
+    with System.Fiche(parametres, template=parametres['modele']) as fiche:
+        fiche.write_tex()
+        shutil.copy(fiche.texname, "{}.tex".format(f0))
+        if parametres['creer_pdf']:
+            fiche.write_pdf()
+            shutil.copy(fiche.pdfname, "{}.pdf".format(f0))
+            fiche.show_pdf("{}.pdf".format(f0))
+
+    if corrige and not parametres['creer_unpdf']:
+        parametres['enonce'] = False
+        parametres['corrige'] = True
+        with System.Fiche(parametres) as fiche:
+            fiche.write_tex()
+            shutil.copy(fiche.texname, "{}.tex".format(f1))
+            if parametres['creer_pdf']:
+                fiche.write_pdf()
+                shutil.copy(fiche.pdfname, "{}.pdf".format(f1))
+                fiche.show_pdf("{}.pdf".format(f1))
 
 #================================================================
 #        Classe Tab

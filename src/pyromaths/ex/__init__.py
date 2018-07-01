@@ -10,7 +10,7 @@ import pkgutil
 import sys
 import types
 
-from ..outils import jinja2
+from ..outils import jinja2tex
 
 class TexExercise:
     """Exercise with TeX support."""
@@ -206,8 +206,8 @@ class Jinja2Exercise(TexExercise):
     @property
     def environment(self):
         """Création de l'environnement Jinja2, duquel sera chargé le template."""
-        return jinja2.LatexEnvironment(
-            loader=jinja2.FileSystemLoader(templatedir())
+        return jinja2tex.LatexEnvironment(
+            loader=jinja2tex.FileSystemLoader(templatedir())
         )
 
     @property

@@ -86,7 +86,7 @@ def facteur(nombre, court="",
     :Exemples:
 
     Cas de base
-        >>> from pyromaths.outils.jinja2 import facteur
+        >>> from pyromaths.outils.jinja2utils import facteur
         >>> facteur(2)
         \numprint{2}
         >>> facteur(2.0)
@@ -287,7 +287,7 @@ def matrice(listes, short=""):
     - La matrice est sous la forme d'une liste de lignes (où chaque ligne est une liste de coefficients).
     - L'argument ``short`` est transmis à :func:`facteur`.
 
-    >>> from pyromaths.outils.jinja2 import matrice
+    >>> from pyromaths.outils.jinja2utils import matrice
     >>> matrice([[1, 2], [3, 4]])
     \begin{pmatrix}\numprint{1} & \numprint{2}\\\numprint{3} & \numprint{4}\\\end{pmatrix}
     """
