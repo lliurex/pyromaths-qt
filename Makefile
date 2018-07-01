@@ -85,7 +85,7 @@ setup := $(PYTHON) setup.py
 ### MACROS
 #
 # Remove manifest file, egg-info dir and target build dir, clean-up sources.
-clean = rm -f MANIFEST.in && rm -rf src/*.egg-info && rm -rf $(BUILDIR) &&\
+clean = rm -f MANIFEST.in && rm -rf *.egg-info && rm -rf $(BUILDIR) &&\
         find . -name '*~' | xargs rm -f && find . -iname '*.pyc' | xargs rm -f
 
 
@@ -129,7 +129,7 @@ clean:
 
 version:
 	# Apply target version ($(VERSION)) to sources
-	$(sed-i) "s/VERSION\s*=\s*'.*'/VERSION = '$(VERSION)'/" src/pyromaths/Values.py
+	$(sed-i) "s/VERSION\s*=\s*'.*'/VERSION = '$(VERSION)'/" pyromaths/Values.py
 
 src: version
 	# Make full-source archive(s) (formats=$(FORMATS))

@@ -52,7 +52,7 @@ except ImportError:
     pass
 
 # Import pyromaths VERSION from source
-_path = normpath(join(abspath(dirname(__file__)), "./src"))
+_path = normpath(abspath(dirname(__file__)))
 sys.path[0] = realpath(_path)
 #sys.path.append('src')
 from pyromaths.Values import VERSION
@@ -225,8 +225,8 @@ setup(
     author      = u"Jérôme Ortais",
     author_email = "jerome.ortais@pyromaths.org",
     # python packages
-    packages    = find_packages('src'),
-    package_dir = {'': 'src'},
+    packages    = find_packages(),
+    #package_dir = {'': 'src'},
     # dependencies
     provides    = ["pyromaths"],
     # platform-specific options

@@ -26,7 +26,7 @@ def data_dir():
                                              getfilesystemencoding()))), path)
     # We're alive
     # Are we running from the sources?
-    data = join(abspath(dirname(__file__)), '../../data/')
+    data = join(abspath(dirname(__file__)), '../data/')
     if exists(data): return normpath(data)
     # Are we running from an egg?
     data = join(abspath(dirname(__file__)), '../share/pyromaths/')
@@ -37,7 +37,7 @@ def data_dir():
 def icon_dir():
     """Renvoie le dossier où se trouve l'icône, selon qu'on utilise pyromaths à
     partir des sources, de l'exécutable win32 ou du paquet deb"""
-    if we_are_frozen() or exists(join(abspath(dirname(__file__)), '../../data/')):
+    if we_are_frozen() or exists(join(abspath(dirname(__file__)), '../data/')):
         return join(DATADIR, 'images', 'pyromaths.png')
     return join('/usr/share/pixmaps', 'pyromaths.png')
 

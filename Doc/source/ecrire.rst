@@ -33,13 +33,13 @@ Les personnes pressées peuvent jeter un œil à deux exercices implémentés da
 
 - un exemple simple (avec très peu de cas particuliers) : la recherche d'état stable.
 
-    - :download:`code Python <../../src/pyromaths/ex/lycee/matrices.py>`
+    - :download:`code Python <../../pyromaths/ex/lycee/matrices.py>`
     - :download:`template de l'énoncé <../../data/ex/templates/EtatStableSysteme2-statement.tex>`
     - :download:`template de la solution <../../data/ex/templates/EtatStableSysteme2-answer.tex>`
 
 - un exemple plus complexe (avec cas particuliers) : bilan sur les polynômes du second degré en seconde.
 
-    - :download:`code Python <../../src/pyromaths/ex/lycee/SecondDegre.py>` ;
+    - :download:`code Python <../../pyromaths/ex/lycee/SecondDegre.py>` ;
     - :download:`template de l'énoncé <../../data/ex/templates/BilanTrinomeSansDiscriminant-statement.tex>` ;
     - :download:`template de la solution <../../data/ex/templates/BilanTrinomeSansDiscriminant-answer.tex>`.
 
@@ -135,7 +135,7 @@ Choisissez un identifiant pour votre exercice : un nom composé uniquement de le
 Code Python
 -----------
 
-Le code Python de l'exercice doit être placé dans un des sous-dossiers de ``src/pyromaths/ex/``. Dans notre cas, ce sera ``src/pyromaths/ex/troisiemes``. Ensuite, modifiez un des fichiers `.py` déjà existant, ou créez-en un nouveau. Gardez une certaine logique : un exercice sur Pythagore a sa place dans le même fichier qu'un autre exercice sur Pythagore ; un exercice de trigonométrie n'a pas sa place dans un fichier ``matrices.py``. Dans notre cas, nous crréons un nouveau fichier contenant le code suivant.
+Le code Python de l'exercice doit être placé dans un des sous-dossiers de ``pyromaths/ex/``. Dans notre cas, ce sera ``pyromaths/ex/troisiemes``. Ensuite, modifiez un des fichiers `.py` déjà existant, ou créez-en un nouveau. Gardez une certaine logique : un exercice sur Pythagore a sa place dans le même fichier qu'un autre exercice sur Pythagore ; un exercice de trigonométrie n'a pas sa place dans un fichier ``matrices.py``. Dans notre cas, nous crréons un nouveau fichier contenant le code suivant.
 
 .. literalinclude:: ecrire/2/equation2.py
    :linenos:
@@ -231,7 +231,7 @@ Du côté de :math:`LaTeX`, nous allons profiter de la bibliothèque jinja2 pour
 
    Notons que les chaînes définissant ces blocs ont été modifiées par rapport aux chaînes initiales, car trop proches de la syntaxe :math:`LaTeX`. Ceci est documenté sur `le site officiel <http://jinja.pocoo.org/docs/2.10/api/#jinja2.Environment>`__, et mis en œuvre dans la classe :class:`pyromaths.ex.Jinja2Exercise`.
 
-   .. literalinclude:: ../../src/pyromaths/ex/__init__.py
+   .. literalinclude:: ../../pyromaths/ex/__init__.py
       :linenos:
       :lineno-start: 200
       :lines: 200-215
@@ -487,7 +487,7 @@ Ajout des fichiers créés ou modifiés
 
 Utilisez ``git add`` pour ajouter les fichiers créés ou modifiés. À priori, cela concerne au moins :
 
-- un fichier python contenant la classe de votre exercice (dans un des dossiers ``src/pyromaths/ex/*``) ;
+- un fichier python contenant la classe de votre exercice (dans un des dossiers ``pyromaths/ex/*``) ;
 - deux fichiers de template :math:`LaTeX` (dans le dossier ``data/ex/templates``) ;
 - la vignette, et le fichier ``md5sum.json`` (dans le dossier ``data/ex/img``) ;
 - les fichiers de test (dans le dossier ``data/ex/tests``) ;

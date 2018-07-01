@@ -21,9 +21,8 @@ from contextlib import contextmanager
 gettext.install('pyromaths', unicode=1)
 
 ROOTDIR = os.path.abspath(os.path.join(os.path.dirname(__file__), os.pardir))
-PYROMATHSPATH = os.path.join(ROOTDIR, "src")
 
-sys.path.insert(0, os.path.realpath(PYROMATHSPATH))
+sys.path.insert(0, os.path.realpath(ROOTDIR))
 # pylint: disable=wrong-import-position
 import pyromaths
 from pyromaths.Values import data_dir, configdir

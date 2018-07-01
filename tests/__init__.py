@@ -21,6 +21,6 @@ import sys
 
 def extend_path():
     """Add pyromaths to the path."""
-    sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "src")))
+    sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), os.pardir)))
 
 extend_path()
