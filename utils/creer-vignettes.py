@@ -1,5 +1,4 @@
-#!/usr/bin/python
-# -*- coding: utf-8 -*-
+#!/usr/bin/env python3
 
 # pylint: disable=invalid-name
 
@@ -22,9 +21,8 @@ from contextlib import contextmanager
 gettext.install('pyromaths', unicode=1)
 
 ROOTDIR = os.path.abspath(os.path.join(os.path.dirname(__file__), os.pardir))
-PYROMATHSPATH = os.path.join(ROOTDIR, "src")
 
-sys.path.insert(0, os.path.realpath(PYROMATHSPATH))
+sys.path.insert(0, os.path.realpath(ROOTDIR))
 # pylint: disable=wrong-import-position
 import pyromaths
 from pyromaths.Values import data_dir, configdir
@@ -117,8 +115,7 @@ def md5sum(exo):
     """Calcule et renvoit le hash md5sum de l'énoncé 0 de l'exercice."""
     random.seed(0)
     return hashlib.md5(
-        "\n"
-        .join(exo().tex_statement())
+        exo().tex_statement()
         .encode(errors="backslashreplace")
         ).hexdigest()
 

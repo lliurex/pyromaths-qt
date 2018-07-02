@@ -1,4 +1,3 @@
-% entete
 %%!TEX TS-program = latex
 \documentclass[a4paper,11pt]{article}
 \usepackage[utf8]{inputenc} % UTF-8
@@ -103,18 +102,51 @@
 \cfoot{\textsl{\footnotesize{Année \number\count1/\number\count2}}}
 \rfoot{\textsl{\tiny{http://www.pyromaths.org}}}
 \lhead{\textsl{\footnotesize{Page \thepage/ \pageref{LastPage}}}}
-\chead{\Large{\textsc{##{{TITRE}}##}}}
-\rhead{\textsl{\footnotesize{##{{NIVEAU}}##}}}
+\chead{\Large{\textsc{(( titre ))}}}
+\rhead{\textsl{\footnotesize{(( niveau ))}}}
 
 \begin{document}
-##{{BOOKMARK}}##
+\currentpdfbookmark{Les énoncés des exercices}{Énoncés}
 \newcounter{nocalcul}[exo]
 \renewcommand{\thenocalcul}{\Alph{nocalcul}}
 \raggedcolumns
 \setlength{\columnseprule}{0.5pt}
-% fin entete
 
+(* if enonce *)
+    (* for exo in exercices *)
 
-% pied de page
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Exercice (( exo.name() ))
+(( exo.tex_statement() ))
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+    (* endfor *)
+
+\label{LastPage}
+(* endif *)
+
+(* if enonce and corrige *)
+\newpage
+\currentpdfbookmark{Le corrigé des exercices}{Corrigé}
+\lhead{\textsl{{\footnotesize Page \thepage/ \pageref{LastCorPage}}}}
+\setcounter{page}{1}
+\setcounter{exo}{0}
+(* endif *)
+
+(* if corrige *)
+    (* for exo in exercices *)
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Exercice (( exo.name() ))
+(( exo.tex_answer() ))
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+    (* endfor *)
+
+\label{LastCorPage}
+(* if corrige and not enonce *)
+\label{LastPage}
+(* endif *)
+(* endif *)
+
 \end{document}
-% fin pied de page

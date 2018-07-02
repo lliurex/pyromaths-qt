@@ -1,5 +1,5 @@
-#!/usr/bin/python
-# -*- coding: utf8 -*-
+#!/usr/bin/env python3
+
 """
 Build script for pyromaths.
 
@@ -10,21 +10,21 @@ several platforms. Packages should be functional, although further optimization
 may be operated by other scripts (see: pkg/README).
 
 Python source and bynary eggs (all platforms):
-    $ python setup.py [sdist|bdist|bdist_egg] [options...]
+    $ python3 setup.py [sdist|bdist|bdist_egg] [options...]
 
 RPM package (UNIX/Linux):
     $ ./setup.py bdist_rpm [options...]
 
 Self-contained application (Mac OS X):
-    $ python setup.py py2app [options...]
+    $ python3 setup.py py2app [options...]
 
 Self-contained application (Windows):
-    $ python setup.py py2exe [options...]
-    $ python setup.py innosetup [options...]
+    $ python3 setup.py py2exe [options...]
+    $ python3 setup.py innosetup [options...]
 
 Help and options:
-    $ python setup.py --help
-    $ python setup.py --help-commands
+    $ python3 setup.py --help
+    $ python3 setup.py --help-commands
 
 Created on 13 avr. 2013
 @author: Olivier Cornu <o.cornu@gmail.com>
@@ -42,7 +42,7 @@ import gettext
 locale_dir = join(dirname(__file__), 'locale/')
 locale_dir = realpath(locale_dir)
 
-gettext.install('pyromaths', localedir=locale_dir, unicode=1)
+gettext.install('pyromaths', localedir=locale_dir)
 
 py2exe, innosetup = None, None
 try:
@@ -52,11 +52,11 @@ except ImportError:
     pass
 
 # Import pyromaths VERSION from source
-_path = normpath(join(abspath(dirname(__file__)), "./src"))
+_path = normpath(abspath(dirname(__file__)))
 sys.path[0] = realpath(_path)
 #sys.path.append('src')
 from pyromaths.Values import VERSION
-print "Version ", VERSION
+print("Version ", VERSION)
 
 COMMON_INSTALL_REQUIRES = ['jinja2']
 
@@ -64,10 +64,16 @@ def _unix_opt():
     '''UNIX/Linux: generate Python eggs and RPM packages.'''
     return dict(
             platforms  = ['unix'],
-            scripts    = ['pyromaths'],
+            entry_points = {
+                "console_scripts": [
+                    "pyromaths = pyromaths.__main__:main",
+                    "pyromaths-qt = pyromaths.qt.__main__:main",
+                    ],
+                },
             data_files = [
             ('share/applications',     ['data/linux/pyromaths.desktop']),
             ('share/man/man1',         ['data/linux/pyromaths.1']),
+            ('/etc/bash_completion.d/', ['data/linux/pyromaths']),
             ('share/pixmaps/',         ['data/images/pyromaths.png']),
             ('share/pyromaths/images', ['data/images/pyromaths-banniere.png',
                                         'data/images/whatsthis.png']),
@@ -104,7 +110,7 @@ def _mac_opt():
                           'bz2', 'datetime', 'gestalt', 'MacOS',
                           'pyexpat', 'rurce', 'strop', 'unicodedata']
     site_packages_unused = ['_osx_support', '_builtinSuites', 'Carbon',
-                            'distutils', 'Finder', 'StdSuites','xml','getopt', 
+                            'distutils', 'Finder', 'StdSuites','xml','getopt',
                             'repr', '_strptime', 'sets', '_threading_local',
                             'sre', 'bdb', 'optparse.', 'ssl',
                             'calendar', 'pdb', 'stringprep', 'cmd',
@@ -121,7 +127,7 @@ def _mac_opt():
                   argv_emulation = True,
                   )
     return dict(
-        app        = ['src/pyromaths.py'],
+        app        = ['utils/pyromaths-qt'],
         data_files = [
             ( 'data', ['data/qtmac_fr.qm']),
             ( 'data/images', ['data/images/pyromaths.png',
@@ -159,7 +165,7 @@ Name: "{commondesktop}\Pyromaths"; Filename: "{app}\pyromaths.exe"
           # (r'data/packages', glob(r'data/packages/*')),
         ] + find_data_files('data/ex','data/ex/',['img/*.png', 'templates/*.tex']),
         zipfile = None,
-        windows = [dict(script="pyromaths",
+        windows = [dict(script="utils/pyromaths-qt",
                         icon_resources=[(1, 'data/images/pyromaths.ico')],
                         )
                    ],
@@ -219,8 +225,8 @@ setup(
     author      = u"Jérôme Ortais",
     author_email = "jerome.ortais@pyromaths.org",
     # python packages
-    packages    = find_packages('src'),
-    package_dir = {'': 'src'},
+    packages    = find_packages(),
+    #package_dir = {'': 'src'},
     # dependencies
     provides    = ["pyromaths"],
     # platform-specific options

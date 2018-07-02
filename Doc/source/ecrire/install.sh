@@ -5,7 +5,7 @@
 DOCDIR=$(pwd)/$(dirname $0)
 ROOT=$DOCDIR/../../..
 TEMPLATEDIR=$ROOT/data/ex/templates
-EXERCICEDIR=$ROOT/src/pyromaths/ex/troisiemes
+EXERCICEDIR=$ROOT/pyromaths/ex/troisiemes
 
 cd $TEMPLATEDIR
 for template in $DOCDIR/*/*tex

@@ -94,7 +94,7 @@ Opérations mathématiques
     >>> repr(Fraction(2,5) * 4)
     Fraction(8, 5)
 
-* Quotient (:func:`Fraction.__div__` et :func:`Fraction.__rdiv__`)
+* Quotient (:func:`Fraction.__div__` et :func:`Fraction.__rtruediv__`)
 
   .. doctest:: fraction
 
@@ -219,7 +219,7 @@ Conversions
   .. doctest:: fraction
 
       >>> float(Fraction(5, 6))
-      0.833333333333
+      0.8333333333333334
 
 * Conversion en entier (:func:`Fraction.__int__`). Cette méthode ne fonctionne que si la fraction est égale à un nombre entier. Sinon, elle lève une exception.
 
@@ -261,10 +261,8 @@ Polynômes
 
 .. note::
 
-    Deux autres classes permettent de manipuler des polynômes :
-
-    - :ref:`polynomes_college` : orienté vers la résolution de problèmes de collège (avec davantage de détails lors des calculs, par exemple) ;
-    - :ref:`polynomes_degre2` : pour la manipulation exclusive des polynômes du second degré.
+    Une autres classes permettent de manipuler des polynômes :
+    :ref:`polynomes_college`, orienté vers la résolution de problèmes de collège (avec davantage de détails lors des calculs, par exemple).
 
 Création
 """"""""
@@ -274,9 +272,9 @@ Création
   .. doctest:: polynome
 
       >>> repr(Polynome("x^2-3x+1"))
-      Polynome({0: 1, 1: -3, 2: Fraction(1, 1)}, var="x")
+      Polynome({2: Fraction(1, 1), 1: -3, 0: 1}, var="x")
       >>> repr(Polynome({2: 4, 1:8, 0:1, 3:0}))
-      Polynome({0: Fraction(1, 1), 1: Fraction(8, 1), 2: Fraction(4, 1)}, var="x")
+      Polynome({2: Fraction(4, 1), 1: Fraction(8, 1), 0: Fraction(1, 1)}, var="x")
 
 * Si l'argument est une liste, les coefficients sont donnés dans l'ordre des degrés des monômes (plus bas degré en premier), ce qui est l'inverse du sens de lecture habituel (plus haut degré en premier).
 
@@ -375,7 +373,8 @@ Opérations
      >>> Polynome([1, 2, 3]) / Polynome([-2, 1])
      (Polynome({0: 8, 1: Fraction(3, 1)}, var="x"), Polynome({0: Fraction(17, 1)}, var="x"))
      >>> (Polynome([1, 2, 3]) * Polynome([3, -1])) / Polynome([3, -1])
-     (Polynome({0: 1, 1: Fraction(2, 1), 2: 3}, var="x"), Polynome({0: 0}, var="x"))
+     (Polynome({0: 1, 2: 3, 1: Fraction(2, 1)}, var="x"), Polynome({0: 0}, var="x"))
+
 
 * Comparaison (:func:`Polynome.__eq__` et :func:`Polynome.__ne__`).
 
@@ -394,7 +393,7 @@ Opérations spécifiques
   .. doctest:: polynome
 
      >>> repr(Polynome([2, Fraction(12, 4)]).simplifie())
-     Polynome({0: Fraction(2, 1), 1: Fraction(3, 1)}, var="x")
+     Polynome({1: Fraction(3, 1), 0: Fraction(2, 1)}, var="x")
 
 * Calcul d'image (:func:`Polynome.__call__`).
 
@@ -430,12 +429,10 @@ Opérations spécifiques
   .. doctest:: polynome
 
      >>> Polynome([-2, -1, 1]).factorise()
-     [Polynome({0: 1}, var="x"), Polynome({0: Fraction(1, 1), 1: Fraction(1, 1)}, var="x"), Polynome({0: Fraction(-2, 1), 1: Fraction(1, 1)}, var="x"), Polynome({0: 1}, var="x")]
+     [Polynome({0: 1}, var="x"), Polynome({1: Fraction(1, 1), 0: Fraction(1, 1)}, var="x"), Polynome({1: Fraction(1, 1), 0: Fraction(-2, 1)}, var="x"), Polynome({0: 1}, var="x")]
      >>> # Polynôme de degré 3 avec une seule racine (pas évidente)
      >>> Polynome([-6, -7, -8, 15]).factorise()
-     Traceback (most recent call last):
-         ...
-     TypeError: ...
+     [Polynome({0: 15}, var="x"), Polynome({0: Fraction(-2, 5), 3: Fraction(1, 1), 2: Fraction(-8, 15), 1: Fraction(-7, 15)}, var="x")]
 
 
 * Dérivation (:func:`Polynome.derive`).
@@ -548,7 +545,7 @@ Constructeur
     >>> random.seed(0)
     None
     >>> choix_points(-4, 4, nb=5)
-    ((-4, 1), (-3, -1), (-1, -4), (0, -3), (1, 0))
+    ((-3, -2), (-2, 1), (-1, 0), (0, -3), (1, -1))
 
 
 Caractéristiques
@@ -660,12 +657,6 @@ Opérations spécifiques
 
      >>> Polynome([[-3, 2], [2, 1], [1, 0]])(2)
      -3*2**2+2*2+1
-     >>> Polynome([[-3, 2], [2, 1], [1, 0]])("z")
-     -3*'z'**2+2*'z'+1
-     >>> # Les parenthèses ne sont pas ajoutées pour les arguments « composés »
-     >>> Polynome([[-3, 2], [2, 1], [1, 0]])("z+1")
-     -3*'z+1'**2+2*'z+1'+1
-
 
 * Dérivée (:func:`Polynome.derive`).
 
@@ -752,71 +743,6 @@ LaTeX
      >>> str(Polynome([[-3, 2], [2, 1], [1, 0]], var="z"))
      -3\,z^{2}+2\,z+1
 
-
-.. _polynomes_degre2:
-
-Polynômes du second degré
--------------------------
-
-Cette classe est moins générique que la classe :ref:`polynomes` décrite plus haut, mais elle permet de faire des opérations spécifiques aux polynômes de degré 2.
-
-.. testsetup:: polynomedegre2
-
-   from pyromaths.classes.SecondDegre import *
-
-Constructeur
-""""""""""""
-
-* Constructeur (:func:`Poly2.__init__`). Les arguments sont les valeurs des coefficients `a`, `b`, `c` du polynôme noté `ax²+bx+c`.
-
-  .. doctest:: polynomedegre2
-
-     >>> repr(Poly2(2, 3, 4))
-     Poly2(2, 3, 4)
-
-* L'argument `a` doit être non nul.
-
-  .. doctest:: polynomedegre2
-
-     >>> Poly2(0, 3, 4)
-     Traceback (most recent call last):
-         ...
-     AssertionError: "Erreur de définition ! a doit être différent de 0."
-
-Opérations
-""""""""""
-
-* Somme (:func:`Poly2.__add__`, :func:`Poly2.__radd__`).
-
-  .. doctest:: polynomedegre2
-
-     >>> repr(Poly2(2, 3, 4) + Poly2(1, 1, 0))
-     Poly2(3, 4, 4)
-
-* Différence (:func:`Poly2.__sub__`, :func:`Poly2.__rsub__`).
-
-  .. doctest:: polynomedegre2
-
-     >>> repr(Poly2(2, 3, 4) - Poly2(1, 0, 1))
-     Poly2(1, 3, 3)
-
-LaTeX
-"""""
-
-* Conversion en LaTeX (:func:`Poly2.__str__`).
-
-  .. doctest:: polynomedegre2
-
-     >>> str(Poly2(2, 3, 4))
-     2x^2+3x+4
-
-* Comparaison (:func:`Poly2.print_signe`).
-
-  .. doctest:: polynomedegre2
-
-     >>> Poly2(2, 3, 4).print_signe("\leq")
-     2x^2+3x+4 \leq 0
-
 Conversion en LaTeX
 -------------------
 
@@ -856,8 +782,7 @@ Nombres
      3{,}4
      >>> decimaux("1234567890")
      1\,234\,567\,890
-     >>> # Le "e" est optionnel, mais considérez cela comme un bug.
-     >>> decimaux("34-1")
+     >>> decimaux("34e-1")
      3,4
 
 .. currentmodule:: pyromaths.outils.Affichage
@@ -1066,13 +991,13 @@ Calculs avec étapes
 Jinja2
 ------
 
-:ref:`Ce module <pyromaths.outils.jinja2>` fournit des outils à utiliser avec les templates `jinja2 <http://jinja2.pocoo.org>`__ (voir le :ref:`tutoriel de création d'exercices <ecrire>` pour plus d'informations).
+:ref:`Ce module <pyromaths.outils.jinja2utils>` fournit des outils à utiliser avec les templates `jinja2 <http://jinja2.pocoo.org>`__ (voir le :ref:`tutoriel de création d'exercices <ecrire>` pour plus d'informations).
 
-.. currentmodule:: pyromaths.outils.jinja2
+.. currentmodule:: pyromaths.outils.jinja2utils
 
 .. testsetup:: jinja2
 
-   from pyromaths.outils.jinja2 import *
+   from pyromaths.outils.jinja2utils import *
 
 * Affichage de facteurs
 

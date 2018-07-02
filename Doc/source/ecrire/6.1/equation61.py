@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-#
 # Pyromaths
 #
 # Un programme en Python qui permet de créer des fiches d'exercices types de
@@ -26,16 +24,15 @@
 
 import random
 
-from pyromaths.ex import Jinja2Exercice
-from pyromaths.outils.jinja2 import facteur
+from pyromaths.ex import Jinja2Exercise
+from pyromaths.outils.jinja2utils import facteur
 
-class EquationPremierDegre61(Jinja2Exercice):
-
-    description = u"Résolution d'équations du premier degré à coefficients entiers."
-    level = u'3.Troisième'
+class EquationPremierDegre61(Jinja2Exercise):
+    """Résolution d'équations du premier degré à coefficients entiers."""
+    tags = ['Troisième']
 
     def __init__(self):
-        super(EquationPremierDegre61, self).__init__()
+        super().__init__()
 
         a = random.choice([1, -1]) * random.randint(2, 9)
         b = random.choice([1, -1]) * random.randint(2, 9)
@@ -68,8 +65,8 @@ class EquationPremierDegre61(Jinja2Exercice):
                 calculs.append(r"x&={}\\".format(solution))
                 conclusion = r"L'unique solution est $x = {}$.".format(solution)
             else:
-                calculs.append(r"x&\approx{}\\".format(solution))
-                conclusion = r"L'unique solution est $x \approx {}$.".format(solution)
+                calculs.append(r"x&\simeq{}\\".format(solution))
+                conclusion = r"L'unique solution est $x \simeq {}$.".format(solution)
         self.context = {
             "a": a,
             "b": b,

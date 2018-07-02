@@ -1,0 +1,16 @@
+\exercice
+Pour chacune des suites $u$ suivantes, calculer :
+ (a) le sixième terme ;
+ (b) le terme de rang 5 ;
+ (c) $u_6$.
+\begin{enumerate}
+  \item $u$ est une suite de premier terme $u_2=4$, et dont chaque terme (sauf le premier) est égal au terme précédent auquel on soustrait 1.
+  \item $\left(u_n\right)$ est la suite définie pour $n\geqslant 0$ par : $u_n=\frac{ 1 }{ 4 }n$.
+
+\item $u$ est la suite définie pour $n\geqslant 3$ par :
+    \[\left\{\begin{array}{l}
+      u_3=8\\
+      \text{Pour tout $n\geqslant 3$ : } u_{n+1}=2u_n+4.
+  \end{array}\right.\]
+
+\end{enumerate}

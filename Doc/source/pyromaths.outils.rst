@@ -7,6 +7,6 @@ Les outils de Pyromaths
     pyromaths.outils.Affichage.rst
     pyromaths.outils.Arithmetique.rst
     pyromaths.outils.Conversions.rst
-    pyromaths.outils.jinja2.rst
+    pyromaths.outils.jinja2utils.rst
     pyromaths.outils.Priorites3.rst
 

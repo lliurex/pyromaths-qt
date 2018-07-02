@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-#
 # Pyromaths documentation build configuration file, created by
 # sphinx-quickstart on Fri May 17 09:31:13 2013.
 #
@@ -17,10 +15,10 @@ locale.setlocale(locale.LC_TIME,'')
 # If extensions (or modules to document with autodoc) are in another directory,
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
-sys.path.insert(0, os.path.abspath('../../src/'))
+sys.path.insert(0, os.path.abspath('../../'))
 
 import gettext
-gettext.install('pyromaths', unicode=1)
+gettext.install('pyromaths')
 
 from pyromaths.Values import VERSION, COPYRIGHT_YEAR
 
