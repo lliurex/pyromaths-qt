@@ -66,7 +66,6 @@ def _unix_opt():
             platforms  = ['unix'],
             entry_points = {
                 "console_scripts": [
-                    "pyromaths = pyromaths.__main__:main",
                     "pyromaths-qt = pyromaths.qt.__main__:main",
                     ],
                 },
@@ -208,16 +207,16 @@ else:
 # Long description is copied from README file
 if innosetup:
     # innosetup fails with generated multiline long description
-    README = "Create maths exercises in LaTeX and PDF format"
+    README = "Create maths exercises in LaTeX and PDF format --- QT client."
 else:
-    with codecs.open('README', encoding='utf-8', mode='r') as file:
+    with codecs.open('README.md', encoding='utf-8', mode='r') as file:
         README = file.read()
 
 setup(
     # project metadata
-    name        = "pyromaths",
+    name        = "pyromaths-qt",
     version     = VERSION,
-    description = "Create maths exercises in LaTeX and PDF format",
+    description = "Create maths exercises in LaTeX and PDF format --- QT client",
     long_description = README,
     license     = "GPL",
     url         = "http://www.pyromaths.org",
@@ -228,7 +227,7 @@ setup(
     packages    = find_packages(),
     #package_dir = {'': 'src'},
     # dependencies
-    provides    = ["pyromaths"],
+    provides    = ["pyromaths.qt"],
     # platform-specific options
     **options
 )

@@ -10,8 +10,8 @@
 
 override_dh_auto_clean:
 
-	rm -rf debian/pyromaths
+	rm -rf debian/pyromaths-qt
 	find $(CURDIR) -name "*\.py[co]" | xargs rm -f
 
 #override_dh_python3:
-	#dh_python3 /usr/lib/python3/dist-packages/pyromaths
+	#dh_python3 /usr/lib/python3/dist-packages/pyromaths-qt
