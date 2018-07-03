@@ -102,8 +102,10 @@
 \cfoot{\textsl{\footnotesize{Année \number\count1/\number\count2}}}
 \rfoot{\textsl{\tiny{http://www.pyromaths.org}}}
 \lhead{\textsl{\footnotesize{Page \thepage/ \pageref{LastPage}}}}
-\chead{\Large{\textsc{(( titre ))}}}
+\chead{\Large{\textsc{(* if titre *)(( titre ))(* else *)Exercices(* endif *)}}}
+(* if niveau *)
 \rhead{\textsl{\footnotesize{(( niveau ))}}}
+(* endif *)
 
 \begin{document}
 \currentpdfbookmark{Les énoncés des exercices}{Énoncés}
