@@ -26,6 +26,8 @@ import argparse
 import gettext
 import logging
 import random
+import shutil
+import subprocess
 import sys
 
 from os.path import join, dirname, realpath
@@ -41,7 +43,8 @@ _ = gettext.gettext
 #gettext.install('pyromaths')
 
 from pyromaths.cli import exercise_argument, PyromathsException
-from pyromaths.ex.test import TestPerformer, generate
+from pyromaths.ex import ExerciseBag
+from pyromaths.outils.System import Fiche
 from pyromaths.Values import VERSION
 
 # Logging configuration
@@ -137,32 +140,47 @@ def do_dummy(options):
 
 def do_generate(options):
     """Action for command line 'generate'."""
-    tests = TestPerformer()
 
     if options.pipe is None:
         options.pipe = []
     else:
         options.pipe = [item[0] for item in options.pipe]
 
+    bag = ExerciseBag()
     exercise_list = []
+
     for exercise, seeds in options.exercise:
         if not seeds:
             seeds = [random.randint(0, sys.maxsize)]
         for seed in seeds:
-            exercise_list.append(tests.get(exercise, seed).get_exercise())
+            exercise_list.append(bag[exercise](seed))
 
-    generate(
         exercise_list,
-        destname=options.output,
-        pipe=options.pipe,
-        )
+    parametres = {
+        'enonce': True,
+        'corrige': True,
+        'exercices': exercise_list,
+        }
+    with Fiche(parametres) as fiche:
+        fiche.write_tex()
+        for command in options.pipe:
+            formatted = command.format(fiche.texname)
+            if formatted == command:
+                formatted = '{} {}'.format(command, fiche.texname)
+            subprocess.run(
+                    formatted,
+                    shell=True,
+                    cwd=fiche.workingdir,
+                    )
+        fiche.write_pdf()
+        shutil.copy(fiche.pdfname, options.output)
 
 def do_ls(options): # pylint: disable=unused-argument
     """Perform the `ls` command."""
-    tests = TestPerformer()
-    for name in sorted(tests.iter_names(), key=str.lower):
+    bag = ExerciseBag()
+    for name in sorted(bag, key=str.lower):
         if options.verbose:
-            print(u"{}: {}".format(name, tests.exercises[name].description())) # pylint: disable=superfluous-parens
+            print(u"{}: {}".format(name, bag[name].description())) # pylint: disable=superfluous-parens
         else:
             print(name) # pylint: disable=superfluous-parens
 

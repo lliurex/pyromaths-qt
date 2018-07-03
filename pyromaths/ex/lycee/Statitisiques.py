@@ -39,10 +39,9 @@ class _Histogramme(ex.TexExercise):
 
     tags = ["Seconde"]
 
-    def __init__(self):
-        '''
-        Constructor
-        '''
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
         echelle1 = 5 * 2 ** randrange(1, 6)
         debut = randrange(0, 4) * 10 ** randrange(0, 4)
         classes = [debut]

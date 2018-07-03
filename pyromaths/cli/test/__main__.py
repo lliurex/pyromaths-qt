@@ -26,6 +26,7 @@ import argparse
 import gettext
 import logging
 import sys
+import tempfile
 import unittest
 
 # Quick and dirty definition of `_` as the identity function
@@ -141,24 +142,26 @@ def do_create(options):
     """Action for command line 'create'."""
     tests = TestPerformer()
 
-    for exercise, seeds in options.exercise:
-        if not seeds:
-            seeds = [0]
-        for seed in seeds:
-            test = tests.get(exercise, seed)
-            test.show()
-            if ask_confirm("Is the test valid?"):
-                test.write()
+    with tempfile.TemporaryDirectory(prefix="pyromaths") as tempdir:
+        for exercise, seeds in options.exercise:
+            if not seeds:
+                seeds = [0]
+            for seed in seeds:
+                test = tests.get(exercise, seed)
+                test.show(dir=tempdir)
+                if ask_confirm("Is the test valid?"):
+                    test.write_test()
 
 def do_missing(options): # pylint: disable=unused-argument
     """Action for command line 'missing'."""
     tests = TestPerformer()
 
-    for exercise in tests.iter_missing():
-        test = tests.get(exercise, 0)
-        test.show()
-        if ask_confirm("Is the test valid?"):
-            test.write()
+    with tempfile.TemporaryDirectory(prefix="pyromaths") as tempdir:
+        for exercise in tests.iter_missing():
+            test = tests.get(exercise, 0)
+            test.show(dir=tempdir)
+            if ask_confirm("Is the test valid?"):
+                test.write_test()
 
 def do_remove(options):
     """Action for command line 'remove'."""
@@ -198,14 +201,15 @@ def do_update(options):
     """Action for command line 'update'."""
     tests = TestPerformer()
 
-    for exercise, seeds in get_exercise_list_or_all(tests, options.exercise):
-        for seed in seeds:
-            test = tests.get(exercise, seed)
-            if test.changed():
-                test.show()
-                test.print_diff()
-                if ask_confirm("Is the test valid?"):
-                    test.write()
+    with tempfile.TemporaryDirectory(prefix="pyromaths") as tempdir:
+        for exercise, seeds in get_exercise_list_or_all(tests, options.exercise):
+            for seed in seeds:
+                test = tests.get(exercise, seed)
+                if test.changed():
+                    test.show(dir=tempdir)
+                    test.print_diff()
+                    if ask_confirm("Is the test valid?"):
+                        test.write_test()
 
 def do_check(options):
     """Run the tests"""

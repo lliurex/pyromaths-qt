@@ -50,8 +50,8 @@ class BilanTrinomeSansDiscriminant(Jinja2Exercise):
 
     tags = ["Seconde"]
 
-    def __init__(self):
-        super().__init__()
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
 
         while True:
             a = Decimal(random.choice([-1, 1]) * random.choice([0.5, 2]))
@@ -137,7 +137,9 @@ class Sd1FormeCanonique(ex.TexExercise):
 
     tags = ["1èreS"]
 
-    def __init__(self):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
         m = [[1, 2], [2 * randrange(1, 10) * (-1) ** randrange(2), 1], [randrange(1, 10) * (-1) ** randrange(2), 0]]
         pol = [[['Polynome(%s, "x", details=0)' % m]]]
         pol[0].extend(self.resolution(m))
@@ -276,7 +278,9 @@ class Sd2aRacines(ex.TexExercise):
 
     tags = ["1èreS"]
 
-    def __init__(self):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
         pol = [creerPolydegre2(nb_racines=2, rac_radical=True, rac_quotient=False)]
         pol.append(creerPolydegre2(nb_racines=1))
         a, b = valeur_alea(-9, 9), valeur_alea(-9, 9)
@@ -406,7 +410,9 @@ class _Sd2bEquations(ex.TexExercise):
 
     tags = ["1èreS"]
 
-    def __init__(self):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
         pol = [creerPolydegre2(nb_racines=2, rac_radical=False, rac_quotient=False)]
         pol.append(creerPolydegre2(nb_racines=1))
         a, b = valeur_alea(-9, 9), valeur_alea(-9, 9)
@@ -450,7 +456,9 @@ class _Sd3aSigne(ex.TexExercise):
 
     tags = ["1èreS"]
 
-    def __init__(self):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
         pol = [[valeur_alea(-9, 9), 2 - dummy] for dummy in range(3)]
         while pol[1][0] ** 2 - 4 * pol[0][0] * pol[2][0] >= 0:
             pol = [[valeur_alea(-9, 9), 2 - dummy] for dummy in range(3)]
@@ -493,7 +501,9 @@ class _Sd3bInequations(ex.TexExercise):
 
     tags = ["1èreS"]
 
-    def __init__(self):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
         pol = creerPolydegre2(nb_racines=2, rac_radical=False, rac_quotient=False).monomes
         pol2 = [[valeur_alea(-9, 9), 1], [valeur_alea(-9, 9), 0]]
         shuffle(pol)
@@ -515,7 +525,9 @@ class _Sd4Factorisation(ex.TexExercise):
 
     tags = ["1èreS"]
 
-    def __init__(self):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
         val = [valeur_alea(-9, 9), valeur_alea(-9, 9)]
         val.append(Fraction(valeur_alea(-9, 9), val[0]))
         while val[2].d == 1:
@@ -560,7 +572,9 @@ class _Sd5Caracteristiques(ex.TexExercise):
 
     tags = ["1èreS"]
 
-    def __init__(self):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
         val = [valeur_alea(-9, 9), valeur_alea(-9, 9) , valeur_alea(-9, 9)]
         pol = Polynome([[val[0], 2], [(-val[0] * (val[1] + val[2])), 1], [(val[0] * val[1] * val[2]), 0]])
         while val[2] == val[1] or abs(val[0] * val[1] * val[2]) > 10 or abs(eval(pol((val[1] + val[2]) / 2))) > 10:
@@ -599,7 +613,9 @@ class _Sd6Parametre(ex.TexExercise):
 
     tags = ["1èreS"]
 
-    def __init__(self):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
         [a, b, c, d] = [randrange(-5, 6) for dummy in range(4)]
         while a == 0 or c == 0 or a ** 2 * d - a * b * c + c ** 2 < 0 or carrerise(a ** 2 * d - a * b * c + c ** 2) != 1:
             [a, b, c, d] = [randrange(-5, 6) for dummy in range(4)]

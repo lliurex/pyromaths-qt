@@ -1,19 +1,34 @@
 #!/usr/bin/env python3
 
+import codecs
 import collections
+import difflib
 import importlib
 import inspect
 import logging
 import operator
 import os
 import pkgutil
+import random
+import shutil
+import subprocess
 import sys
+import tempfile
 import types
 
 from ..outils import jinja2tex
+from .test import test_path
+from ..outils.System import Fiche
 
 class TexExercise:
     """Exercise with TeX support."""
+
+    def __init__(self, seed=None):
+        if seed is None:
+            self.seed = random.randint(0, sys.maxsize)
+        else:
+            self.seed = seed
+        random.seed(self.seed)
 
     @classmethod
     def name(cls):
@@ -29,13 +44,87 @@ class TexExercise:
         return os.path.join(data_dir(), 'ex', 'img', "%s.png" % cls.name())
 
     def tex_statement(self):
-        ''' Return problem statement in TeX format. '''
+        """Return problem statement in TeX format."""
         raise NotImplementedError()
 
     def tex_answer(self):
-        ''' Return full answer in TeX format. '''
+        """Return full answer in TeX format."""
         raise NotImplementedError()
 
+    ################################################################################
+    # Tests
+
+    def show(self, *, dir=None):
+        """Generate exercise, and display its result."""
+        subprocess.run(["gio", "open", self.generate(dir=dir)])
+
+    def generate(self, *, dir=None):
+        """Generate a single exercise.
+
+        Return the pdf name.
+        """
+        parametres = {
+            'enonce': True,
+            'corrige': True,
+            'exercices': [self],
+            }
+        output = os.path.join(
+            tempfile.mkdtemp(dir=dir),
+            "{}-{}.pdf".format(self.name(), self.seed),
+            )
+        with Fiche(parametres) as fiche:
+            fiche.write_pdf()
+            shutil.copy(fiche.pdfname, output)
+        return output
+
+    def test_path(self, name):
+        """Return the path of the file containing expected results."""
+        return test_path(
+            self.name(),
+            self.seed,
+            name,
+            )
+
+    def write_test(self):
+        """Write expected test results."""
+        with codecs.open(self.test_path("statement"), "w", "utf8") as statement:
+            statement.write(self.tex_statement())
+        with codecs.open(self.test_path("answer"), "w", "utf8") as answer:
+            answer.write(self.tex_answer())
+
+    def read_test(self, choice):
+        """Read expected test result."""
+        with codecs.open(self.test_path(choice), "r", "utf8") as result:
+            return result.read()
+
+    def changed(self):
+        """Return `True` iff exercise has changed."""
+        if self.tex_statement() != self.read_test('statement'):
+            return True
+        if self.tex_answer() != self.read_test('answer'):
+            return True
+        return False
+
+    def print_diff(self):
+        """Print the diff between old and new test."""
+        if self.tex_statement() != self.read_test('statement'):
+            print("Statement:")
+            for line in difflib.unified_diff(
+                    self.read_test('statement').splitlines(),
+                    self.tex_statement().splitlines(),
+                    fromfile='Old statement',
+                    tofile='New statement',
+                    ):
+                print(line)
+        if self.tex_answer() != self.read_test('answer'):
+            print("Answer:")
+            for line in difflib.unified_diff(
+                    self.read_test('answer').splitlines(),
+                    self.tex_answer().splitlines(),
+                    fromfile='Old answer',
+                    tofile='New answer',
+                    ):
+                print(line)
 
 class LegacyExercise(TexExercise):
     """Base class for legacy format exercise proxies.
@@ -43,7 +132,8 @@ class LegacyExercise(TexExercise):
     This class is deprecated. Do not use it to write new exercises.
     """
 
-    def __init__(self):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
         self.stat, self.ans = self.__class__.function()
 
     def tex_statement(self):
@@ -199,8 +289,8 @@ def templatedir():
 class Jinja2Exercise(TexExercise):
     """Exercice utilisant un template jinja2."""
 
-    def __init__(self):
-        super().__init__()
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
         self.context = {}
 
     @property

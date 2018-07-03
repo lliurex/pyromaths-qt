@@ -74,122 +74,6 @@ def test_path(name, seed, choice):
         "%s.%s.%s" % (name, seed, choice)
         )
 
-def generate(exercise_list, openpdf=False, destname=None, pipe=None):
-    """Generate exercise list as a pdf, and return the resulting pdf name.
-
-    :param openpdf: Open pdf at the end of compilation.
-    :param str destname: Destination name (use ``None`` to use the default name).
-    :param list pipe: List of commands executed on the tex file before compilation.
-    """
-    tempdir = tempfile.mkdtemp()
-
-    old_dir = os.path.abspath(os.getcwd())
-    System.creation({
-        'creer_pdf': True,
-        'creer_unpdf': True,
-        'titre': u"Fiche de révisions",
-        'corrige': True,
-        'niveau': "test",
-        'nom_fichier': u'test.tex',
-        'chemin_fichier': tempdir,
-        'fiche_exo': os.path.join(tempdir, 'exercises.tex'),
-        'fiche_cor': os.path.join(tempdir, 'exercises-corrige.tex'),
-        'datadir': pyromaths.Values.data_dir(),
-        'configdir': pyromaths.Values.configdir(),
-        'modele': 'pyromaths.tex',
-        'exercises': exercise_list,
-        'openpdf': openpdf,
-        'pipe': pipe,
-    })
-    os.chdir(old_dir)
-
-    if destname:
-        shutil.move(
-            os.path.join(tempdir, 'exercises.pdf'),
-            destname,
-        )
-    else:
-        destname = os.path.join(tempdir, 'exercises.pdf')
-
-    return destname
-
-class TestExercise:
-    """Test of an exercise"""
-
-    def __init__(self, exercise, seed):
-        self.exercise = exercise
-        self.seed = seed
-
-    def show(self):
-        """Generate exercise, and display its result."""
-        self.generate(openpdf=1)
-
-    def get_exercise(self):
-        """Return an instanciated exercise."""
-        random.seed(self.seed)
-        return self.exercise()
-
-    def generate(self, openpdf=0):
-        """Generate exercise"""
-        return generate([self.get_exercise()], openpdf=openpdf)
-
-    def test_path(self, name):
-        """Return the path of the file containing expected results."""
-        return test_path(
-            self.exercise.name(),
-            self.seed,
-            name,
-            )
-
-    def write(self):
-        """Write expected test results."""
-        exo = self.get_exercise()
-        with codecs.open(self.test_path("statement"), "w", "utf8") as statement:
-            statement.write(exo.tex_statement())
-        with codecs.open(self.test_path("answer"), "w", "utf8") as answer:
-            answer.write(exo.tex_answer())
-
-    def read(self, choice):
-        """Read expected test result."""
-        with codecs.open(self.test_path(choice), "r", "utf8") as result:
-            return result.read()
-
-    def remove(self):
-        """Remove test"""
-        os.remove(self.test_path("statement"))
-        os.remove(self.test_path("answer"))
-
-    def changed(self):
-        """Return `True` iff exercise has changed."""
-        exo = self.get_exercise()
-        if exo.tex_statement() != self.read('statement'):
-            return True
-        if exo.tex_answer() != self.read('answer'):
-            return True
-        return False
-
-    def print_diff(self):
-        """Print the diff between old and new test."""
-        exo = self.get_exercise()
-        if exo.tex_statement() != self.read('statement'):
-            print("Statement:")
-            for line in difflib.unified_diff(
-                    self.read('statement').splitlines(),
-                    exo.tex_statement().splitlines(),
-                    fromfile='Old statement',
-                    tofile='New statement',
-                    ):
-                print(line)
-        if exo.tex_answer() != self.read('answer'):
-            print("Answer:")
-            for line in difflib.unified_diff(
-                    self.read('answer').splitlines(),
-                    exo.tex_answer().splitlines(),
-                    fromfile='Old answer',
-                    tofile='New answer',
-                    ):
-                print(line)
-
 class UnittestExercise(unittest.TestCase):
     """Test an exercise, with a particular seed."""
 
@@ -203,20 +87,18 @@ class UnittestExercise(unittest.TestCase):
         if self.exercise is None:
             return super().shortDescription()
         else:
-            return self.exercise.exercise.name()
+            return "{}-{}".format(self.exercise.name(), self.exercise.seed)
 
     def runTest(self):
         """Perform test"""
-        exo = self.exercise.get_exercise()
-
         self.assertEqual(
-            exo.tex_statement(),
-            self.exercise.read('statement'),
+            self.exercise.tex_statement(),
+            self.exercise.read_test('statement'),
             )
 
         self.assertEqual(
-            exo.tex_answer(),
-            self.exercise.read('answer'),
+            self.exercise.tex_answer(),
+            self.exercise.read_test('answer'),
             )
 
 class TestPerformer:
@@ -233,7 +115,7 @@ class TestPerformer:
         """Return the `TestExercise` object corresponding to the arguments."""
         if exercise not in self.exercises:
             raise KeyError(exercise)
-        return TestExercise(self.exercises[exercise], seed)
+        return self.exercises[exercise](seed)
 
     def get_tested_seeds(self, exercise):
         """Return seeds that are tested for this exercise"""

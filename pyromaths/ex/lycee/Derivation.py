@@ -86,10 +86,8 @@ class Fd1Tangentes(ex.TexExercise):
     tags = ["1èreS"]
 
 
-    def __init__(self):
-        '''
-        Constructor
-        '''
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
 
         self.lX1, self.lY1, self.dY1 = InitPoints(minimum=-6.1, maximum=6.1, nbval=3)
         self.lX2, self.lY2, self.dY2 = InitPoints(minimum=-6.1, maximum=6.1, nbval=4)

@@ -60,8 +60,8 @@ class EtatStableSysteme2(Jinja2Exercise):
 
     tags = ["Term ES"]
 
-    def __init__(self):
-        super().__init__()
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
 
         ab = random.choice(CANDIDATS)
         random.shuffle(ab)
@@ -84,8 +84,8 @@ class InterpolationMatrices(Jinja2Exercise):
 
     tags = ["Term ES"]
 
-    def __init__(self):
-        super().__init__()
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
 
         X = [None, None, None]
         while len(set(X)) != 3:

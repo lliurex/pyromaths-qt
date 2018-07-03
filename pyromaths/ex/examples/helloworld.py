@@ -26,7 +26,8 @@ class _RandomHelloWorld(ex.TexExercise):
 
     tags = ["exemple"]
 
-    def __init__(self):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
         self.times = random.randint(2, 10)
 
     def tex_statement(self):

@@ -608,7 +608,9 @@ class TermesDUneSuite(ex.TexExercise):
 
     tags = ["1èreS"]
 
-    def __init__(self):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
         # * `self.rang[0]` désigne l'ordinal du premier terme demandé (pour la
         #   première question de chacune des trois suites) ;
         # * `self.rang[1]` et `self.rang[2]` sont les rangs demandés pour les

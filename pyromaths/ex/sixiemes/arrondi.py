@@ -36,7 +36,9 @@ class ArrondirNombreDecimal(ex.TexExercise):
 
     tags = ["Sixième"]
 
-    def __init__(self):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
         hasard = [valide_hasard() for dummy in range(4)]
         choix = [(i, j) for i in range(7)  for j in range(3)]
         shuffle(choix)

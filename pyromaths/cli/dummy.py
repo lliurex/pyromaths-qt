@@ -20,11 +20,12 @@
 
 import logging
 import os
+import shutil
 import textwrap
 
 from pyromaths.Values import CONFIGDIR, DATADIR
 from pyromaths.ex import TexExercise
-from pyromaths.outils.System import creation
+from pyromaths.outils.System import Fiche
 
 logging.basicConfig(
     level=logging.INFO,
@@ -61,25 +62,22 @@ class DummyExercise(TexExercise):
         """)
 
 PARAMETRES = {
-    'nom_fichier': u'exercices',
+    'enonce': True,
     'corrige': True,
-    'fiche_exo': os.path.join(os.getcwd(), "exercices.tex"),
-    'creer_unpdf': True,
-    'configdir': CONFIGDIR,
-    'niveau': u'Modèle',
-    'creer_pdf': True,
-    'datadir': DATADIR,
-    'chemin_fichier': os.getcwd(),
-    'modele': u'pyromaths.tex',
-    'titre': u'Modèle',
-    'fiche_cor': os.path.join(os.getcwd(), "exercices-corrige.tex"),
     'exercices': [DummyExercise()],
     }
+TEXFILE = "dummy.tex"
+PDFFILE = "dummy.pdf"
 
 def main():
     """Fonction principale."""
-    creation(PARAMETRES)
-    logging.info("Le modèle de document est disponible dans le fichier `exercices.tex`.")
+    with Fiche(PARAMETRES) as fiche:
+        fiche.write_tex()
+        shutil.copy(fiche.texname, TEXFILE)
+        fiche.write_pdf()
+        shutil.copy(fiche.pdfname, PDFFILE)
+        fiche.show_pdf(PDFFILE)
+    logging.info("Le modèle de document est disponible dans le fichier '%s'.", TEXFILE)
 
 if __name__ == "__main__":
     main()

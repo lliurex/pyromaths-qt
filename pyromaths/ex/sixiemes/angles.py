@@ -263,9 +263,11 @@ class ConstruireZigZag(ex.TexExercise):
 
     tags = ["Sixième"]
 
-    def __init__(self):
+    def __init__(self, *args, **kwargs):
         """ Crée une liste de nbp points situés à la distance lg les uns des
         autres"""
+        super().__init__(*args, **kwargs)
+
         from pyromaths.outils.Conversions import radians
         from math import sin, cos
         self.lg, nbp = 4, 6

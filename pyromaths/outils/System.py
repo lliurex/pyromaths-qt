@@ -300,3 +300,4 @@ class Fiche(contextlib.AbstractContextManager):
             subprocess.run(['open', filename])
         else:
             subprocess.run(['gio', 'open', filename])
+

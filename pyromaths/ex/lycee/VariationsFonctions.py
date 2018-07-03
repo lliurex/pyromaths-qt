@@ -110,7 +110,9 @@ class Vf1SensEtTableau(ex.TexExercise):
 
     tags = ["Seconde"]
 
-    def __init__(self):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
         lX = [-5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5]
         self.lX = lX
         self.lY1, self.variations1 = PointsCourbes(sens_var=(-1, 1))
@@ -266,7 +268,9 @@ class Vf2ExtremaGraphiques(ex.TexExercise):
 
     tags = ["Seconde"]
 
-    def __init__(self):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
         fin = False
         while not fin:  # Évite les boucles infinies
             lX = [-5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5]
@@ -398,7 +402,9 @@ class Vf3VariationVersCourbe(ex.TexExercise):
 
     tags = ["Seconde"]
 
-    def __init__(self):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
         lX = [-5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5]
         self.lX = list(lX)
         self.lY1, self.variations1 = PointsCourbes(sens_var=(-1, 1))
@@ -640,7 +646,9 @@ class Vf4ComparerImages(ex.TexExercise):
 
     tags = ["Seconde"]
 
-    def __init__(self):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
         fin = False
         while not fin:
             lX = [i for i in range(-10 + randrange(6), 10 - randrange(6))]
@@ -800,7 +808,9 @@ class Vf5Extrema_Tableau(ex.TexExercise):
 
     tags = ["Seconde"]
 
-    def __init__(self):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
         fin = False
         while not fin:
             lX = [i for i in range(-10 + randrange(6), 10 - randrange(6))]

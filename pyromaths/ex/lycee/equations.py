@@ -50,7 +50,9 @@ class _EquationGraphique(ex.TexExercise):
 
     tags = ["Seconde"]
 
-    def __init__(self):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
         """
         l1, l2 et l3 sont les abscisses remarquables,
         y1, y2 et y3 sont les ordonnées correspondantes
