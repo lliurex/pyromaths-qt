@@ -9,12 +9,13 @@ import hashlib
 import json
 import logging
 import os
-import random
 import shutil
 import sys
 import tempfile
 from subprocess import call
 from contextlib import contextmanager
+
+from pyromaths.ex import ExerciseBag
 
 # Définition de `_()` comme la fonction identité.
 # Pour le moment, les vignettes des exercices ne sont pas traduites.
@@ -26,7 +27,7 @@ sys.path.insert(0, os.path.realpath(ROOTDIR))
 # pylint: disable=wrong-import-position
 import pyromaths
 from pyromaths.Values import data_dir, configdir
-from pyromaths.outils.System import creation
+from pyromaths.outils.System import Fiche
 
 THUMBDIR = os.path.join(data_dir(), "ex", "img")
 MD5PATH = os.path.join(THUMBDIR, "md5sum.json")
@@ -54,48 +55,18 @@ def md5file():
     with open(MD5PATH, mode="w") as fichier:
         json.dump(md5sums, fichier, sort_keys=True, indent=4)
 
-@contextmanager
-def create_temp_dir():
-    """Contexte pour la création et la suppression du répertoire temporaire."""
-    name = tempfile.mkdtemp()
-
-    yield name
-
-    shutil.rmtree(name)
-
-def parametres_exo(exo, tempdir):
-    """Renvoit les paramètres de la création d'un unique exercice."""
-    return {
-        'creer_pdf': True,
-        'creer_unpdf': False,
-        'titre': u"Thumbnail",
-        'corrige': False,
-        'niveau': "",
-        'nom_fichier': u'thumb.tex',
-        'chemin_fichier': tempdir,
-        'fiche_exo': os.path.join(tempdir, 'thumb.tex'),
-        'fiche_cor': os.path.join(tempdir, 'thumb-corrige.tex'),
-        'configdir': configdir(),
-        'datadir': data_dir(),
-        'modele': 'pyromaths.tex',
-        'openpdf': 0,
-        'liste_exos': [exo()],
-    }
-
-
-def create_thumbnail(exercise, tempdir):
+def create_thumbnail(exo, tempdir):
     """Crée la vignette de l'exercice"""
-    outfile = exercise.thumb()
+    outfile = exo.thumb()
 
     logging.info("Compilation de l'exercice.")
-    random.seed(0)
-    creation(parametres_exo(exercise, tempdir))
+    thumbnail = exo(0).generate(corrige=False, dir=tempdir)
 
     logging.info("Extraction de la vignette.")
     call([
         "convert",
         "-density", "288",
-        os.path.join(tempdir, "thumb.pdf"),
+        thumbnail,
         "-resize", "25%",
         "-crop", "710x560+0+85",
         "-flatten", "-trim",
@@ -113,25 +84,22 @@ def create_thumbnail(exercise, tempdir):
 
 def md5sum(exo):
     """Calcule et renvoit le hash md5sum de l'énoncé 0 de l'exercice."""
-    random.seed(0)
     return hashlib.md5(
-        exo().tex_statement()
+        exo(0).tex_statement()
         .encode(errors="backslashreplace")
         ).hexdigest()
 
 def main(tempdir):
     """Fonction principale"""
     with md5file() as md5sums:
-        levels = pyromaths.ex.load_levels()
-        for level in levels:
-            for exo in levels[level]:
-                logging.info("Exercice '%s'.", exo.name())
-                if md5sums.get(exo.name(), "0") == md5sum(exo):
-                    logging.info("L'exercice n'a pas été modifié.")
-                    continue
-                create_thumbnail(exo, tempdir)
-                md5sums[exo.name()] = md5sum(exo)
+        for exo in ExerciseBag().values():
+            logging.info("Exercice '%s'.", exo.name())
+            if md5sums.get(exo.name(), "0") == md5sum(exo):
+                logging.info("L'exercice n'a pas été modifié.")
+                continue
+            create_thumbnail(exo, tempdir)
+            md5sums[exo.name()] = md5sum(exo)
 
 if __name__ == "__main__":
-    with create_temp_dir() as temp:
-        main(temp)
+    with tempfile.TemporaryDirectory(prefix="pyromaths") as tempdir:
+        main(tempdir)

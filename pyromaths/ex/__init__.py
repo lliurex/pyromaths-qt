@@ -58,14 +58,14 @@ class TexExercise:
         """Generate exercise, and display its result."""
         subprocess.run(["gio", "open", self.generate(dir=dir)])
 
-    def generate(self, *, dir=None):
+    def generate(self, *, enonce=True, corrige=True, dir=None):
         """Generate a single exercise.
 
         Return the pdf name.
         """
         parametres = {
-            'enonce': True,
-            'corrige': True,
+            'enonce': enonce,
+            'corrige': corrige,
             'exercices': [self],
             }
         output = os.path.join(
