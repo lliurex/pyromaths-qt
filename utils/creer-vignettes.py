@@ -18,7 +18,7 @@ from contextlib import contextmanager
 
 # Définition de `_()` comme la fonction identité.
 # Pour le moment, les vignettes des exercices ne sont pas traduites.
-gettext.install('pyromaths', unicode=1)
+gettext.install('pyromaths')
 
 ROOTDIR = os.path.abspath(os.path.join(os.path.dirname(__file__), os.pardir))
 

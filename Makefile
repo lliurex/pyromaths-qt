@@ -29,38 +29,38 @@ FILES   := AUTHORS COPYING NEWS pyromaths README setup.py MANIFEST.in src data
 ### MANIFESTS
 #
 # Base manifest (README, src/ and test/ auto-included):
-MANIFEST :=                                      \
-    include AUTHORS COPYING NEWS                 \n\
-    exclude MANIFEST.in	                         \n\
-    prune test                                   \n\
-    prune utils                                  \n\
-    graft data                                   \n
+MANIFEST :=                                     \
+    include AUTHORS COPYING NEWS                \n\
+    exclude MANIFEST.in	                        \n\
+    graft data                                  \n
 # Minimal install (i.e. without test/ dir):
 MANIFEST-min := $(MANIFEST)                     \
-    graft data                                  \n\
     prune test                                  \n
 # Full project sources:
 MANIFEST-all := $(MANIFEST)                     \
     graft debian                                \n\
     graft utils                                 \n\
-    graft data                                  \n\
-    graft Doc                                   \n\
     graft Doc/source                            \n\
+    include Doc/Makefile                        \n\
     include Makefile                            \n
 # Unix:
 MANIFEST-unix := $(MANIFEST-min)                \
+    prune data/windows                          \n\
     exclude data/qtmac_fr.qm                    \n\
+    exclude data/qtmac_fr.ts                    \n\
     exclude data/images/pyromaths.icns          \n\
     exclude data/images/pyromaths.ico           \n
 # Mac app:
 MANIFEST-mac := $(MANIFEST-min)                 \
     prune data/linux                            \n\
+    prune data/windows                          \n\
     exclude data/images/pyromaths.ico           \n\
     exclude data/images/pyromaths-banniere.png  \n
 # Win app:
 MANIFEST-win := $(MANIFEST-min)                 \
     prune data/linux                            \n\
     exclude data/qtmac_fr.qm                    \n\
+    exclude data/qtmac_fr.ts                    \n\
     exclude data/images/pyromaths.icns          \n
 
 ### SHORTCUTS & COMPATIBILITY
@@ -206,13 +206,10 @@ app: version data/qtmac_fr.qm
 exe:
 	# Make standalone Windows executable
 	# ..Remove previous builds
-	rmdir /s /q $(BUILDIR)
-	rm $(DIST)/Pyromaths-*-win32.exe
-	# ..Create stripped-down sources
-	md $(BUILDIR)
-	xcopy data $(BUILDIR)/data /i /s
-	xcopy src $(BUILDIR)/src /i /s
-	copy $(FILES) $(BUILDIR)
-	move $(BUILDIR)/pyromaths $(BUILDIR)/Pyromaths.py
-	# ..Create standalone exe
-	cd $(BUILDIR) && $(setup) innosetup -b $(BUILD) -d $(DIST)
+	cp $(PYRO)/data/windows/installer.cfg $(PYRO)
+	cp $(PYRO)/data/windows/nsi_template.nsi $(PYRO)
+	pynsist installer.cfg
+	mkdir -p $(DIST)
+	mv $(BUILD)/nsis/Pyromaths_$(VERSION).exe $(DIST)
+	rm $(PYRO)/installer.cfg 
+	rm $(PYRO)/nsi_template.nsi
