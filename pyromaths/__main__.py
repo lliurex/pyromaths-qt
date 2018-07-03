@@ -180,9 +180,9 @@ def do_ls(options): # pylint: disable=unused-argument
     bag = ExerciseBag()
     for name in sorted(bag, key=str.lower):
         if options.verbose:
-            print(u"{}: {}".format(name, bag[name].description())) # pylint: disable=superfluous-parens
+            print(u"{}: {}".format(name, bag[name].description()))
         else:
-            print(name) # pylint: disable=superfluous-parens
+            print(name)
 
 COMMANDS = {
     "generate": do_generate,

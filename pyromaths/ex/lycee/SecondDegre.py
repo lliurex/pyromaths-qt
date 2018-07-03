@@ -299,7 +299,7 @@ class Sd2aRacines(ex.TexExercise):
             m = list(pol[i])
             shuffle(m)
             pol[i] = m
-            print(str(Polynome(pol[i], "x")))
+            #print(str(Polynome(pol[i], "x")))
         self.exercice = pol
 
     def tex_statement(self):
@@ -372,7 +372,7 @@ class Sd2aRacines(ex.TexExercise):
                 question[i].append(r'&')
                 question[i].append(r'{$\! \begin{aligned}')
                 delta = sol[-1][0]
-                print(sol)
+                #print(sol)
                 sol = [['Fraction(SquareRoot([[%s, None], [-1, %s]]),\'2*%s\')' % (-m[1][0], delta, m[0][0])]]
                 sol.extend(Priorites3.priorites(sol[0][0]))
                 sol = Priorites3.texify(sol)
