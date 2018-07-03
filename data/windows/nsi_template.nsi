@@ -11,6 +11,7 @@
 !define USER_INSTALL_MARKER _user_install_marker
  
 SetCompressor /SOLID lzma
+SetCompressorDictSize 32
 
 !define MULTIUSER_EXECUTIONLEVEL Highest
 !define MULTIUSER_INSTALLMODE_DEFAULT_CURRENTUSER

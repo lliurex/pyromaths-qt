@@ -259,7 +259,7 @@ class Fiche(contextlib.AbstractContextManager):
                 os.path.join(DATADIR, 'templates'),
                 ])
         )
-        with open(self.texname, 'w') as exofile:
+        with codecs.open(self.texname, mode='w', encoding='utf-8') as exofile:
             exofile.write(environment.get_template(self.template).render(self.context))
 
     def write_pdf(self):
