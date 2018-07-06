@@ -26,43 +26,6 @@ APP     := $(DIST)/Pyromaths.app/Contents
 # Project files
 FILES   := AUTHORS COPYING NEWS pyromaths README setup.py MANIFEST.in src data
 
-### MANIFESTS
-#
-# Base manifest (README, src/ and test/ auto-included):
-MANIFEST :=                                     \
-    include AUTHORS COPYING NEWS                \n\
-    exclude MANIFEST.in	                        \n\
-    graft data                                  \n
-# Minimal install (i.e. without test/ dir):
-MANIFEST-min := $(MANIFEST)                     \
-    prune test                                  \n
-# Full project sources:
-MANIFEST-all := $(MANIFEST)                     \
-    graft debian                                \n\
-    graft utils                                 \n\
-    graft Doc/source                            \n\
-    include Doc/Makefile                        \n\
-    include Makefile                            \n
-# Unix:
-MANIFEST-unix := $(MANIFEST-min)                \
-    prune data/windows                          \n\
-    exclude data/qtmac_fr.qm                    \n\
-    exclude data/qtmac_fr.ts                    \n\
-    exclude data/images/pyromaths.icns          \n\
-    exclude data/images/pyromaths.ico           \n
-# Mac app:
-MANIFEST-mac := $(MANIFEST-min)                 \
-    prune data/linux                            \n\
-    prune data/windows                          \n\
-    exclude data/images/pyromaths.ico           \n\
-    exclude data/images/pyromaths-banniere.png  \n
-# Win app:
-MANIFEST-win := $(MANIFEST-min)                 \
-    prune data/linux                            \n\
-    exclude data/qtmac_fr.qm                    \n\
-    exclude data/qtmac_fr.ts                    \n\
-    exclude data/images/pyromaths.icns          \n
-
 ### SHORTCUTS & COMPATIBILITY
 #
 ifeq ($(OS),Windows_NT)
@@ -84,14 +47,14 @@ setup := $(PYTHON) setup.py
 
 ### MACROS
 #
-# Remove manifest file, egg-info dir and target build dir, clean-up sources.
-clean = rm -f MANIFEST.in && rm -rf *.egg-info && rm -rf $(BUILDIR) &&\
+# Remove egg-info dir and target build dir, clean-up sources.
+clean = rm -rf *.egg-info && rm -rf $(BUILDIR) &&\
         find . -name '*~' | xargs rm -f && find . -iname '*.pyc' | xargs rm -f
 
 
 # src must be after rpm, otherwise rpm produces a .tar.gz file that replaces the
 # .tar.gz source file (should $$FORMATS include gztar).
-all: egg rpm deb src
+all: wheel rpm deb src
 
 help:
 	#
@@ -99,7 +62,7 @@ help:
 	#
 	# Usage (Unix):
 	#	$$ make src          # Make full-source archive(s)
-	#	$$ make egg          # Make python egg
+	#	$$ make wheel        # Make python wheel
 	#	$$ make rpm          # Make RPM package
 	#	$$ make deb          # Make DEB package
 	#	$$ make [all]        # Make all previous archives/packages
@@ -129,31 +92,27 @@ clean:
 
 version:
 	# Apply target version ($(VERSION)) to sources
-	$(sed-i) "s/VERSION\s*=\s*'.*'/VERSION = '$(VERSION)'/" pyromaths/Values.py
+	$(sed-i) "s/VERSION\s*=\s*'.*'/VERSION = '$(VERSION)'/" pyromaths/qt/version.py
 
 src: version
 	# Make full-source archive(s) (formats=$(FORMATS))
 	$(clean)
-	echo "$(MANIFEST-all)" > MANIFEST.in
 	$(setup) sdist --formats=$(FORMATS) -d $(DIST) $(OUT)
 
-egg: version
-	# Make python egg
+wheel: version
+	# Make python wheel
 	$(clean)
-	echo "$(MANIFEST-unix)" > MANIFEST.in
-	$(setup) bdist_egg -d $(DIST) $(OUT)
+	$(setup) bdist_wheel -d $(DIST) $(OUT)
 
 rpm: version
 	# Make RPM package
 	$(clean)
-	echo "$(MANIFEST-unix)" > MANIFEST.in
 	$(setup) bdist --formats=rpm -b $(BUILD) -d $(DIST) $(OUT)
-	rm $(DIST)/pyromaths-$(VERSION).tar.gz
+	rm -f $(DIST)/pyromaths-$(VERSION).tar.gz
 
 min: version
 	# Make minimalist .tar.bz source archive in $(BUILD)
 	$(clean)
-	echo "$(MANIFEST-unix)" > MANIFEST.in
 	$(setup) sdist --formats=bztar -d $(BUILD) $(OUT)
 
 deb: min

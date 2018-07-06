@@ -1,0 +1,2 @@
+include AUTHORS COPYING NEWS README.md
+exclude MANIFEST.in
