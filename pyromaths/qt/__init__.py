@@ -19,13 +19,22 @@
 # along with this program; if notPopen, write to the Free Software
 # Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
 
+# Python standard libraries
+import os, lxml, codecs, sys, shutil
+from operator import itemgetter
+
+# Non-standard libraries
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QFileDialog, QMessageBox
-import os, lxml, codecs, sys, shutil
-from ..outils import System
-from ..Values import CONFIGDIR, DATADIR, COPYRIGHTS, VERSION, ICONDIR
-from operator import itemgetter
+
+# Pyromaths
 from pyromaths.ex import ExerciseBag
+from pyromaths.outils import System
+from pyromaths.directories import DATADIR as CLIDATADIR
+
+# Pyromaths-QT
+from .version import COPYRIGHT_HTML, VERSION
+from .directories import CONFIGDIR, IMGDIR
 
 try:
     QString = str
@@ -48,7 +57,7 @@ class Ui_MainWindow:
         self.config = self.lire_config('options')
         ## Fenètre principale
         if sys.platform != "darwin":  # Cas de Mac OS X.
-            MainWindow.setWindowIcon(QtGui.QIcon(ICONDIR))
+            MainWindow.setWindowIcon(QtGui.QIcon(os.path.join(IMGDIR, "pyromaths.png")))
         MainWindow.setWindowTitle("Pyromaths")
         MainWindow.setGeometry(0, 44, 900, 600)
         font = QtGui.QFont()
@@ -267,7 +276,7 @@ class Ui_MainWindow:
 
         self.comboBox_modele = QtWidgets.QComboBox(self.tab_options)
         self.comboBox_modele.setStyleSheet("background-color: rgb(255, 255, 255);")
-        modeles = os.listdir(os.path.join(DATADIR, 'templates'))
+        modeles = os.listdir(os.path.join(CLIDATADIR, 'templates'))
         modeles_home = os.listdir(os.path.join(CONFIGDIR, 'templates'))
 
         count = 0
@@ -428,11 +437,11 @@ class Ui_MainWindow:
   </body>
 </html>""")
         if sys.platform == "darwin":  # Cas de Mac OS X.
-            banniere = os.path.join(DATADIR, 'images', 'pyromaths.png')
+            banniere = os.path.join(IMGDIR, 'pyromaths.png')
         else:
-            banniere = os.path.join(DATADIR, 'images', 'pyromaths-banniere.png')
+            banniere = os.path.join(IMGDIR, 'pyromaths-banniere.png')
         # self.setGeometry(10,10,620,200)
-        QtWidgets.QMessageBox.about(None, _(u'À propos de Pyromaths'), text % (banniere, VERSION, COPYRIGHTS))
+        QtWidgets.QMessageBox.about(None, _(u'À propos de Pyromaths'), text % (banniere, VERSION, COPYRIGHT_HTML))
 
     def creer_les_exercices(self):
         """Vérifie si la liste d'exercices n'est pas vide puis sélectionne les noms des fichiers exercices et
@@ -452,8 +461,6 @@ class Ui_MainWindow:
                 'nom_fichier': str(self.nom_fichier.text()),
                 'chemin_fichier': str(self.chemin_fichier.text()),
                 'modele': str(self.comboBox_modele.currentText() + '.tex'),
-                'datadir': DATADIR,
-                'configdir': CONFIGDIR
                          }
             #============================================================
             #        Choix de l'ordre des exercices
@@ -720,7 +727,7 @@ class Tab(QtWidgets.QWidget):
         layout.addWidget(spinBox)
         # Image
         img = QtWidgets.QLabel(self.widget)
-        img.setText(r'<img src="%s"/>' % os.path.join(DATADIR, 'images', 'whatsthis.png'))
+        img.setText(r'<img src="%s"/>' % os.path.join(IMGDIR, 'whatsthis.png'))
         img.setToolTip(r'<img src="%s"/>' % self.exos[i].thumb())
         layout.addWidget(img)
         # Label

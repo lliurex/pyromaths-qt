@@ -26,9 +26,9 @@ import codecs
 import os
 
 from lxml import etree
-from lxml import _elementpath as DONTUSE  # Astuce pour inclure lxml dans Py2exe
 
-from pyromaths.Values import HOME, VERSION, CONFIGDIR
+from .directories import HOME, CONFIGDIR
+from .version import VERSION
 
 def create_config_file():
     """Crée le fichier de configuration au format xml"""

@@ -119,7 +119,7 @@ def _mac_opt():
     excludes = lib_dynload_unused + site_packages_unused + ['PyQt4.%s' % f for f in qt_unused]
     # py2app
     py2app = dict(plist    = plist,
-                  iconfile = 'data/images/pyromaths.icns',
+                  iconfile = 'data/macos/pyromaths.icns',
                   includes = ['gzip'],
                   packages = ['pyromaths.ex'],
                   excludes = excludes,

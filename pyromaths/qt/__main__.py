@@ -26,20 +26,18 @@ from os import access, R_OK, makedirs
 from os.path import join, isdir, dirname, realpath, split
 from codecs import open
 
+from .directories import CONFIGDIR, LOCALEDIR
+
 def main():
 #===============================================================================
 # Imports spécifiques à Pyromaths
 #===============================================================================
 
-    locale_dir = join(dirname(__file__), '../../locale/')
-    locale_dir = realpath(locale_dir)
-
-    gettext.install('pyromaths', localedir=locale_dir)
+    gettext.install('pyromaths', localedir=LOCALEDIR)
 
 
     from .config import create_config_file, modify_config_file
-    from ..outils.TestEnv import test
-    from ..Values import CONFIGDIR
+    from .testenv import testenvironment
 
     from . import Ui_MainWindow
     from PyQt5 import QtGui, QtWidgets
@@ -73,7 +71,7 @@ def main():
     app.installTranslator(translator)
 
     pyromaths.show()
-    test(pyromaths)
+    testenvironment(pyromaths)
 
     exit(app.exec_())
 
