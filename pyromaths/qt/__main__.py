@@ -41,7 +41,7 @@ def main():
 
     from . import Ui_MainWindow
     from PyQt5 import QtGui, QtWidgets
-    class StartQT4(QtWidgets.QMainWindow, Ui_MainWindow):
+    class StartQT5(QtWidgets.QMainWindow, Ui_MainWindow):
         def __init__(self, parent=None):
             QtWidgets.QWidget.__init__(self, parent)
             self.ui = Ui_MainWindow()
@@ -62,7 +62,7 @@ def main():
     if not isdir(packagesdir): makedirs(packagesdir)
 
     app = QtWidgets.QApplication(argv)
-    pyromaths = StartQT4()
+    pyromaths = StartQT5()
 
     # Intégration de QTranslator
     from PyQt5.QtCore import QTranslator
