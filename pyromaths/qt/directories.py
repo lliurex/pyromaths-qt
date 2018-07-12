@@ -13,7 +13,7 @@ if os.name == 'nt': # Windows
     HOME = os.environ['USERPROFILE']
     CONFIGDIR = os.path.join(environ['APPDATA'], "pyromaths")
 elif sys.platform == "darwin":  # Mac OS X
-    HOME = environ['HOME']
+    HOME = os.environ['HOME']
     CONFIGDIR = os.path.join(HOME, "Library", "Application Support", "Pyromaths")
 else: # Linux (et autres ?)
     HOME = os.environ['HOME']
