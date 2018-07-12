@@ -5,7 +5,7 @@
 ### CONFIG
 #
 # Pyromaths version
-VERSION ?= 18.6.2
+VERSION ?= 18.7
 # Archive format(s) produced by 'make src' (bztar,gztar,zip...)
 FORMATS ?= bztar,zip
 # Verbosity and logging
@@ -24,7 +24,27 @@ BUILDIR  = $(BUILD)/$@
 # Mac app folder
 APP     := $(DIST)/Pyromaths.app/Contents
 # Project files
-FILES   := AUTHORS COPYING NEWS pyromaths README setup.py MANIFEST.in src data
+FILES   := AUTHORS COPYING NEWS pyromaths README setup.py MANIFEST.in data
+
+### MANIFESTS
+#
+# Base manifest (README, src/ and test/ auto-included):
+MANIFEST :=                                     \
+    include AUTHORS COPYING NEWS                \n\
+    exclude MANIFEST.in	                        \n\
+    graft data                                  \n\
+    graft pyromaths/qt/data                     \n
+# Minimal install (i.e. without test/ dir):
+MANIFEST-min := $(MANIFEST)                     \
+    prune test                                  \n
+# Full project sources:
+MANIFEST-all := $(MANIFEST)                     \
+    graft debian                                \n\
+    graft utils                                 \n\
+    include Makefile                            \n
+MANIFEST-win := $(MANIFEST-min)                 \
+    prune data/linux                            \n\
+    prune data/macos                            \n
 
 ### SHORTCUTS & COMPATIBILITY
 #
@@ -93,10 +113,12 @@ clean:
 version:
 	# Apply target version ($(VERSION)) to sources
 	$(sed-i) "s/VERSION\s*=\s*'.*'/VERSION = '$(VERSION)'/" pyromaths/qt/version.py
+	$(sed-i) "0,/^version\s*=.*$$/s//version=$(VERSION)/" data/windows/installer.cfg 
 
 src: version
 	# Make full-source archive(s) (formats=$(FORMATS))
 	$(clean)
+	echo "$(MANIFEST-all)" > MANIFEST.in
 	$(setup) sdist --formats=$(FORMATS) -d $(DIST) $(OUT)
 
 wheel: version

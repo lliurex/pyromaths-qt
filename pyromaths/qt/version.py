@@ -7,7 +7,7 @@
 import textwrap
 import time
 
-VERSION = '18.6.2'
+VERSION = '18.7'
 AUTHOR = "Jérôme Ortais"
 AUTHOR_EMAIL = "jerome.ortais@pyromaths.org"
 COPYRIGHT_YEAR = time.strftime('%Y')
