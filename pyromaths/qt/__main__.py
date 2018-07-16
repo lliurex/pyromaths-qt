@@ -53,7 +53,7 @@ def main():
     if not access(join(CONFIGDIR, "pyromaths.xml"), R_OK):
         if not isdir(CONFIGDIR): makedirs(CONFIGDIR)
         f = open(join(CONFIGDIR, "pyromaths.xml"), encoding='utf-8', mode='w')
-        f.write(u"" + create_config_file())
+        f.write(create_config_file())
         f.close()
     modify_config_file(join(CONFIGDIR, "pyromaths.xml"))
     templatesdir = join(CONFIGDIR, "templates")

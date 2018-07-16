@@ -11,7 +11,7 @@ LOCALEDIR = os.path.join(DATADIR, "locale")
 
 if os.name == 'nt': # Windows
     HOME = os.environ['USERPROFILE']
-    CONFIGDIR = os.path.join(environ['APPDATA'], "pyromaths")
+    CONFIGDIR = os.path.join(os.environ['APPDATA'], "pyromaths")
 elif sys.platform == "darwin":  # Mac OS X
     HOME = os.environ['HOME']
     CONFIGDIR = os.path.join(HOME, "Library", "Application Support", "Pyromaths")
