@@ -184,13 +184,9 @@ app: version data/qtmac_fr.qm
 	# ..Remove all architectures but x86_64..."
 	ditto --rsrc --arch x86_64 --hfsCompression $(DIST)/Pyromaths.app $(DIST)/Pyromaths-x86_64.app
 
-exe:
+.ONESHELL:
+exe: wheel
 	# Make standalone Windows executable
-	# ..Remove previous builds
-	cp $(PYRO)/data/windows/installer.cfg $(PYRO)
-	cp $(PYRO)/data/windows/nsi_template.nsi $(PYRO)
-	pynsist installer.cfg
-	mkdir -p $(DIST)
-	mv $(BUILD)/nsis/Pyromaths_$(VERSION).exe $(DIST)
-	rm $(PYRO)/installer.cfg 
-	rm $(PYRO)/nsi_template.nsi
+	cd $(PYRO)/data/windows
+	python3 -m nsist installer.cfg
+	mv $(PYRO)/data/windows/build/nsis/Pyromaths-QT_$(VERSION).exe $(DIST)
