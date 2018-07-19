@@ -27,7 +27,7 @@ import os
 
 from lxml import etree
 
-from .directories import HOME, CONFIGDIR
+from pyromaths.directories import HOME, CONFIGDIR
 from .version import VERSION
 
 def create_config_file():

@@ -31,7 +31,7 @@
 
 import os.path
 
-from .directories import CONFIGDIR
+from pyromaths.directories import CONFIGDIR
 
 def testenvironment(gui):
     if not os.path.isfile(os.path.join(CONFIGDIR, "pyromaths.xml")):

@@ -34,7 +34,8 @@ from pyromaths.directories import DATADIR as CLIDATADIR
 
 # Pyromaths-QT
 from .version import COPYRIGHT_HTML, VERSION
-from .directories import CONFIGDIR, IMGDIR
+from .directories import IMGDIR
+from pyromaths.directories import CONFIGDIR
 
 try:
     QString = str
@@ -670,7 +671,7 @@ def valide(liste, exercices, parametres):
     if corrige and not parametres['creer_unpdf']:
         parametres['enonce'] = False
         parametres['corrige'] = True
-        with System.Fiche(parametres) as fiche:
+        with System.Fiche(parametres, template=parametres['modele']) as fiche:
             fiche.write_tex()
             shutil.copy(fiche.texname, "{}.tex".format(f1))
             if parametres['creer_pdf']:

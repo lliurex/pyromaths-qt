@@ -26,7 +26,7 @@ from os import access, R_OK, makedirs
 from os.path import join, isdir, dirname, realpath, split
 from codecs import open
 
-from .directories import CONFIGDIR, LOCALEDIR
+from pyromaths.directories import CONFIGDIR, LOCALEDIR
 
 def main():
 #===============================================================================
