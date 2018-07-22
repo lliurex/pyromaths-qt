@@ -53,7 +53,7 @@ setup(
         "Topic :: Text Processing :: Markup :: LaTeX",
     ],
     long_description=readme(),
-    long_description_content_type="text/markdown",
+    #long_description_content_type="text/markdown",
     zip_safe=False,
     project_urls={
         "Documentation": "http://pyromaths.readthedocs.org",
