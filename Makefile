@@ -26,26 +26,6 @@ APP     := $(DIST)/Pyromaths.app/Contents
 # Project files
 FILES   := AUTHORS COPYING NEWS pyromaths README setup.py MANIFEST.in data
 
-### MANIFESTS
-#
-# Base manifest (README, src/ and test/ auto-included):
-MANIFEST :=                                     \
-    include AUTHORS COPYING NEWS                \n\
-    exclude MANIFEST.in	                        \n\
-    graft data                                  \n\
-    graft pyromaths/qt/data                     \n
-# Minimal install (i.e. without test/ dir):
-MANIFEST-min := $(MANIFEST)                     \
-    prune test                                  \n
-# Full project sources:
-MANIFEST-all := $(MANIFEST)                     \
-    graft debian                                \n\
-    graft utils                                 \n\
-    include Makefile                            \n
-MANIFEST-win := $(MANIFEST-min)                 \
-    prune data/linux                            \n\
-    prune data/macos                            \n
-
 ### SHORTCUTS & COMPATIBILITY
 #
 ifeq ($(OS),Windows_NT)
@@ -118,7 +98,6 @@ version:
 src: version
 	# Make full-source archive(s) (formats=$(FORMATS))
 	$(clean)
-	echo "$(MANIFEST-all)" > MANIFEST.in
 	$(setup) sdist --formats=$(FORMATS) -d $(DIST) $(OUT)
 
 wheel: version
@@ -188,5 +167,7 @@ app: version data/qtmac_fr.qm
 exe: wheel
 	# Make standalone Windows executable
 	cd $(PYRO)/data/windows
+	mkdir extra_wheel
+	cp ../../dist/pyromaths_qt-$(VERSION)-py3-none-any.whl extra_wheel
 	python3 -m nsist installer.cfg
 	mv $(PYRO)/data/windows/build/nsis/Pyromaths-QT_$(VERSION).exe $(DIST)

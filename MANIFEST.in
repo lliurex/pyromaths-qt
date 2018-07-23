@@ -1,8 +1,3 @@
-include AUTHORS COPYING NEWS                
- exclude MANIFEST.in	                        
- graft data                                  
- graft pyromaths/qt/data                     
- graft debian                                
- graft utils                                 
- include Makefile                            
-
+include AUTHORS COPYING NEWS README.md
+exclude MANIFEST.in
+graft pyromaths/qt/data
