@@ -24,7 +24,7 @@ setup(
     version=VERSION,
     packages=find_packages(exclude=["tests*"]),
     namespace_packages=["pyromaths"],
-    install_requires=["lxml", "pyromaths", "pyqt5"],
+    install_requires=["lxml>=4.2.1", "pyromaths>=18.7", "PyQt5>=5.10"],
     include_package_data=True,
     author=AUTHOR,
     author_email=AUTHOR_EMAIL,
@@ -57,10 +57,10 @@ setup(
     zip_safe=False,
     project_urls={
         "Documentation": "http://pyromaths.readthedocs.org",
-        "Download": "http://www.pyromaths.org/telecharger/",
-        "Forum": "http://forum.pyromaths.org",
+        "Download": "https://www.pyromaths.org/telecharger/",
+        "Forum": "https://forum.pyromaths.org",
         "Sources": "https://framagit.org/pyromaths/pyromaths",
         "Tickets": "https://framagit.org/pyromaths/pyromaths/issues",
-        "Version en ligne": "http://www.pyromaths.org/enligne/",
+        "Version en ligne": "http://enligne.pyromaths.org/",
     },
 )

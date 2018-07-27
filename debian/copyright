@@ -1,6 +1,6 @@
 Format: http://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
-Upstream-Name: pyromaths
-Source: http://www.pyromaths.org
+Upstream-Name: pyromaths-qt
+Source: https://www.pyromaths.org
 
 Files: *
 Copyright: 2006-2018, Jérôme Ortais <jerome.ortais@pyromaths.org>
