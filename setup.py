@@ -34,7 +34,6 @@ setup(
     license="GPLv2",
     entry_points={
         "gui_scripts": ["pyromaths-qt = pyromaths.qt.__main__:main"],
-        "console_scripts": ["pyromaths-qt = pyromaths.qt.__main__:main"],
     },
     keywords="exercices math latex school",
     classifiers=[
