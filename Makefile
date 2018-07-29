@@ -109,21 +109,29 @@ rpm: version
 	# Make RPM package
 	$(clean)
 	$(setup) bdist --formats=rpm -b $(BUILD) -d $(DIST) $(OUT)
-	rm -f $(DIST)/pyromaths-$(VERSION).tar.gz
+	rm -f $(DIST)/pyromaths-qt-$(VERSION).tar.gz
 
 min: version
 	# Make minimalist .tar.bz source archive in $(BUILD)
 	$(clean)
 	$(setup) sdist --formats=bztar -d $(BUILD) $(OUT)
 
+.ONESHELL:
 deb: min
 	# Make DEB archive
 	$(clean)
-	cd $(BUILD) && tar -xjf pyromaths-qt-$(VERSION).tar.bz2              &&\
-	    mv pyromaths-qt-$(VERSION) $(BUILDIR)                            &&\
-	    mv pyromaths-qt-$(VERSION).tar.bz2 pyromaths-qt_$(VERSION).orig.tar.bz2
-	#cp -r $(PYRO)/debian $(BUILDIR)
-	cd $(BUILDIR) && debuild -i -D -tc -kB39EE5B6 $(OUT) || exit 0
+	set -e
+	(
+		cd $(BUILD)
+		tar -xjf pyromaths-qt-$(VERSION).tar.bz2
+		mv pyromaths-qt-$(VERSION) $(BUILDIR)
+		mv pyromaths-qt-$(VERSION).tar.bz2 pyromaths-qt_$(VERSION).orig.tar.bz2
+	)
+	cp -r debian $(BUILDIR)
+	(
+		cd $(BUILDIR)
+		debuild -i -D -tc -kB39EE5B6 $(OUT)
+	)
 	mkdir -p $(DIST)
 	mv $(BUILD)/pyromaths-qt_$(VERSION)-*_all.deb $(DIST)
 
@@ -132,7 +140,7 @@ repo: min
 	$(clean)
 	cd $(BUILD) && tar -xjf pyromaths-qt-$(VERSION).tar.bz2              &&\
 	    mv pyromaths-qt-$(VERSION) $(BUILDIR)                            &&\
-	    mv pyromaths-qt-$(VERSION).tar.bz2 pyromaths_$(VERSION).orig.tar.bz2
+	    mv pyromaths-qt-$(VERSION).tar.bz2 pyromaths-qt_$(VERSION).orig.tar.bz2
 	#cp -r debian $(BUILDIR)
 	cd $(BUILDIR) && debuild -i -tc -kB39EE5B6 -S $(OUT)
 	cd $(BUILD)

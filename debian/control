@@ -3,7 +3,7 @@ Maintainer: Jérôme Ortais <jerome.ortais@pyromaths.org>
 Section: contrib/math
 Priority: optional
 Build-Depends: debhelper (>= 8), dh-python, python3-all, python3-setuptools, pyromaths
-X-Python-Version: >= 3.2
+X-Python-Version: >= 3.5
 Standards-Version: 4.1.4
 Homepage: https://www.pyromaths.org/
 
