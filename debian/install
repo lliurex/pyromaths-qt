@@ -1,2 +1,3 @@
 debian/pyromaths-qt.desktop usr/share/applications
 debian/pyromaths-qt.png usr/share/pixmaps
+debian/bin/pyromaths-qt usr/bin
