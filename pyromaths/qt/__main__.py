@@ -67,7 +67,7 @@ def main():
     # Intégration de QTranslator
     from PyQt5.QtCore import QTranslator
     translator = QTranslator()
-    translator.load("qtmac_fr", "data")
+    translator.load("qtbase_fr", "data")
     app.installTranslator(translator)
 
     pyromaths.show()

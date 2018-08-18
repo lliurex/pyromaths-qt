@@ -151,23 +151,51 @@ data/%.qm: data/%.ts
 	# Translate new/updated language files
 	lrelease $< -qm $@
 
-app: version data/qtmac_fr.qm
+app: 
 	# ..Remove previous build
-	rm -rf $(BUILD) $(DIST)
+	rm -rf $(BUILD) $(DIST) 
 	# Make standalone Mac application
 	$(setup) py2app -O2 -b $(BUILD) -d $(DIST) $(OUT)
 	# ..Clean-up unnecessary files/folders
 	rm -f $(APP)/PkgInfo
-	cd $(APP)/Resources && rm -rf site.pyc include lib/python2.*/config lib/python2.*/site.pyc
+	cd $(APP)/Resources &&\
+	    rm -rf include zlib.cpython-3* lib/python3.*/config-3.* lib/python3.*/site.py*
+	cd $(APP)/Resources/lib/python3.7/PyQt5/Qt/lib &&\
+	    rm -rf QtBluetooth.framework QtConcurrent.framework QtDBus.framework \
+	    QtHelp.framework QtLocation.framework QtMacExtras.framework QtMultimedia.framework \
+	    QtMultimediaWidgets.framework QtNetwork.framework QtNetworkAuth.framework \
+	    QtNfc.framework QtOpenGL.framework QtPositioning.framework QtQml.framework \
+	    QtQuick.framework QtQuickControls2.framework QtQuickParticles.framework \
+	    QtQuickTemplates2.framework QtSql.framework QtSvg.framework QtTest.framework \
+	    QtWebEngineWidgets.framework QtWebSockets.framework QtXml.framework \
+	    QtXmlPatterns.framework QtQuickTest.framework QtQuickWidgets.framework \
+	    QtSensors.framework QtSerialPort.framework QtWebChannel.framework \
+	    QtWebEngine.framework QtWebEngineCore.framework
+	cd $(APP)/Resources/lib/python3.7/PyQt5/ &&\
+		rm -rf Qt.so QtSerialPort.so QtBluetooth.so QtSql.so QtDBus.so	QtSvg.so \
+		QtDesigner.so QtTest.so QtHelp.so QtWebChannel.so QtLocation.so	QtWebEngine.so \
+		QtMacExtras.so QtWebEngineCore.so QtMultimedia.so QtWebEngineWidgets.so \
+		QtMultimediaWidgets.so QtWebSockets.so QtNetwork.so	QtXml.so QtNetworkAuth.so \
+		QtXmlPatterns.so QtNfc.so _QOpenGLFunctions_2_0.so QtOpenGL.so _QOpenGLFunctions_2_1.s \
+		QtPositioning.so _QOpenGLFunctions_4_1_Core.so QtPrintSupport.so pylupdate.so QtQml.so \
+		pylupdate_main.py QtQuick.so pyrcc.so QtQuickWidgets.so pyrcc_main.py QtSensors.so uic
+	cd $(APP)/Resources/lib/python3.7/PyQt5/Qt/plugins &&\
+		rm -rf audio geoservices platformthemes \
+		sceneparsers webview bearer iconengines playlistformats sensorgestures \
+		gamepads imageformats position sensors generic mediaservice printsupport sqldrivers \
+		geometryloaders	renderplugins texttospeech platforms/libqminimal.dylib \
+		platforms/libqoffscreen.dylib platforms/libqwebgl.dylib
+	cd $(APP)/Resources/lib/python3.7/PyQt5/Qt && rm -rf qml translations 
+	cd $(APP)/Resources/lib/python3.7/PyQt5/Qt/plugins &&\
 	cd $(APP)/Frameworks                                     &&\
-	    rm -rf *.framework/Contents *.framework/Versions/4.0   \
-	           *.framework/Versions/Current *.framework/*.prl  \
-	           QtCore.framework/QtCore QtGui.framework/QtGui
-	cd $(APP)/Frameworks/Python.framework/Versions/2.*       &&\
-	    rm -rf include lib Resources
-	rm -rf $(APP)/Resources/lib/python2.7/pyromaths.ex/examples
-	find $(APP)/Resources/lib/python2.7/pyromaths.ex \( -name '*.pyc' \) -delete
-	rm -rf $(APP)/Frameworks/pyromaths
+	    rm -rf libcrypto.1.1.dylib libssl.1.1.dylib
+	cd $(APP)/Resources/lib/python3.7/pyromaths                                    &&\
+	    rm -rf qt
+	cd $(APP)/Resources &&\
+	    find * -name '__pycache__' | xargs rm -rf
+	# Copy missing files
+	cd /Library/Frameworks/Python.framework/Versions/3.*/lib/python3.*/site-packages/pyromaths/ &&\
+	    cp -r classes cli data directories.py ex outils $(APP)/Resources/lib/python3.*/pyromaths/
 	# ..Remove all architectures but x86_64..."
 	ditto --rsrc --arch x86_64 --hfsCompression $(DIST)/Pyromaths.app $(DIST)/Pyromaths-x86_64.app
 
