@@ -6,6 +6,7 @@ from setuptools import setup, find_packages
 import codecs
 import os
 
+import sys
 
 def readme():
     """Lecture du README"""
@@ -19,6 +20,47 @@ def readme():
 with codecs.open("pyromaths/qt/version.py", encoding="utf8", errors="replace") as file:
     exec(compile(file.read(), "version.py", "exec"))
 
+def _mac_opt():
+    '''MacOS: py2app helps generate a self-contained app.'''
+    plist = dict(CFBundleIdentifier  = "org.pyromaths.pyromaths",
+                 CFBundleName        = "Pyromaths",
+                 CFBundleDisplayName = "Pyromaths",
+                 CFBundleVersion     = VERSION,
+                 CFBundleShortVersionString = VERSION,
+                 NSHumanReadableCopyright = u"© Jérôme Ortais",
+                 CFBundleDevelopmentRegion = "French",
+                 CFBundleIconFile    = "pyromaths",
+                 CFBundleExecutable  = "pyromaths",
+                 CFBundlePackageType = "APPL",
+                 CFBundleSignature   = "PYTS",
+                 )
+    # Unused Qt libraries/frameworks
+    lib_dynload_unused = ['_asyncio','_decimal','_sha256', '_bisect', '_elementtree', '_sha3',
+     '_blake2', '_hashlib', '_ssl', '_bz2', '_heapq', '_uuid', '_codecs_cn', '_lzma', 'array',
+     '_codecs_hk', '_md5', 'grp', '_codecs_iso2022', '_multibytecodec', 'mmap', '_codecs_jp',
+     '_multiprocessing', 'resource', '_codecs_kr', '_opcode', 'sip', '_codecs_tw', '_pickle',
+     '_datetime', '_queue']
+    site_packages_unused = ['asyncio',]
+    excludes = lib_dynload_unused + site_packages_unused
+    # py2app
+    py2app = dict(plist    = plist,
+                  iconfile = 'data/macos/pyromaths.icns',
+                  packages=find_packages(),
+                  includes=['asyncio', 'concurrent', 'jinja2', 'markupsafe', 'simplejson'],
+                  excludes = excludes,
+                  )
+    return dict(
+        app        = ['data/macos/pyromaths-qt.py'],
+        data_files = [
+            ( 'data', ['data/macos/qtbase_fr.qm']),
+        ] ,
+        options    = {'py2app': py2app},
+    )
+
+# Set platform-specific options
+if "py2app" in sys.argv:
+    options = _mac_opt()
+        
 setup(
     name="pyromaths-qt",
     version=VERSION,
@@ -62,4 +104,20 @@ setup(
         "Tickets": "https://framagit.org/pyromaths/pyromaths/issues",
         "Version en ligne": "http://enligne.pyromaths.org/",
     },
+    # platform-specific options
+    **options
 )
+
+# Post-processing
+if "py2app" in sys.argv:
+    # py2app/setenv hack: replace executable with one appending several LaTeX
+    # distributions locations to the path.
+    mactex   = "/Library/TeX/texbin:/usr/texbin:/usr/local/bin"
+    macports = "/opt/local/bin:/opt/local/sbin"
+    fink     = "/sw/bin"
+    path     = "%s:%s:%s" % (mactex, macports, fink)
+    f = open('dist/Pyromaths.app/Contents/MacOS/setenv.sh', 'w')
+    f.write('''#!/bin/sh
+PWD=$(dirname "$0"); /usr/bin/env PATH="$PATH:%s" $PWD/pyromaths''' % path)
+    os.system("chmod +x dist/Pyromaths.app/Contents/MacOS/setenv.sh")
+    os.system("sed -i '' '10s/pyromaths/setenv.sh/' dist/Pyromaths.app/Contents/Info.plist")
