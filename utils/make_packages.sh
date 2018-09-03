@@ -56,8 +56,8 @@ echo "Do you want to commit and tag the git develop branch (o/N)?"
 read touche
 case "$touche" in
   [oO] )
-  git commit -am 'Pyromaths Release'
-  git tag -u B39EE5B6 version-${VERSION} -m "Pyromaths ${VERSION}"
+  git commit -am 'Pyromaths-qt Release'
+  git tag -u B39EE5B6 version-${VERSION} -m "Pyromaths-qt ${VERSION}"
   #git push --tags:
   ;;
 esac
