@@ -1,4 +1,4 @@
-Version XX.XX
+Version 18.9
 * Passage à Python3
 * Séparation entre les projets pyromaths (ligne de commande) et QT (client QT).
 * Passage à QT5

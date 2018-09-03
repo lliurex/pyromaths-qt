@@ -1,6 +1,7 @@
-pyromaths-qt (18.7-1) bionic; urgency=medium
+pyromaths-qt (18.9.3-1) bionic; urgency=medium
 
+  [ Jérôme Ortais & Louis Spalax ]
   * Séparation de pyromaths en deux projets : pyromaths (client en ligne de commande) et client QT.
   * Passage à Python3 (et nombreux changements dans l'API interne, qui n'est pas rétro-compatible). 
 
- -- Jérôme Ortais <jerome.ortais@pyromaths.org>  Wed, 11 Jul 2018 22:52:15 +0200
+ -- Jérôme Ortais <jerome.ortais@pyromaths.org>  Mon, 03 Sep 2018 15:17:01 +0200

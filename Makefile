@@ -5,7 +5,7 @@
 ### CONFIG
 #
 # Pyromaths version
-VERSION ?= 18.7
+VERSION ?= 18.9.3
 # Archive format(s) produced by 'make src' (bztar,gztar,zip...)
 FORMATS ?= bztar,zip
 # Verbosity and logging
@@ -24,7 +24,7 @@ BUILDIR  = $(BUILD)/$@
 # Mac app folder
 APP     := $(DIST)/Pyromaths.app/Contents
 # Project files
-FILES   := AUTHORS COPYING NEWS pyromaths README setup.py MANIFEST.in data
+FILES   := AUTHORS COPYING NEWS pyromaths README setup.py MANIFEST.in
 
 ### SHORTCUTS & COMPATIBILITY
 #
@@ -94,6 +94,7 @@ version:
 	# Apply target version ($(VERSION)) to sources
 	$(sed-i) "s/VERSION\s*=\s*'.*'/VERSION = '$(VERSION)'/" pyromaths/qt/version.py
 	$(sed-i) "0,/^version\s*=.*$$/s//version=$(VERSION)/" data/windows/installer.cfg 
+	$(sed-i) "s/^pyromaths-qt=.*/pyromaths-qt=$(VERSION)/" data/windows/installer.cfg 
 
 src: version
 	# Make full-source archive(s) (formats=$(FORMATS))
@@ -138,14 +139,22 @@ deb: min
 repo: min
 	# update apt repository
 	$(clean)
-	cd $(BUILD) && tar -xjf pyromaths-qt-$(VERSION).tar.bz2              &&\
+	set -e
+	(
+		cd $(BUILD) && tar -xjf pyromaths-qt-$(VERSION).tar.bz2              &&\
 	    mv pyromaths-qt-$(VERSION) $(BUILDIR)                            &&\
 	    mv pyromaths-qt-$(VERSION).tar.bz2 pyromaths-qt_$(VERSION).orig.tar.bz2
-	#cp -r debian $(BUILDIR)
-	cd $(BUILDIR) && debuild -i -tc -kB39EE5B6 -S $(OUT)
-	cd $(BUILD)
-	#dput -l $(BUILD)/pyromaths_$(VERSION)-1_amd64.changes
-	dput -l -f ppa:jerome-ortais/ppa $(BUILD)/pyromaths-qt_$(VERSION)-1_source.changes
+	)
+	cp -r debian $(BUILDIR)
+	(
+		cd $(BUILDIR) 
+		debuild -S -sa -kB39EE5B6 $(OUT) #debuild -i -tc -kB39EE5B6 -S $(OUT)
+	)
+	(
+		cd $(BUILD)
+		#dput -l $(BUILD)/pyromaths_$(VERSION)-1_amd64.changes
+		dput -l -f ppa:jerome-ortais/ppa $(BUILD)/pyromaths-qt_$(VERSION)-1_source.changes
+	)
 
 data/%.qm: data/%.ts
 	# Translate new/updated language files
