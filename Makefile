@@ -93,8 +93,7 @@ clean:
 version:
 	# Apply target version ($(VERSION)) to sources
 	$(sed-i) "s/VERSION\s*=\s*'.*'/VERSION = '$(VERSION)'/" pyromaths/qt/version.py
-	$(sed-i) "0,/^version\s*=.*$$/s//version=$(VERSION)/" data/windows/installer.cfg 
-	$(sed-i) "s/^pyromaths-qt=.*/pyromaths-qt=$(VERSION)/" data/windows/installer.cfg 
+	$(sed-i) "s/pyromaths_qt=.*/pyromaths_qt==$(VERSION)/" data/windows/installer.cfg 
 
 src: version
 	# Make full-source archive(s) (formats=$(FORMATS))
@@ -215,4 +214,4 @@ exe: wheel
 	mkdir extra_wheel
 	cp ../../dist/pyromaths_qt-$(VERSION)-py3-none-any.whl extra_wheel
 	python3 -m nsist installer.cfg
-	mv $(PYRO)/data/windows/build/nsis/Pyromaths-QT_$(VERSION).exe $(DIST)
+	mv $(PYRO)/data/windows/build/nsis/Pyromaths-QT_*.exe $(DIST)
