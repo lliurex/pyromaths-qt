@@ -46,7 +46,7 @@ def _mac_opt():
     py2app = dict(plist    = plist,
                   iconfile = 'data/macos/pyromaths.icns',
                   packages=find_packages(),
-                  includes=['asyncio', 'concurrent', 'jinja2', 'markupsafe', 'simplejson'],
+                  includes=['asyncio', 'concurrent', 'jinja2', 'markupsafe', 'simplejson', 'fractions'],
                   excludes = excludes,
                   )
     return dict(
