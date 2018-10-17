@@ -1,13 +1,4 @@
 Format: http://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
-<<<<<<< HEAD
-Upstream-Name: pyromaths
-Source: http://www.pyromaths.org
-
-Files: *
-Copyright: 2006-2014, Jérôme Ortais <jerome.ortais@pyromaths.org>
-           2009-2014, Arnaud Kientz <arnaud@pyromaths.org>
-           2010-2014, Yves Gesnels
-=======
 Upstream-Name: pyromaths-qt
 Source: https://www.pyromaths.org
 
@@ -15,7 +6,6 @@ Files: *
 Copyright: 2006-2018, Jérôme Ortais <jerome.ortais@pyromaths.org>
            2009-2018, Arnaud Kientz <arnaud@pyromaths.org>
            2010-2018, Yves Gesnels
->>>>>>> master
            2010, Guillaume Barthélémy
            2010, Nicolas Bissonier
            2013-2014, Olivier Cornu
@@ -40,8 +30,4 @@ License: GPL-3.0+
  along with this program. If not, see <http://www.gnu.org/licenses/>.
  .
  On Debian systems, the complete text of the GNU General
-<<<<<<< HEAD
  Public License version 3 can be found in "/usr/share/common-licenses/GPL-3".
-=======
- Public License version 3 can be found in "/usr/share/common-licenses/GPL-3".
->>>>>>> master
