@@ -1,0 +1,12 @@
+[Desktop Entry]
+Icon=pyromaths-qt.png
+Version=1.0
+Name=Pyromaths-QT
+Comment=Generator for math worksheets for french college --- QT client
+Comment[fr]=Générateur d'exercices de maths --- Client QT
+Comment[pl]=Generator zadań matematycznych
+Exec=pyromaths-qt
+Terminal=false
+Type=Application
+Categories=GNOME;Education;
+StartupNotify=true

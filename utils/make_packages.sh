@@ -56,8 +56,8 @@ echo "Do you want to commit and tag the git develop branch (o/N)?"
 read touche
 case "$touche" in
   [oO] )
-  git commit -am 'Pyromaths Release'
-  git tag -u B39EE5B6 version-${VERSION} -m "Pyromaths ${VERSION}"
+  git commit -am 'Pyromaths-qt Release'
+  git tag -u B39EE5B6 version-${VERSION} -m "Pyromaths-qt ${VERSION}"
   #git push --tags:
   ;;
 esac
@@ -65,7 +65,7 @@ esac
 echo "*** Update pyromaths web-site links..."
 cat > ${PYROPATH}/pyrosite.txt << EOF
 
-* !/static/img/debian.png(Linux)! "Pyromaths pour Linux - deb":/telecharger/pyromaths_${VERSION}_all.deb
+* !/static/img/debian.png(Linux)! "Pyromaths pour Linux - deb":/telecharger/pyromaths_${VERSION}-1_all.deb
 * !/static/img/redhat.png(Linux)! "Pyromaths pour Linux - rpm":/telecharger/pyromaths-${VERSION}-1.noarch.rpm
 * !/static/img/macosx.png(Mac OS X)! "Pyromaths pour Mac OS X":/telecharger/pyromaths-${VERSION}-macos.dmg
 * !/static/img/winvista.png(Windows)! "Pyromaths pour Windows":/telecharger/pyromaths-${VERSION}-win32.exe

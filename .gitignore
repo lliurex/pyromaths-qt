@@ -8,21 +8,14 @@
 build/
 dist/
 
-# Last package manifest used
-/MANIFEST.in
-
 # Eclipse files
 /.metadata/
 /.project
 /.pydevproject
 /.settings/
-/src/.project
-/src/.pydevproject
-/src/.settings/
-
-# tests persos
-/src/test.py
-/src/tous.py
+/.project
+/.pydevproject
+/.settings/
 
 # Documentation sphinx
 /Doc/build/
