@@ -1,0 +1,36 @@
+# Cette fichier comporte un liste des fichiers source qui ont des strings pour traduire.
+
+pyromaths/interface.py
+pyromaths/Values.py
+
+pyromaths/ex/cinquiemes/__init__.py
+pyromaths/ex/cinquiemes/aires.py
+pyromaths/ex/cinquiemes/construction.py
+pyromaths/ex/cinquiemes/fractions.py
+pyromaths/ex/cinquiemes/priorites.py
+pyromaths/ex/cinquiemes/proportionnalite.py
+pyromaths/ex/cinquiemes/relatifs.py
+pyromaths/ex/cinquiemes/reperage.py
+pyromaths/ex/cinquiemes/statistiques.py
+pyromaths/ex/cinquiemes/symetrie.py
+
+pyromaths/ex/examples/helloworld.py
+
+pyromaths/ex/lycee/__init__.py
+pyromaths/ex/lycee/CercleTrigo.py
+pyromaths/ex/lycee/Derivation.py
+### pyromaths/ex/lycee/equations.py
+pyromaths/ex/lycee/ExoPolynome.py
+pyromaths/ex/lycee/ExoSecondDegre.py
+pyromaths/ex/lycee/Fonction.py
+pyromaths/ex/lycee/SecondDegre.py
+pyromaths/ex/lycee/Statitisiques.py
+pyromaths/ex/lycee/VariationsFonctions.py
+pyromaths/ex/lycee/Vecteurs.py
+
+pyromaths/outils/Arithmetique.py
+pyromaths/outils/Priorites3.py
+pyromaths/outils/System.py
+pyromaths/outils/TestEnv.py
+pyromaths/outils/TexFiles.py
+pyromaths/outils/TeXMiseEnForme.py

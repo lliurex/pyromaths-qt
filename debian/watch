@@ -8,7 +8,11 @@ version=3
 
 # Uncomment to examine a Webpage
 # <Webpage URL> <string match>
+<<<<<<< HEAD
 http://www.pyromaths.org/telecharger/ pyromaths-(.*)-sources\.tar\.bz2
+=======
+https://www.pyromaths.org/telecharger/ pyromaths-qt-(.*)-sources\.tar\.bz2
+>>>>>>> master
 
 # Uncomment to examine a Webserver directory
 #http://www.example.com/pub/pyromaths-(.*)\.tar\.gz

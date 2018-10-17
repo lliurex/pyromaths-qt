@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 pyromaths (18.6.3-1) bionic; urgency=medium
 
   * BugFix: Sd2aRacines (Racines d'un polynôme de degré 2 en 1reS)
@@ -141,3 +142,12 @@ pyromaths (11.05-1) unstable; urgency=low
   * Switch to dpkg-source 3.0 (quilt) format
 
  -- Jérôme Ortais <jerome.ortais@pyromaths.org>  Tue, 02 May 2011 10:48:02 +0100
+=======
+pyromaths-qt (18.9.3-1) bionic; urgency=medium
+
+  [ Jérôme Ortais & Louis Spalax ]
+  * Séparation de pyromaths en deux projets : pyromaths (client en ligne de commande) et client QT.
+  * Passage à Python3 (et nombreux changements dans l'API interne, qui n'est pas rétro-compatible). 
+
+ -- Jérôme Ortais <jerome.ortais@pyromaths.org>  Mon, 03 Sep 2018 15:17:01 +0200
+>>>>>>> master

@@ -2,4 +2,14 @@
 
 Il permet par exemple de proposer des devoirs maison aux élèves et de leur distribuer ensuite la correction. Il peut aussi servir à des familles afin qu'un élève puisse travailler un point du programme et se corriger ensuite.
 
-Si vous voulez participer à la traduction, consultez [cette page](https://github.com/Pyromaths/pyromaths/blob/develop/locale/TRADUIRE.md).
+Si vous voulez participer à la traduction, consultez [cette page](https://framagit.org/pyromaths/pyromaths-qt/blob/develop/pyromaths/data/locale/TRADUIRE.md).
+
+# Installation pour Linux/Windows/Mac
+
+Voir [la documentation](https://www.pyromaths.org/installer/)
+
+# Installation depuis Pypi
+
+Dans un terminal (de préférence dans un *virtualenv*) :
+
+    pip install pyromaths-qt
