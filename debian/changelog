@@ -1,3 +1,9 @@
+pyromaths-qt (18.9.3-2) bionic; urgency=medium
+
+  * Fix ppa build
+
+ -- Juanma Navarro Mañez <juanma1980@gmail.com>  Wed, 17 Oct 2018 14:14:51 +0200
+
 pyromaths-qt (18.9.3-1) bionic; urgency=medium
 
   [ Jérôme Ortais & Louis Spalax ]
