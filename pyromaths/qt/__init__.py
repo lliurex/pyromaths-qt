@@ -710,7 +710,7 @@ class Tab(QtWidgets.QWidget):
             self.layout.addItem(spacer, (nb_exos + 1) // 2, 0, 1, 1)
             self.layout.addItem(spacer, (nb_exos + 1) // 2, 1, 1, 1)
         # Ajoute ce tab au widget parent
-        parent.addTab(self.scroll, self.titre)
+        parent.addTab(self.scroll, _(self.titre))
 
 
 
