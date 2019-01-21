@@ -473,7 +473,10 @@ class Ui_MainWindow:
                 liste.append(self.exercices[niveau][1][exo])
             self.List = QtWidgets.QListWidget()
             for i in range(len(liste)):
-                item = QtWidgets.QListWidgetItem(_(liste[i].description()))
+                if type(liste[i].description)==type(""):
+                    item = QtWidgets.QListWidgetItem(_(liste[i].description))
+                else:
+                    item = QtWidgets.QListWidgetItem(_(liste[i].description()))
                 item.setFlags(QtCore.Qt.ItemIsEnabled |
                               QtCore.Qt.ItemIsSelectable |
                               QtCore.Qt.ItemIsDragEnabled)
@@ -733,7 +736,10 @@ class Tab(QtWidgets.QWidget):
         layout.addWidget(img)
         # Label
         label = QtWidgets.QLabel(self.widget)
-        label.setText(_(u""+self.exos[i].description()))
+        if type(self.exos[i].description)==type(""):
+            label.setText(_(u""+self.exos[i].description))
+        else:
+            label.setText(_(u""+self.exos[i].description()))
         layout.addWidget(label)
         # Espacements
         spacer = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
