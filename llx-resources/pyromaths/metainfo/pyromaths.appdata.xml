@@ -1,0 +1,44 @@
+<?xml version='1.0' encoding='utf-8'?>
+<component type="desktop-application">
+<id>pyromaths</id>
+<metadata_license>CC0-1.0</metadata_license>
+<name>Pyromaths</name>
+<summary>Generator for math worksheets for french college</summary>
+<summary xml:lang="fr">Générateur d'exercices de maths</summary>
+<summary xml:lang="pl">Generator zadań matematycznych</summary>
+<summary xml:lang="es">Generador de ejercicios de matemáticas</summary>
+<summary xml:lang="ca_ES.UTF-8@valencia">Generador d'exercicis de matemàtiques</summary>
+<summary xml:lang="ca_ES@valencia">Generador d'exercicis de matemàtiques </summary>
+<summary xml:lang="ca">Generador d'exercicis de matemàtiques </summary>
+<description>
+<p>Generator for math worksheets for french college</p>
+<p xml:lang="fr">Générateur d'exercices de maths</p>
+<p xml:lang="pl">Generator zadań matematycznych</p>
+<p xml:lang="es">Generador de ejercicios de matemáticas</p>
+<p xml:lang="ca_ES.UTF-8@valencia">Generador d'exercicis de matemàtiques</p>
+<p xml:lang="ca_ES@valencia">Generador d'exercicis de matemàtiques </p>
+<p xml:lang="ca">Generador d'exercicis de matemàtiques </p>
+</description>
+<categories>
+<category>GNOME</category>
+<category>Education</category>
+</categories>
+<icon type="stock">pyromaths</icon>
+<provides><binary>/usr/bin/pyromaths</binary></provides>
+<keywords>
+<keyword>Pyromaths</keyword>
+<keyword>matematicas</keyword>
+<keyword>matematiques</keyword>
+<keyword>exercicis</keyword>
+<keyword>ejercicios</keyword>
+<keyword>generador</keyword>
+
+</keywords>
+<screenshots>
+<screenshot type="default">
+<caption>Main window.</caption>
+<image height="450" type="source" width="800">https://screenshots.debian.net/screenshots/000/008/799/large.png</image>
+</screenshot>
+</screenshots>
+<developer_name>Lliurex Team</developer_name>
+</component>

@@ -1,0 +1,16 @@
+[Desktop Entry]
+Icon=pyromaths
+Version=1.0
+Name=Pyromaths
+Comment=Generator for math worksheets for french college
+Comment[fr]=Générateur d'exercices de maths
+Comment[pl]=Generator zadań matematycznych
+Comment[es]=Generador de ejercicios de matemáticas
+Comment[ca_ES@valencia]=Generador d'exercicis de matemàtiques 
+Comment[ca_ES.UTF-8@valencia]=Generador d'exercicis de matemàtiques 
+Comment[ca]=Generador d'exercicis de matemàtiques 
+Exec=/usr/bin/pyromaths
+Terminal=false
+Type=Application
+Categories=GNOME;Education;
+StartupNotify=true
