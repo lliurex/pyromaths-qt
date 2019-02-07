@@ -1,3 +1,9 @@
+pyromaths-qt (18.9.3-2lliurex0) bionic; urgency=medium
+
+  * Wip on i18n
+
+ -- Juanma Navarro Mañez <juanma1980@gmail.com>  Thu, 07 Feb 2019 17:39:54 +0100
+
 pyromaths-qt (18.9.3-2) bionic; urgency=medium
 
   * Fix ppa build
