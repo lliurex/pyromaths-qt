@@ -20,7 +20,7 @@
 # Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
 
 # Python standard libraries
-import os, lxml, codecs, sys, shutil
+import os, lxml, codecs, sys, shutil,locale
 from operator import itemgetter
 
 # Non-standard libraries
@@ -663,7 +663,12 @@ def valide(liste, exercices, parametres):
 
     parametres['enonce'] = True
     parametres['corrige'] = (corrige and parametres['creer_unpdf'])
-    with System.Fiche(parametres, template=parametres['modele']) as fiche:
+    modele=parametres['modele']
+    langue = locale.getdefaultlocale()[0][0:2]
+    if langue != "fr" or langue != "":
+        if parametres=='pyromaths.tex':
+            modele="pyromaths_%s.tex"%langue
+    with System.Fiche(parametres, template=modele) as fiche:
         fiche.write_tex()
         shutil.copy(fiche.texname, "{}.tex".format(f0))
         if parametres['creer_pdf']:
