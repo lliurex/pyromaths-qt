@@ -737,10 +737,6 @@ class Tab(QtWidgets.QWidget):
         # Image
         img = QtWidgets.QLabel(self.widget)
         img.setText(r'<img src="%s"/>' % os.path.join(IMGDIR, 'whatsthis.png'))
-        print("************")
-        print(self.exos[i].thumb())
-        print(IMGDIR)
-        print("************")
         img.setToolTip(r'<img src="%s"/>' % self.exos[i].thumb())
         layout.addWidget(img)
         # Label
