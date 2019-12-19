@@ -1,3 +1,9 @@
+pyromaths-qt (18.9.3-2lliurex5) bionic; urgency=medium
+
+  * Fix translations
+
+ -- Juanma1980 <juanma1980@gmail.com>  Thu, 19 Dec 2019 13:41:04 +0100
+
 pyromaths-qt (18.9.3-2lliurex4) bionic; urgency=medium
 
   * Removed debug print
