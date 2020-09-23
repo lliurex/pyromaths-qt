@@ -1,3 +1,9 @@
+pyromaths-qt (18.9.3-2lliurex5) focal; urgency=medium
+
+  * Focal build from bionic
+
+ -- M.Angel Juan <m.angel.juan@gmail.com>  Wed, 23 Sep 2020 13:22:49 +0200
+
 pyromaths-qt (18.9.3-2lliurex5) bionic; urgency=medium
 
   * Fix translations
