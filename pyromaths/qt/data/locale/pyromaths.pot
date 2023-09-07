@@ -99,7 +99,7 @@ msgstr ""
 
 #: pyromaths/interface.py:260
 #, python-brace-format
-msgid "Classe de 2\\up{nde}"
+msgid "Classe de 2\\up{de}"
 msgstr ""
 
 #: pyromaths/interface.py:294

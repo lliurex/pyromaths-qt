@@ -1,3 +1,8 @@
+Version 21.8
+* Ajout du datadir de pyromaths-qt
+* Mise à jour des scripts de compilation pour Windows
+* Distinction de la version du GUI et de Pyromaths dans « À propos »
+
 Version 18.9
 * Passage à Python3
 * Séparation entre les projets pyromaths (ligne de commande) et QT (client QT).

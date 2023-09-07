@@ -13,6 +13,9 @@ def readme():
     with codecs.open("README.md", encoding="utf8", errors="replace") as file:
         return file.read()
 
+datadir = os.path.join('pyromaths','qt', 'data')
+datafiles = [(d, [os.path.join(d,f) for f in files])
+    for d, folders, files in os.walk(datadir)]
 
 # Chargement des variables VERSION, COPYRIGHT_YEAR
 # Ceci n'est pas fait par un `import pyromaths.version` pour ne pas importer
@@ -46,7 +49,7 @@ def _mac_opt():
     py2app = dict(plist    = plist,
                   iconfile = 'data/macos/pyromaths.icns',
                   packages=find_packages(),
-                  includes=['asyncio', 'concurrent', 'jinja2', 'markupsafe', 'simplejson'],
+                  includes=['asyncio', 'concurrent', 'jinja2', 'markupsafe', 'simplejson', 'fractions'],
                   excludes = excludes,
                   )
     return dict(
@@ -63,7 +66,7 @@ if "py2app" in sys.argv:
     setup(
         **options
     )
-else:    
+else:
     setup(
         name="pyromaths-qt",
         version=VERSION,
@@ -98,6 +101,7 @@ else:
         ],
         long_description=readme(),
         long_description_content_type="text/markdown",
+        data_files = datafiles,
         zip_safe=False,
         project_urls={
             "Documentation": "http://pyromaths.readthedocs.org",
