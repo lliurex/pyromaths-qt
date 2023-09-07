@@ -1,3 +1,9 @@
+pyromaths-qt (21.8) jammy; urgency=medium
+
+  * Jammy release
+
+ -- Juanma1980 <juanma1980@gmail.com>  Thu, 07 Sep 2023 10:37:37 +0200
+
 pyromaths-qt (18.9.3-2lliurex5) focal; urgency=medium
 
   * Focal build from bionic
