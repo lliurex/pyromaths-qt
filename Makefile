@@ -4,14 +4,12 @@
 
 ### CONFIG
 #
+# Pyromaths-qt version
+VERSION ?= 21.8
 # Pyromaths version
-<<<<<<< HEAD
-VERSION ?= 18.6.3
-=======
-VERSION ?= 18.9.3
->>>>>>> version-18.9.3
+VERSION_CL ?= 21.8.2
 # Archive format(s) produced by 'make src' (bztar,gztar,zip...)
-FORMATS ?= bztar,zip
+FORMATS ?= bztar,zip,gztar
 # Verbosity and logging
 #OUT     ?= > /dev/null       # uncomment: quieter output
 OUT     ?= >> /tmp/log            # uncomment: log output to file
@@ -92,18 +90,30 @@ clean:
 	rm -r $(DIST)/*  || mkdir -p $(DIST)
 	rmdir $(BUILD)
 	rmdir $(DIST)
+	rm -r $(PYRO)/extra_wheel
 	$(clean)
 
 version:
 	# Apply target version ($(VERSION)) to sources
 	$(sed-i) "s/VERSION\s*=\s*'.*'/VERSION = '$(VERSION)'/" pyromaths/qt/version.py
-	$(sed-i) "0,/^version\s*=.*$$/s//version=$(VERSION)/" data/windows/installer.cfg 
-	$(sed-i) "s/^pyromaths-qt=.*/pyromaths-qt=$(VERSION)/" data/windows/installer.cfg 
+	$(sed-i) "s/VERSION_CL\s*=\s*'.*'/VERSION_CL = '$(VERSION_CL)'/" pyromaths/qt/version.py
+	$(sed-i) "s/pyromaths_qt==.*/pyromaths_qt==$(VERSION)/" data/windows/installer.cfg 
+	$(sed-i) "s/pyromaths==.*/pyromaths==$(VERSION_CL)/" data/windows/installer.cfg 
+	$(sed-i) "0,/version=.*/s//version=$(VERSION_CL)/" data/windows/installer.cfg 
+	$(sed-i) "s/Pyromaths-QT_.*\.exe /Pyromaths-QT_$(VERSION_CL).exe /" data/windows/compile_pyromaths.bat 
+	$(sed-i) "s/pyromaths-qt-[0-9\.]*\.zip/pyromaths-qt-$(VERSION).zip/" data/windows/compile_pyromaths.bat 
+	$(sed-i) "s/pyromaths-qt-[0-9\.]*\r/pyromaths-qt-$(VERSION)/" data/windows/compile_pyromaths.bat 
 
 src: version
 	# Make full-source archive(s) (formats=$(FORMATS))
 	$(clean)
 	$(setup) sdist --formats=$(FORMATS) -d $(DIST) $(OUT)
+
+pypi: wheel src
+	# Publish to Pypi
+	@echo "################################################################################"
+	@echo "# To upload to Pypi, run:"
+	@echo twine upload -s dist/pyromaths_qt-$(VERSION)-py3-none-any.whl dist/pyromaths-qt-$(VERSION).tar.gz
 
 wheel: version
 	# Make python wheel
@@ -135,7 +145,8 @@ deb: min
 	cp -r debian $(BUILDIR)
 	(
 		cd $(BUILDIR)
-		debuild -i -D -tc -kB39EE5B6 $(OUT)
+		debuild -i -D -tc -k'Jérôme Ortais (Développeur du logiciel Pyromaths) <jerome.ortais@pyromaths.org>' -b $(OUT) 
+		#debuild -i -D -tc -kB39EE5B6 $(OUT)
 	)
 	mkdir -p $(DIST)
 	mv $(BUILD)/pyromaths-qt_$(VERSION)-*_all.deb $(DIST)
@@ -152,11 +163,10 @@ repo: min
 	cp -r debian $(BUILDIR)
 	(
 		cd $(BUILDIR) 
-		debuild -S -sa -kB39EE5B6 $(OUT) #debuild -i -tc -kB39EE5B6 -S $(OUT)
+		debuild -S -sa -k'Jérôme Ortais (Développeur du logiciel Pyromaths) <jerome.ortais@pyromaths.org>' $(OUT) 
 	)
 	(
 		cd $(BUILD)
-		#dput -l $(BUILD)/pyromaths_$(VERSION)-1_amd64.changes
 		dput -l -f ppa:jerome-ortais/ppa $(BUILD)/pyromaths-qt_$(VERSION)-1_source.changes
 	)
 
@@ -213,10 +223,11 @@ app:
 	ditto --rsrc --arch x86_64 --hfsCompression $(DIST)/Pyromaths.app $(DIST)/Pyromaths-x86_64.app
 
 .ONESHELL:
-exe: wheel
-	# Make standalone Windows executable
-	cd $(PYRO)/data/windows
-	mkdir extra_wheel
-	cp ../../dist/pyromaths_qt-$(VERSION)-py3-none-any.whl extra_wheel
-	python3 -m nsist installer.cfg
-	mv $(PYRO)/data/windows/build/nsis/Pyromaths-QT_$(VERSION).exe $(DIST)
+exe: version src wheel
+	# Prepare for standalone Windows executable
+	cd $(PYRO)
+	mkdir -p extra_wheel
+	cp dist/pyromaths_qt-$(VERSION)-py3-none-any.whl extra_wheel
+	cp ../pyromaths/dist/pyromaths-$(VERSION_CL)-py3-none-any.whl extra_wheel
+	#python3 -m nsist installer.cfg
+	#mv $(PYRO)/data/windows/build/nsis/Pyromaths-QT_*.exe $(DIST)

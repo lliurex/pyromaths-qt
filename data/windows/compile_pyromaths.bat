@@ -1,35 +1,31 @@
-@echo off
+REM @echo off
 REM Crée l'installateur Windows
+set builddir=C:\Users\%username%\BUILD-pyromaths\
 C:
-REM A effectuer la 1re fois, après avoir installé Python-3.6.5
-REM cd "C:\Users\%username%\"
-REM C:\Python36-32\python -m venv C:\Users\%username%\BUILD-pyromaths
+cd "C:\Users\%username%\"
+python -m venv %builddir%
 
-C:\Users\%username%\BUILD-pyromaths\Scripts\python -m pip install --upgrade pip
-C:\Users\%username%\BUILD-pyromaths\Scripts\python -m pip install --upgrade lxml 
-C:\Users\%username%\BUILD-pyromaths\Scripts\python -m pip install --upgrade PyQt5 
-C:\Users\%username%\BUILD-pyromaths\Scripts\python -m pip install --upgrade jinja2
-C:\Users\%username%\BUILD-pyromaths\Scripts\python -m pip install --upgrade markupsafe
-C:\Users\%username%\BUILD-pyromaths\Scripts\python -m pip install --upgrade sip
-C:\Users\%username%\BUILD-pyromaths\Scripts\python -m pip install --upgrade pyromaths
-C:\Users\%username%\BUILD-pyromaths\Scripts\python -m pip install --upgrade pynsist
+%builddir%\Scripts\python -m pip install --upgrade pip
+%builddir%\Scripts\python -m pip install --upgrade lxml 
+%builddir%\Scripts\python -m pip install --upgrade PyQt5 
+%builddir%\Scripts\python -m pip install --upgrade PyQt5-sip
+%builddir%\Scripts\python -m pip install --upgrade jinja2
+%builddir%\Scripts\python -m pip install --upgrade markupsafe
+%builddir%\Scripts\python -m pip install --upgrade pyromaths
+%builddir%\Scripts\python -m pip install --upgrade pynsist
 
-cd "C:\Users\%username%\BUILD-pyromaths"
-copy e:\dist\pyromaths-qt-*.zip . /y /B
-"c:\Program Files\7-Zip\7z.exe" x pyromaths-qt-*.zip
-del pyromaths-qt-*.zip
-cd pyromaths-qt-*
-for %%I in (.) do set version=%%~nxI
-set version=%version:~13%
-echo %version%
-REM copy data\windows\installer.cfg .
+cd "%builddir%"
+copy \\VBOXSVR\pyromaths-qt\dist\pyromaths-qt-21.8.zip . /y /B
+"c:\Program Files\7-Zip\7z.exe" x pyromaths-qt-21.8.zip
+del pyromaths-qt-21.8.zip
+cd pyromaths-qt-21.8
 cd data\windows\
 mkdir extra_wheel
-copy e:\dist\pyromaths_qt-%version%-py3-none-any.whl extra_wheel /y /B
-C:\Users\%username%\BUILD-pyromaths\Scripts\pynsist.exe installer.cfg
+robocopy \\VBOXSVR\pyromaths-qt\extra_wheel extra_wheel 
+%builddir%\Scripts\pynsist.exe installer.cfg
 
-copy build\nsis\Pyromaths-QT_%version%.exe e:\dist /Y
-copy build\nsis\Pyromaths-QT_%version%.exe "C:\Users\%username%\Desktop" /Y
+copy build\nsis\Pyromaths-QT_21.8.2.exe \\VBOXSVR\pyromaths-qt\dist /Y
+copy build\nsis\Pyromaths-QT_21.8.2.exe "C:\Users\%username%\Desktop" /Y
 
-cd "C:\Users\%username%\BUILD-pyromaths"
-REM rmdir /Q /S pyromaths-qt-%version%
+cd "%builddir%"
+REM rmdir /Q /S pyromaths-qt-21.8

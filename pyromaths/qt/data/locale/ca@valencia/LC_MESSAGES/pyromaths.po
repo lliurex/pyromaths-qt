@@ -99,8 +99,8 @@ msgstr "Curs 3r d'ESO"
 
 #: pyromaths/interface.py:260
 #, python-brace-format
-msgid "Classe de 2\\up{nde}"
-msgstr "Curs 4t d'ESO \\up{nde}"
+msgid "Classe de 2\\up{de}"
+msgstr "Curs 4t d'ESO \\up{de}"
 
 #: pyromaths/interface.py:294
 msgid "Enregistrer dans les préférences"

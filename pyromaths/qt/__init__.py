@@ -20,7 +20,7 @@
 # Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
 
 # Python standard libraries
-import os, lxml, codecs, sys, shutil,locale
+import os, lxml, codecs, sys, shutil
 from operator import itemgetter
 
 # Non-standard libraries
@@ -33,7 +33,7 @@ from pyromaths.outils import System
 from pyromaths.directories import DATADIR as CLIDATADIR
 
 # Pyromaths-QT
-from .version import COPYRIGHT_HTML, VERSION
+from .version import COPYRIGHT_HTML, VERSION, VERSION_CL
 from .directories import IMGDIR
 from pyromaths.directories import CONFIGDIR
 
@@ -270,7 +270,9 @@ class Ui_MainWindow:
         self.comboBox_niveau.addItem(_("Classe de 5\\ieme"))
         self.comboBox_niveau.addItem(_("Classe de 4\\ieme"))
         self.comboBox_niveau.addItem(_("Classe de 3\\ieme"))
-        self.comboBox_niveau.addItem(_("Classe de 2\\up{nde}"))
+        self.comboBox_niveau.addItem(_("Classe de 2\\up{de}"))
+        self.comboBox_niveau.addItem(_("Classe de 1\\iere"))
+        self.comboBox_niveau.addItem(_("Classe de terminale"))
         self.verticalLayout_19.addWidget(self.comboBox_niveau)
 
         ############## ComboBox modèles
@@ -393,7 +395,7 @@ class Ui_MainWindow:
     <p align="center">
     <img src="%s" />
     <br /><br />
-    <span style="font-weight:600;">Version %s</span>
+    <span style="font-weight:600;">GUI : Version %s - Pyromaths : Version %s</span>
     </p>
     <p>
     <span style=" font-weight:600;">Pyromaths</span> est un programme qui permet de créer des  fiches d'exercices types de mathématiques niveau collège avec leur corrigé.
@@ -442,7 +444,7 @@ class Ui_MainWindow:
         else:
             banniere = os.path.join(IMGDIR, 'pyromaths-banniere.png')
         # self.setGeometry(10,10,620,200)
-        QtWidgets.QMessageBox.about(None, _(u'À propos de Pyromaths'), text % (banniere, VERSION, COPYRIGHT_HTML))
+        QtWidgets.QMessageBox.about(None, _(u'À propos de Pyromaths'), text % (banniere, VERSION, VERSION_CL, COPYRIGHT_HTML))
 
     def creer_les_exercices(self):
         """Vérifie si la liste d'exercices n'est pas vide puis sélectionne les noms des fichiers exercices et
@@ -473,10 +475,7 @@ class Ui_MainWindow:
                 liste.append(self.exercices[niveau][1][exo])
             self.List = QtWidgets.QListWidget()
             for i in range(len(liste)):
-                if type(liste[i].description)==type(""):
-                    item = QtWidgets.QListWidgetItem(_(liste[i].description))
-                else:
-                    item = QtWidgets.QListWidgetItem(_(liste[i].description()))
+                item = QtWidgets.QListWidgetItem(liste[i].description())
                 item.setFlags(QtCore.Qt.ItemIsEnabled |
                               QtCore.Qt.ItemIsSelectable |
                               QtCore.Qt.ItemIsDragEnabled)
@@ -559,7 +558,7 @@ class Ui_MainWindow:
         self.comboBox_niveau.setCurrentIndex(niveau)
 
     def site(self):
-        """Ouvre le navigatuer internet par défaut sur la page d'accueil du site http://www.pyromaths.org"""
+        """Ouvre le navigateur internet par défaut sur la page d'accueil du site http://www.pyromaths.org"""
         import webbrowser
         webbrowser.open('http://www.pyromaths.org')
 
@@ -663,12 +662,7 @@ def valide(liste, exercices, parametres):
 
     parametres['enonce'] = True
     parametres['corrige'] = (corrige and parametres['creer_unpdf'])
-    modele=parametres['modele']
-    langue = locale.getdefaultlocale()[0][0:2]
-    if langue != "fr" or langue != "":
-        if parametres=='pyromaths.tex':
-            modele="pyromaths_%s.tex"%langue
-    with System.Fiche(parametres, template=modele) as fiche:
+    with System.Fiche(parametres, template=parametres['modele']) as fiche:
         fiche.write_tex()
         shutil.copy(fiche.texname, "{}.tex".format(f0))
         if parametres['creer_pdf']:
@@ -715,7 +709,7 @@ class Tab(QtWidgets.QWidget):
             self.layout.addItem(spacer, (nb_exos + 1) // 2, 0, 1, 1)
             self.layout.addItem(spacer, (nb_exos + 1) // 2, 1, 1, 1)
         # Ajoute ce tab au widget parent
-        parent.addTab(self.scroll, _(self.titre))
+        parent.addTab(self.scroll, self.titre)
 
 
 
@@ -741,10 +735,7 @@ class Tab(QtWidgets.QWidget):
         layout.addWidget(img)
         # Label
         label = QtWidgets.QLabel(self.widget)
-        if type(self.exos[i].description)==type(""):
-            label.setText(_(u""+self.exos[i].description))
-        else:
-            label.setText(_(u""+self.exos[i].description()))
+        label.setText(self.exos[i].description())
         layout.addWidget(label)
         # Espacements
         spacer = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
